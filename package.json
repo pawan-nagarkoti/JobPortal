@@ -1,0 +1,15 @@
+{
+  "name": "job-portal",
+  "private": true,
+  "scripts": {
+    "start": "concurrently -n mongo,api,web -c yellow,green,blue \"npm:start:mongo\" \"npm:start:backend\" \"npm:start:frontend\"",
+    "start:mongo": "brew services start mongodb-community@8.2 && echo '✅ MongoDB started (brew service)' && sleep 2",
+    "start:frontend": "npm --prefix frontend run dev",
+    "start:backend": "npm --prefix backend run start",
+    "stop:mongo": "brew services stop mongodb-community@8.2",
+    "stop": "npm run stop:mongo"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
