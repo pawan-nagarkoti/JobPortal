@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { User } from "../../models/user.modal.js";
 import bcrypt from "bcryptjs";
 
@@ -97,13 +98,68 @@ export const signIn = async (req, res) => {
       });
     }
 
+    // create accesstoken
+    const accesstoken = jwt.sign(
+      {
+        id: checkUser._id,
+        name: checkUser.name,
+        username: checkUser.username,
+        email: checkUser.email,
+        role: checkUser.role,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN }
+    );
+
+    const refreshToken = jwt.sign(
+      {
+        id: checkUser._id,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
+      }
+    );
+    // setup refresh token on cookies
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+    });
+
     return res.status(200).json({
       success: true,
+      accesstoken,
+      data: {
+        name: checkUser.name,
+        username: checkUser.username,
+        email: checkUser.email,
+        role: checkUser.role,
+      },
       message: "login successfully",
     });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    if (!req.cookies.refreshToken) {
+      return res.status(400).json({
+        success: false,
+        message: "cookie is not found",
+      });
+    }
+    res.clearCookie("refreshToken").json({
+      success: true,
+      message: "logout successfully",
+    });
+  } catch (e) {
+    console.log(e.message);
+    res.status(500).json({
       message: "server error",
     });
   }
