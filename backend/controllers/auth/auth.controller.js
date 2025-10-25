@@ -235,6 +235,13 @@ export const emailVerified = async (req, res) => {
   try {
     const { otp, email } = req.body;
 
+    if (!otp && !email) {
+      return res.status(400).json({
+        success: false,
+        message: "field is requried",
+      });
+    }
+
     const user = await User?.findOne({ email });
 
     if (!user) {
@@ -251,7 +258,7 @@ export const emailVerified = async (req, res) => {
       });
     }
 
-    if (user[0].otp !== Number(otp)) {
+    if (user?.otp !== Number(otp)) {
       return res.status(400).json({
         success: false,
         message: "otp is invalid",
@@ -260,7 +267,7 @@ export const emailVerified = async (req, res) => {
 
     // update email verify
     const updatedEmail = await User.findByIdAndUpdate(
-      { _id: user[0]._id },
+      { _id: user._id },
       { isEmailVerified: true },
       { new: true }
     );
