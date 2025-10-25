@@ -1,8 +1,14 @@
 import jwt from "jsonwebtoken";
 import { User } from "../../models/user.modal.js";
 import bcrypt from "bcryptjs";
-import { generateOTP, sendEmail } from "../../lib/helper.js";
+import {
+  generateOTP,
+  generateResetToken,
+  sendEmail,
+  decodeToken,
+} from "../../lib/helper.js";
 import { emailVerifyTemplate } from "../../lib/emailTemplate/verifyEmail.js";
+import { resetPasswordTempate } from "../../lib/emailTemplate/resetPassword.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -268,7 +274,7 @@ export const emailVerified = async (req, res) => {
     // update email verify
     const updatedEmail = await User.findByIdAndUpdate(
       { _id: user._id },
-      { isEmailVerified: true },
+      { isEmailVerified: true, opt: "", otpExpiresAt: "" },
       { new: true }
     );
 
@@ -276,6 +282,111 @@ export const emailVerified = async (req, res) => {
       success: true,
       isEmailVerified: updatedEmail.isEmailVerified,
       message: "email verified",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "email is required",
+      });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "email not found",
+      });
+    }
+
+    const { rawToken, hashedToken } = await generateResetToken();
+
+    user.resetPasswordTokenHash = hashedToken; // assing hastoken value and stored in db
+    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1hr
+
+    await user.save();
+
+    const resetLink = `${
+      process.env.CLIENT_ORIGIN
+    }/reset-password?token=${encodeURIComponent(rawToken)}`; // reset token url
+
+    // send reset url over the mail
+    const htmlContent = await resetPasswordTempate({
+      RESET_LINK: resetLink,
+      name: user.username,
+    }); // email tempalte
+    await sendEmail(
+      // mail send
+      {
+        email: user.email,
+        subject: "Reset Password",
+        text: "RESET PASSWORD",
+      },
+      htmlContent
+    );
+
+    res.status(200).json({
+      success: true,
+      message: `reset password url send over the ${user.email}`,
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.query;
+    const { newPassword, confirmPassword } = req.body;
+
+    if (!token && !newPassword && !confirmPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "field requried",
+      });
+    }
+
+    const tokenVerify = decodeToken(token); // token encrypt means match (db token and raw token on url)
+
+    const user = await User.findOne({
+      resetPasswordTokenHash: tokenVerify,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token invalid or expired" });
+    }
+
+    const hasPassword = await bcrypt.hash(newPassword, 12); // password hasing
+    await User.findByIdAndUpdate(
+      { _id: user._id },
+      {
+        password: hasPassword,
+        resetPasswordTokenHash: "",
+        resetPasswordExpires: "",
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successful. Please login.",
     });
   } catch (e) {
     console.log(e.message);

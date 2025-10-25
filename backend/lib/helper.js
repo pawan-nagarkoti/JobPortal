@@ -1,4 +1,6 @@
 import { transporter } from "./mailer.js";
+import CryptoJS from "crypto-js";
+import { v4 as uuidv4 } from "uuid";
 
 // generate otp
 export function generateOTP(value = 6) {
@@ -19,3 +21,14 @@ export const sendEmail = async ({ email, subject, text }, template) => {
     html: template,
   });
 };
+
+// reset token generate
+export const decodeToken = (token) => {
+  return CryptoJS.SHA256(token).toString(CryptoJS.enc.Hex);
+};
+
+export async function generateResetToken() {
+  const rawToken = uuidv4() + Date.now().toString(); // random unique string
+  const hashedToken = decodeToken(rawToken); // stored on DB
+  return { rawToken, hashedToken };
+}
