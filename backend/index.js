@@ -5,14 +5,13 @@ import cors from "cors";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/api", async (req, res) => {
-  return res.status(200).json({
-    message: "api is working",
-  });
-});
+import authRoutes from "./routes/auth/auth.route.js";
+
+app.use("/api/auth", authRoutes);
 
 connectToDB();
 
