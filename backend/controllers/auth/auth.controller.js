@@ -98,8 +98,8 @@ export const signIn = async (req, res) => {
       });
     }
 
-    // create accesstoken
-    const accesstoken = jwt.sign(
+    // create accessToken
+    const accessToken = jwt.sign(
       {
         id: checkUser._id,
         name: checkUser.name,
@@ -128,7 +128,7 @@ export const signIn = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      accesstoken,
+      accessToken,
       data: {
         name: checkUser.name,
         username: checkUser.username,
@@ -160,6 +160,47 @@ export const logout = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const refreshToken = async (req, res) => {
+  try {
+    const token = req.cookies.refreshToken;
+    if (token) {
+      jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN_SECRET,
+        async (err, decode) => {
+          if (err) {
+            // Wrong Refesh Token
+            return res.status(406).json({ message: "Unauthorized" });
+          } else {
+            const user = await User.findOne({ _id: decode.id });
+            const accessToken = jwt.sign(
+              {
+                id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+              },
+              process.env.ACCESS_TOKEN_SECRET,
+              { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN }
+            );
+
+            return res.json({ accessToken });
+            console.log(user);
+          }
+        }
+      );
+    } else {
+      return res.status(406).json({ message: "Unauthorized" });
+    }
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
       message: "server error",
     });
   }
