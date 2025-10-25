@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { User } from "../../models/user.modal.js";
 import bcrypt from "bcryptjs";
+import { generateOTP, sendEmail } from "../../lib/helper.js";
+import { emailVerifyTemplate } from "../../lib/emailTemplate/verifyEmail.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -46,7 +48,28 @@ export const signUp = async (req, res) => {
       });
     }
 
-    const hasPassword = await bcrypt.hash(password, 12);
+    const hasPassword = await bcrypt.hash(password, 12); // password hasing
+    const otp = generateOTP(6); // generate otp
+    const expiresInMinutes = 10; // expire time
+    const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000); // added 10 min in current time
+
+    await sendEmail(
+      {
+        username,
+        email,
+        otp,
+        expiresInMinutes,
+        subject: "Verification Mail",
+        text: "verification mail",
+      },
+      emailVerifyTemplate({
+        // email template
+        username,
+        email,
+        otp,
+        expireAt: expiresInMinutes,
+      })
+    ); // verification mail and sended otp over the mail
 
     const addUser = await User.create({
       name,
@@ -54,6 +77,8 @@ export const signUp = async (req, res) => {
       email,
       password: hasPassword,
       role,
+      otp,
+      otpExpiresAt: expiresAt,
     });
 
     res.status(201).json({
@@ -198,6 +223,53 @@ export const refreshToken = async (req, res) => {
     } else {
       return res.status(406).json({ message: "Unauthorized" });
     }
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
+  }
+};
+
+export const emailVerified = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+
+    const user = await User?.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "invalid email",
+      });
+    }
+
+    if (user.otpExpiresAt < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: "otp is expired",
+      });
+    }
+
+    if (user[0].otp !== Number(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: "otp is invalid",
+      });
+    }
+
+    // update email verify
+    const updatedEmail = await User.findByIdAndUpdate(
+      { _id: user[0]._id },
+      { isEmailVerified: true },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      isEmailVerified: updatedEmail.isEmailVerified,
+      message: "email verified",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
