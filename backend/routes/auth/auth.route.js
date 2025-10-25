@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteAll,
   emailVerified,
   forgotPassword,
   logout,
@@ -17,5 +18,6 @@ router.post("/refresh-token", refreshToken);
 router.post("/email-verify", emailVerified);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.post("/delete-all", deleteAll);
 
 export default router;

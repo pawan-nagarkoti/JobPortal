@@ -395,3 +395,19 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
+
+export const deleteAll = async (req, res) => {
+  try {
+    await User.deleteMany({});
+    return res.status(200).json({
+      success: true,
+      message: "delete all users",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};

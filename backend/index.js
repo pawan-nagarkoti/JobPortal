@@ -12,8 +12,10 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
 import authRoutes from "./routes/auth/auth.route.js";
+import employerRoutes from "./routes/employer/employer.route.js";
 
 app.use("/api/auth", authRoutes);
+app.use("/api/employer", employerRoutes);
 
 connectToDB();
 
