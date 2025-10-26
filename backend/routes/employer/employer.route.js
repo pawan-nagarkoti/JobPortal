@@ -7,14 +7,21 @@ import {
   updateEmployer,
 } from "../../controllers/employer/employer.controller.js";
 import express from "express";
-import { auth } from "../../middleware/auth.middleware.js";
+import { upload } from "../../middleware/multer.middlewre.js";
 const router = express.Router();
 
-router.get("/fetch", auth, fetchEmployers);
-router.get("/single-employer", fetchSingleEmployer);
-router.post("/add-employer", addEmployer);
-router.put("/update-employer/:id", updateEmployer);
-router.delete("/delete-employer/:id", deleteEmployer);
-router.delete("/delete-all-employer", deleteAllEmployer);
+router.get("/fetch", fetchEmployers);
+router.get("/single", fetchSingleEmployer);
+router.post(
+  "/add",
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "banner", maxCount: 1 },
+  ]),
+  addEmployer
+);
+router.put("/update/:id", updateEmployer);
+router.delete("/delete/:id", deleteEmployer);
+router.delete("/delete-all", deleteAllEmployer);
 
 export default router;
