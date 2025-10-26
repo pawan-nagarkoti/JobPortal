@@ -81,8 +81,7 @@ export const addJob = async (req, res) => {
 
 export const fetchJobs = async (req, res) => {
   try {
-    const { id } = req.params;
-    const allJobs = await JobListing.find({ _id: id });
+    const allJobs = await JobListing.find();
 
     if (allJobs) {
       return res.status(200).json({
@@ -105,4 +104,53 @@ export const fetchJobs = async (req, res) => {
   }
 };
 
-export const singleJob = async (req, res) => {};
+export const singleJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const fetchSingleJob = await JobListing.findOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: fetchSingleJob,
+      message: "job fetched",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+export const deleteJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedJob = await JobListing.deleteOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: deletedJob,
+      message: "job deleted",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+export const deleteAllJob = async (req, res) => {
+  try {
+    await JobListing.deleteMany();
+    return res.status(200).json({
+      message: "deleted all jobs",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
