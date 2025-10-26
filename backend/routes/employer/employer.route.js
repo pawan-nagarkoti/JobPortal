@@ -20,7 +20,14 @@ router.post(
   ]),
   addEmployer
 );
-router.put("/update/:id", updateEmployer);
+router.put(
+  "/update/:id",
+  upload.fields([
+    { name: "logo", maxCount: 1 },
+    { name: "banner", maxCount: 1 },
+  ]),
+  updateEmployer
+);
 router.delete("/delete/:id", deleteEmployer);
 router.delete("/delete-all", deleteAllEmployer);
 

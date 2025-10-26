@@ -70,6 +70,91 @@ export const fetchEmployers = async (req, res) => {
 
 export const updateEmployer = async (req, res) => {
   try {
+    const { id } = req.params;
+    const data = qs.parse(req.body, { allowDots: true });
+    if (!data)
+      return res.status(400).json({ success: true, message: "no data" });
+
+    // common function for detect image url or file
+    async function detectsImages(existingUrl = "", newFilePath = "") {
+      if (newFilePath) {
+        const image = await uploadOnCloudinary(newFilePath);
+        return image?.secure_url;
+      }
+      return existingUrl || "";
+    }
+
+    const bannerImage = await detectsImages(
+      data?.banner || "",
+      req?.files?.banner?.[0]?.path || ""
+    );
+    const logoImage = await detectsImages(
+      data?.logo || "",
+      req?.files?.logo?.[0]?.path || ""
+    );
+
+    // let bannerImage, logoImage;
+    // if (data.banner) {
+    //   bannerImage = data.banner;
+    // } else {
+    //   let image = await uploadOnCloudinary(req.files.banner[0].path);
+    //   bannerImage = image?.secure_url;
+    // }
+
+    // if (data.logo) {
+    //   logoImage = data.logo;
+    // } else {
+    //   let image = await uploadOnCloudinary(req.files.logo[0].path);
+    //   logoImage = image?.secure_url;
+    // }
+
+    const employerObj = {
+      name: data.name,
+      description: data.description,
+      organization: data.organization,
+      industry: data.industry,
+      teamSize: data.teamSize,
+      establishmentYear: data.establishmentYear,
+      url: data.url,
+      companyVision: data.companyVision,
+      contact: {
+        location: {
+          country: data.country,
+          city: data.city,
+        },
+        phone: {
+          countryCode: data.countryCode,
+          number: data.number,
+        },
+        email: data.email,
+      },
+      socialLinks: data.socialLinks,
+      logo: logoImage,
+      banner: bannerImage,
+    };
+
+    const update = await Employer.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      employerObj,
+      {
+        new: true,
+      }
+    );
+
+    if (update) {
+      return res.status(200).json({
+        success: true,
+        data: update,
+        message: "updated successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "something is wrong",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
