@@ -11,7 +11,7 @@ import { upload } from "../../middleware/multer.middlewre.js";
 const router = express.Router();
 
 router.get("/fetch", fetchEmployers);
-router.get("/single", fetchSingleEmployer);
+router.get("/single/:id", fetchSingleEmployer);
 router.post(
   "/add",
   upload.fields([

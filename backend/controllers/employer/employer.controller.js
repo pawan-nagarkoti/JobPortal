@@ -90,6 +90,28 @@ export const deleteEmployer = async (req, res) => {
 
 export const fetchSingleEmployer = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "employer id required",
+      });
+    }
+
+    const singleEmployer = await Employer.findOne({ _id: id });
+
+    if (singleEmployer) {
+      return res.status(200).json({
+        success: true,
+        data: singleEmployer,
+        message: "fetched single employer",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "something wrong",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
