@@ -1,6 +1,12 @@
 import mongoose from "mongoose";
-import { EDUCATION, JOB_TYPE, SALARY_CURRENCY, WORK_TYPE } from "../constant";
-import { Employer } from "./employer.modal";
+import {
+  EDUCATION,
+  JOB_LEVEL,
+  JOB_TYPE,
+  SALARY_CURRENCY,
+  SALARY_PERIOD,
+  WORK_TYPE,
+} from "../constant.js";
 
 const jobListingSchema = new mongoose.Schema(
   {
@@ -11,31 +17,31 @@ const jobListingSchema = new mongoose.Schema(
       maxSalary: String,
       period: {
         type: String,
-        enum: SALARY_PERIOD.MONTHLY,
+        enum: Object.values(SALARY_PERIOD),
       },
       currency: {
         type: String,
-        enum: SALARY_CURRENCY.USD,
+        enum: Object.values(SALARY_CURRENCY),
       },
     },
     education: {
       type: String,
-      enum: EDUCATION.NONE,
+      enum: Object.values(EDUCATION),
     },
     experience: String,
     jobType: {
       type: String,
-      enum: JOB_TYPE.REMOTE,
+      enum: Object.values(JOB_TYPE),
     },
     vacancies: Number,
     expirationDate: Date,
     workType: {
       type: String,
-      enum: WORK_TYPE.FULL_TIME,
+      enum: Object.values(WORK_TYPE),
     },
     jobLevel: {
       type: String,
-      enum: JOB_LEVEL.INTERNSHIP,
+      enum: Object.values(JOB_LEVEL),
     },
     location: {
       country: String,
@@ -46,17 +52,12 @@ const jobListingSchema = new mongoose.Schema(
     description: String,
     applyJob: String,
     isExpired: { type: Boolean, default: false },
-    isFeatured: {
-      type: Boolean,
-      default: false,
-    },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
+    isFeatured: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: false },
     employerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Employer,
+      ref: "Employer",
+      required: true,
     },
     expiresAt: Date,
   },

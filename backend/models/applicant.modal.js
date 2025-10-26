@@ -20,18 +20,18 @@ const applicantSchema = new mongoose.Schema(
     nationality: String,
     gender: {
       type: String,
-      enum: GENDER.MALE,
+      enum: Object.values(GENDER),
     },
     maritalStatus: {
       type: String,
-      enum: MARITAL_STATUS.SINGLE,
+      enum: Object.values(MARITAL_STATUS),
     },
     experience: {
       type: String,
     },
     education: {
       type: String,
-      enum: EDUCATION.NONE,
+      enum: Object.values(EDUCATION),
     },
     websiteUrl: String,
     location: String,

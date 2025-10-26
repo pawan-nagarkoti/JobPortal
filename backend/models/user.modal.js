@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: USER_ROLE.EMPLOYER,
+      enum: Object.values(USER_ROLE),
     },
     email: {
       type: String,

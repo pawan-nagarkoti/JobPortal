@@ -19,7 +19,7 @@ const jobApplicationSchema = new mongoose.Schema(
     coverLetter: String,
     status: {
       type: String,
-      enum: APPLICATION_STATUS.PENDING,
+      enum: Object.values(APPLICATION_STATUS),
     },
     resumeId: {
       type: mongoose.Schema.Types.ObjectId,

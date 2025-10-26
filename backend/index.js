@@ -15,12 +15,14 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
+import { auth } from "./middleware/auth.middleware.js"; // middleware
 import authRoutes from "./routes/auth/auth.route.js";
 import employerRoutes from "./routes/employer/employer.route.js";
-import { auth } from "./middleware/auth.middleware.js";
+import jobListingRoutes from "./routes/employer/jobListing.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
+app.use("/api/jobList", auth, jobListingRoutes);
 
 connectToDB();
 
