@@ -33,10 +33,12 @@ export const addJob = async (req, res) => {
       employerId,
       title,
       tags,
-      minSalary,
-      maxSalary,
-      period,
-      currency,
+      salary: {
+        minSalary,
+        maxSalary,
+        period,
+        currency,
+      },
       education,
       experience,
       jobType,
@@ -146,6 +148,96 @@ export const deleteAllJob = async (req, res) => {
     return res.status(200).json({
       message: "deleted all jobs",
     });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+export const updateJob = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      employerId,
+      title,
+      tags,
+      minSalary,
+      maxSalary,
+      period,
+      currency,
+      education,
+      experience,
+      jobType,
+      vacancies,
+      expirationDate,
+      workType,
+      jobLevel,
+      country,
+      city,
+      isRemoteWorldwidePosition,
+      jobBenefits,
+      description,
+      applyJob,
+      isExpired,
+      isFeatured,
+      isActive,
+      expiresAt,
+    } = req.body;
+
+    const updatedJobObj = {
+      employerId,
+      title,
+      tags,
+      salary: {
+        minSalary,
+        maxSalary,
+        period,
+        currency,
+      },
+      education,
+      experience,
+      jobType,
+      vacancies,
+      expirationDate,
+      workType,
+      jobLevel,
+      location: {
+        country,
+        city,
+        isRemoteWorldwidePosition,
+      },
+      jobBenefits,
+      description,
+      applyJob,
+      isExpired,
+      isFeatured,
+      isActive,
+      expiresAt,
+    };
+
+    const updatedJob = await JobListing.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      updatedJobObj,
+      { new: true }
+    );
+
+    if (updatedJob) {
+      return res.status(200).json({
+        success: true,
+        data: updatedJob,
+        message: "Job updated",
+      });
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: "something wrong",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
