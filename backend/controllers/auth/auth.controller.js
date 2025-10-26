@@ -59,23 +59,24 @@ export const signUp = async (req, res) => {
     const expiresInMinutes = 10; // expire time
     const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000); // added 10 min in current time
 
-    await sendEmail(
-      {
-        username,
-        email,
-        otp,
-        expiresInMinutes,
-        subject: "Verification Mail",
-        text: "verification mail",
-      },
-      emailVerifyTemplate({
-        // email template
-        username,
-        email,
-        otp,
-        expireAt: expiresInMinutes,
-      })
-    ); // verification mail and sended otp over the mail
+    // verification mail and sended otp over the mail
+    // await sendEmail(
+    //   {
+    //     username,
+    //     email,
+    //     otp,
+    //     expiresInMinutes,
+    //     subject: "Verification Mail",
+    //     text: "verification mail",
+    //   },
+    //   emailVerifyTemplate({
+    //     // email template
+    //     username,
+    //     email,
+    //     otp,
+    //     expireAt: expiresInMinutes,
+    //   })
+    // );
 
     const addUser = await User.create({
       name,

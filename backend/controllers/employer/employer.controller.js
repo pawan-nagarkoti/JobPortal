@@ -7,6 +7,9 @@ export const addEmployer = async (req, res) => {
 
 export const fetchEmployers = async (req, res) => {
   try {
+    return res.status(200).json({
+      message: "fetch all employers",
+    });
   } catch (e) {
     console.log(e.message);
   }
