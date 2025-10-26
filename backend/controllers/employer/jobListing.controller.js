@@ -44,9 +44,11 @@ export const addJob = async (req, res) => {
       expirationDate,
       workType,
       jobLevel,
-      country,
-      city,
-      isRemoteWorldwidePosition,
+      location: {
+        country,
+        city,
+        isRemoteWorldwidePosition,
+      },
       jobBenefits,
       description,
       applyJob,
@@ -76,3 +78,31 @@ export const addJob = async (req, res) => {
     });
   }
 };
+
+export const fetchJobs = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const allJobs = await JobListing.find({ _id: id });
+
+    if (allJobs) {
+      return res.status(200).json({
+        success: true,
+        data: allJobs,
+        message: "fetched all jobs",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "something wrong",
+      });
+    }
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+export const singleJob = async (req, res) => {};

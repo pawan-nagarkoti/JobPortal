@@ -11,7 +11,11 @@ import {
 const jobListingSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, index: true, trim: true },
-    tags: [String],
+    tags: [
+      {
+        name: String,
+      },
+    ],
     salary: {
       minSalary: String,
       maxSalary: String,
@@ -48,7 +52,7 @@ const jobListingSchema = new mongoose.Schema(
       city: String,
       isRemoteWorldwidePosition: { type: Boolean, default: false },
     },
-    jobBenefits: [String],
+    jobBenefits: [{ name: "String" }],
     description: String,
     applyJob: String,
     isExpired: { type: Boolean, default: false },
