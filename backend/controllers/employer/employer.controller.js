@@ -1,45 +1,38 @@
+import { uploadOnCloudinary } from "../../lib/cloudinary.js";
 import { Employer } from "../../models/employer.modal.js";
+import qs from "qs";
 
 export const addEmployer = async (req, res) => {
   try {
-    const {
-      name,
-      description,
-      organization,
-      industry,
-      teamSize,
-      establishmentYear,
-      url,
-      companyVision,
-      country,
-      countryCode,
-      number,
-      email,
-      city,
-    } = req.body;
+    const data = qs.parse(req.body, { allowDots: true });
+    const { logo, banner } = req.files;
+
+    const employerLogo = await uploadOnCloudinary(logo[0].path);
+    const employerBanner = await uploadOnCloudinary(banner[0].path);
 
     const employerObj = {
-      name,
-      description,
-      organization,
-      industry,
-      teamSize,
-      establishmentYear,
-      url,
-      companyVision,
-      countryCode,
-      number,
+      name: data.name,
+      description: data.description,
+      organization: data.organization,
+      industry: data.industry,
+      teamSize: data.teamSize,
+      establishmentYear: data.establishmentYear,
+      url: data.url,
+      companyVision: data.companyVision,
       contact: {
         location: {
-          country,
-          city,
+          country: data.country,
+          city: data.city,
         },
         phone: {
-          countryCode,
-          number,
+          countryCode: data.countryCode,
+          number: data.number,
         },
-        email,
+        email: data.email,
       },
+      socialLinks: data.socialLinks,
+      logo: employerLogo?.secure_url,
+      banner: employerBanner?.secure_url,
     };
 
     const addedEmployer = await Employer.create(employerObj);
@@ -52,6 +45,9 @@ export const addEmployer = async (req, res) => {
     }
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
   }
 };
 
@@ -66,6 +62,9 @@ export const fetchEmployers = async (req, res) => {
     });
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
   }
 };
 
@@ -73,6 +72,9 @@ export const updateEmployer = async (req, res) => {
   try {
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
   }
 };
 
@@ -80,6 +82,9 @@ export const deleteEmployer = async (req, res) => {
   try {
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
   }
 };
 
@@ -87,6 +92,9 @@ export const fetchSingleEmployer = async (req, res) => {
   try {
   } catch (e) {
     console.log(e.message);
+    return res.status(500).json({
+      message: "server error",
+    });
   }
 };
 
