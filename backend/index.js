@@ -19,10 +19,12 @@ import { auth } from "./middleware/auth.middleware.js"; // middleware
 import authRoutes from "./routes/auth/auth.route.js";
 import employerRoutes from "./routes/employer/employer.route.js";
 import jobListingRoutes from "./routes/employer/jobListing.route.js";
+import applicantRoutes from "./routes/applicant/applicant.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
 app.use("/api/jobList", auth, jobListingRoutes);
+app.use("/api/applicant", auth, applicantRoutes);
 
 connectToDB();
 

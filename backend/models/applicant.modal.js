@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { EDUCATION, GENDER, MARITAL_STATUS } from "../constant";
-import { User } from "./user.modal";
+import { EDUCATION, GENDER, MARITAL_STATUS } from "../constant.js";
+import { User } from "./user.modal.js";
 
 const applicantSchema = new mongoose.Schema(
   {
