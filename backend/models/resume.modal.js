@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
-import { Applicant } from "./applicant.modal";
+import { Applicant } from "./applicant.modal.js";
 
 const resumeSchema = new mongoose.Schema(
   {
     applicantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Applicant,
-      unique: true,
     },
     title: String,
     cv: {

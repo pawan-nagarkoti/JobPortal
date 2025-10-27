@@ -8,14 +8,17 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export const uploadOnCloudinary = async (localFilePath) => {
+export const uploadOnCloudinary = async (
+  localFilePath,
+  folderName = "jobPortal"
+) => {
   try {
     if (!localFilePath) return null;
 
     // Upload the image
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: "auto",
-      folder: "jobPortal", // specify your folder here (optional)
+      folder: folderName, // specify your folder here (optional)
     });
     // Remove local file after upload
     fs.unlinkSync(localFilePath);

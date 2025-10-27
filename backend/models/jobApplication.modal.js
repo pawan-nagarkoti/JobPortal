@@ -9,12 +9,10 @@ const jobApplicationSchema = new mongoose.Schema(
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: JobListing,
-      unique: true,
     },
     applicantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Applicant,
-      unique: true,
     },
     coverLetter: String,
     status: {
@@ -24,7 +22,6 @@ const jobApplicationSchema = new mongoose.Schema(
     resumeId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Resume,
-      unique: true,
     },
     bookmarked: {
       type: Boolean,

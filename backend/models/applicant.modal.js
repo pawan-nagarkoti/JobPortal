@@ -9,7 +9,6 @@ const applicantSchema = new mongoose.Schema(
       ref: User,
       required: true,
       index: true,
-      unique: true,
     },
     profilePicture: {
       type: String,

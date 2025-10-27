@@ -6,12 +6,10 @@ const savedJobSchema = new mongoose.Schema(
     jobId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: JobListing,
-      unique: true,
     },
     applicantId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Applicant,
-      unique: true,
     },
     notes: String,
   },
