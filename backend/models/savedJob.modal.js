@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { JobListing } from "./jobListing";
-import { Applicant } from "./applicant.modal";
+import { JobListing } from "./jobListing.modal.js";
+import { Applicant } from "./applicant.modal.js";
 const savedJobSchema = new mongoose.Schema(
   {
     jobId: {

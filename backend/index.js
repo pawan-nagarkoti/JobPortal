@@ -21,12 +21,14 @@ import employerRoutes from "./routes/employer/employer.route.js";
 import jobListingRoutes from "./routes/employer/jobListing.route.js";
 import applicantRoutes from "./routes/applicant/applicant.route.js";
 import resumeRoutes from "./routes/applicant/resume.route.js";
+import bookmarkJobs from "./routes/applicant/bookmark.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
 app.use("/api/jobList", auth, jobListingRoutes);
 app.use("/api/applicant", auth, applicantRoutes);
 app.use("/api/resume", auth, resumeRoutes);
+app.use("/api/bookmark-job", auth, bookmarkJobs);
 
 connectToDB();
 
