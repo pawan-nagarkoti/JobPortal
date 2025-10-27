@@ -56,3 +56,20 @@ export const addApplicant = async (req, res) => {
     });
   }
 };
+
+export const fetchApplicant = async (req, res) => {
+  try {
+    const applicants = await Applicant.find();
+    return res.status(200).json({
+      success: true,
+      applicants,
+      message: "fetch all aplicants",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: "false",
+      message: "server error",
+    });
+  }
+};
