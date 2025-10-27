@@ -4,15 +4,26 @@ import { Resume } from "../../models/resume.modal.js";
 
 export const addResume = async (req, res) => {
   try {
-    const { applicantId, title } = req.body;
-    const { cv } = req.files;
+    const { applicantId, title } = req?.body;
+    const { cv } = req?.files;
 
-    const resumeFile = await uploadOnCloudinary(cv[0].path, "jobPortal/resume");
+    if (!applicantId || !title || !cv) {
+      return res.status(400).json({
+        success: false,
+        message: "field required",
+      });
+    }
+
+    console.log(req.files);
+    const resumeFile = await uploadOnCloudinary(
+      cv[0]?.path,
+      "jobPortal/resume"
+    );
 
     const add = await Resume.create({
       applicantId,
       title,
-      cv: resumeFile.secure_url,
+      cv: resumeFile?.secure_url,
     });
 
     return res.status(201).json({

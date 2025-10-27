@@ -16,11 +16,11 @@ export const signUp = async (req, res) => {
 
     // check required fileds
     if (
-      !name &&
-      !username &&
-      !password &&
-      !confirmPassword &&
-      !email &&
+      !name ||
+      !username ||
+      !password ||
+      !confirmPassword ||
+      !email ||
       !role
     ) {
       return res.status(400).json({
@@ -106,7 +106,7 @@ export const signIn = async (req, res) => {
     const { email, password } = req.body;
 
     // check email or passowrd fields
-    if (!email && !password) {
+    if (!email || !password) {
       return res.status(400).json({
         success: false,
         message: "field is requried",
@@ -242,7 +242,7 @@ export const emailVerified = async (req, res) => {
   try {
     const { otp, email } = req.body;
 
-    if (!otp && !email) {
+    if (!otp || !email) {
       return res.status(400).json({
         success: false,
         message: "field is requried",
@@ -354,7 +354,7 @@ export const resetPassword = async (req, res) => {
     const { token } = req.query;
     const { newPassword, confirmPassword } = req.body;
 
-    if (!token && !newPassword && !confirmPassword) {
+    if (!token || !newPassword || !confirmPassword) {
       return res.status(400).json({
         success: false,
         message: "field requried",
