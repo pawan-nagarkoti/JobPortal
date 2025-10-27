@@ -14,7 +14,6 @@ export const addResume = async (req, res) => {
       });
     }
 
-    console.log(req.files);
     const resumeFile = await uploadOnCloudinary(
       cv[0]?.path,
       "jobPortal/resume"
@@ -41,6 +40,33 @@ export const addResume = async (req, res) => {
 
 export const updateResume = async (req, res) => {
   try {
+    const { id } = req.params;
+    const { applicantId, title } = req.body;
+    const { cv } = req.files;
+
+    let resumeFile;
+    if (cv) {
+      let image = await uploadOnCloudinary(cv[0].path);
+      resumeFile = image?.secure_url;
+    } else {
+      resumeFile = req.body.cv;
+    }
+
+    const update = await Resume.findByIdAndUpdate(
+      { _id: id },
+      {
+        applicantId,
+        title,
+        cv: resumeFile,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: update,
+      message: "update resume",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({

@@ -21,7 +21,16 @@ router.post(
   ]),
   addResume
 );
-router.put("/update", updateResume);
+router.put(
+  "/update/:id",
+  upload.fields([
+    {
+      name: "cv",
+      maxCount: 1,
+    },
+  ]),
+  updateResume
+);
 router.get("/fetch", fetchResume);
 router.get("/single/:id", fetchSingleResume);
 router.delete("/delete/:id", deleteResume);
