@@ -73,3 +73,56 @@ export const fetchApplicant = async (req, res) => {
     });
   }
 };
+
+export const singleApplicant = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const applicant = await Applicant.findOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      applicant,
+      message: "fetch single applicant",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "fetch single applicant",
+    });
+  }
+};
+
+export const deleteApplicant = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedApplicant = await Applicant.deleteOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: deletedApplicant,
+      message: "deleted applicant",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
+
+export const deleteAllApplicant = async (req, res) => {
+  try {
+    const deletedApplicant = await Applicant.deleteMany();
+    return res.status(200).json({
+      success: true,
+      data: deletedApplicant,
+      message: "deleted applicant",
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
