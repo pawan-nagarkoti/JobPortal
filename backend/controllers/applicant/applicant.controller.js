@@ -126,3 +126,62 @@ export const deleteAllApplicant = async (req, res) => {
     });
   }
 };
+
+export const updateApplicant = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = qs.parse(req.body, { allowDots: true });
+    let profileImage;
+
+    if (req.files.profilePicture) {
+      const image = uploadOnCloudinary(req.files.profilePicture[0].path);
+      profileImage = image?.secure_url;
+    } else {
+      profileImage = data.profilePicture;
+    }
+
+    const applicantObj = {
+      userId: data.userId,
+      profilePicture: profileImage,
+      biography: data.biography,
+      dob: data.dob,
+      nationality: data.nationality,
+      gender: data.gender,
+      maritalStatus: data.maritalStatus,
+      experience: data.experience,
+      education: data.education,
+      websiteUrl: data.websiteUrl,
+      location: data.location,
+      title: data.title,
+      socialLinks: data.socialLinks,
+      phone: {
+        countryCode: data.countryCode,
+        number: data.number,
+      },
+      alertJob: {
+        role: data.role,
+        location: data.location,
+      },
+      profilePrivacy: data.profilePrivacy,
+      resumePrivacy: data.resumePrivacy,
+    };
+
+    const updatedApplicant = await Applicant.findByIdAndUpdate(
+      { _id: id },
+      applicantObj,
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: updateApplicant,
+      message: updatedApplicant,
+    });
+  } catch (e) {
+    console.log(e.message);
+    return res.status(500).json({
+      success: false,
+      message: "server error",
+    });
+  }
+};
