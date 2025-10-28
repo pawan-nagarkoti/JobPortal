@@ -65,6 +65,12 @@ export const updateJob = async (req, res) => {
 
 export const fetchAllJobs = async (req, res) => {
   try {
+    const getAllJobs = await JobApplication.find();
+    return res.status(200).json({
+      success: true,
+      data: getAllJobs,
+      message: "fetch all jobs",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -76,6 +82,13 @@ export const fetchAllJobs = async (req, res) => {
 
 export const fetchSingleJob = async (req, res) => {
   try {
+    const { id } = req.params;
+    const single = await JobApplication.findById({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: single,
+      message: "fetch single job application",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -87,6 +100,13 @@ export const fetchSingleJob = async (req, res) => {
 
 export const deleteJob = async (req, res) => {
   try {
+    const { id } = req.params;
+    const deleted = await JobApplication.findByIdAndDelete({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: deleted,
+      message: "deleted job",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -98,6 +118,12 @@ export const deleteJob = async (req, res) => {
 
 export const deleteAllJobs = async (req, res) => {
   try {
+    const deletedAll = await JobApplication.deleteMany();
+    return res.status(200).json({
+      success: true,
+      data: deletedAll,
+      message: "fetch all jobs",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({

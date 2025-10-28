@@ -17,10 +17,10 @@ router.post(
   validateObjectIds(["jobId", "applicantId", "resumeId"]),
   addJob
 );
-router.post("/update/:id", updateJob);
-router.post("/fetch", fetchAllJobs);
-router.post("/single/:id", fetchSingleJob);
-router.post("/delete/:id", deleteJob);
-router.post("/delete-all", deleteAllJobs);
+router.put("/update/:id", validateObjectIds(["id"]), updateJob);
+router.get("/fetch", fetchAllJobs);
+router.get("/single/:id", validateObjectIds(["id"]), fetchSingleJob);
+router.delete("/delete/:id", validateObjectIds(["id"]), deleteJob);
+router.delete("/delete-all", deleteAllJobs);
 
 export default router;
