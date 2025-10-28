@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { JobListing } from "./jobListing";
-import { Applicant } from "./applicant.modal";
-import { APPLICATION_STATUS } from "../constant";
-import { Resume } from "./resume.modal";
+import { JobListing } from "./jobListing.modal.js";
+import { Applicant } from "./applicant.modal.js";
+import { APPLICATION_STATUS } from "../constant.js";
+import { Resume } from "./resume.modal.js";
 
 const jobApplicationSchema = new mongoose.Schema(
   {
@@ -27,8 +27,8 @@ const jobApplicationSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    appliedAt: timestamps,
-    statusUpdatedAt: timestamps,
+    appliedAt: Date,
+    statusUpdatedAt: Date,
     notes: String,
   },
   { timestamps: true }
