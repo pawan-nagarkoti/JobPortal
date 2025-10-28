@@ -17,7 +17,12 @@ router.post(
   validateObjectIds(["jobId", "applicantId", "resumeId"]),
   addJob
 );
-router.put("/update/:id", validateObjectIds(["id"]), updateJob);
+router.put(
+  "/update/:id",
+  upload.none(),
+  validateObjectIds(["id", "jobId", "applicantId", "resumeId"]),
+  updateJob
+);
 router.get("/fetch", fetchAllJobs);
 router.get("/single/:id", validateObjectIds(["id"]), fetchSingleJob);
 router.delete("/delete/:id", validateObjectIds(["id"]), deleteJob);

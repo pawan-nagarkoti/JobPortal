@@ -54,6 +54,51 @@ export const addJob = async (req, res) => {
 
 export const updateJob = async (req, res) => {
   try {
+    const { id } = req.params;
+    const {
+      jobId,
+      applicantId,
+      coverLetter,
+      status,
+      resumeId,
+      bookmarked,
+      appliedAt,
+      statusUpdateAt,
+    } = req.body;
+
+    const isJobValidId = await JobListing.exists({ _id: jobId });
+    const isApplicantValidId = await Applicant.exists({ _id: applicantId });
+    const isResumeValidId = await Resume.exists({ _id: resumeId });
+
+    if (!isJobValidId || !isApplicantValidId || !isResumeValidId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
+      });
+    }
+
+    const update = await JobApplication.findByIdAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        jobId,
+        applicantId,
+        coverLetter,
+        status,
+        resumeId,
+        bookmarked,
+        appliedAt,
+        statusUpdateAt,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      data: update,
+      message: "udpated job",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
