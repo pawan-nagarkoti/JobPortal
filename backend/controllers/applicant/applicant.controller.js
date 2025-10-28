@@ -68,10 +68,24 @@ export const addApplicant = async (req, res) => {
 
 export const fetchApplicant = async (req, res) => {
   try {
-    const applicants = await Applicant.find();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const totalItems = await Applicant.countDocuments();
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+    const applicants = await Applicant.find().skip(skip).limit(limit);
+
     return res.status(200).json({
       success: true,
       applicants,
+      page: page,
+      limit: limit,
+      totalPages,
+      previousPage: page > 1,
+      nextPage: page < totalPages,
+      totalItems,
+      currentPageItems: applicants.length,
       message: "fetch all aplicants",
     });
   } catch (e) {

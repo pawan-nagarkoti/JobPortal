@@ -93,12 +93,25 @@ export const addJob = async (req, res) => {
 
 export const fetchJobs = async (req, res) => {
   try {
-    const allJobs = await JobListing.find();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const totalItems = await JobListing.countDocuments();
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+    const allJobs = await JobListing.find().skip(skip).limit(limit);
 
     if (allJobs) {
       return res.status(200).json({
         success: true,
         data: allJobs,
+        page: page,
+        limit: limit,
+        totalPages,
+        previousPage: page > 1,
+        nextPage: page < totalPages,
+        totalItems,
+        currentPageItems: allJobs.length,
         message: "fetched all jobs",
       });
     } else {
