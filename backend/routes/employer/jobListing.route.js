@@ -7,13 +7,14 @@ import {
   deleteAllJob,
   updateJob,
 } from "../../controllers/employer/jobListing.controller.js";
+import { validateObjectIds } from "../../middleware/validObjectId.middleware.js";
 const router = express.Router();
 
-router.post("/add", addJob);
+router.post("/add", validateObjectIds(["employerId"]), addJob);
 router.get("/fetch", fetchJobs);
-router.get("/single/:id", singleJob);
-router.delete("/delete/:id", deleteJob);
+router.get("/single/:id", validateObjectIds(["id"]), singleJob);
+router.delete("/delete/:id", validateObjectIds(["id"]), deleteJob);
 router.delete("/delete-all", deleteAllJob);
-router.put("/update/:id", updateJob);
+router.put("/update/:id", validateObjectIds(["id", "employerId"]), updateJob);
 
 export default router;

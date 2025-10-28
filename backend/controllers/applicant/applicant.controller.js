@@ -1,6 +1,7 @@
 import qs from "qs";
 import { uploadOnCloudinary } from "../../lib/cloudinary.js";
 import { Applicant } from "../../models/applicant.modal.js";
+import { User } from "../../models/user.modal.js";
 
 export const addApplicant = async (req, res) => {
   try {
@@ -34,6 +35,14 @@ export const addApplicant = async (req, res) => {
       profilePrivacy: data.profilePrivacy,
       resumePrivacy: data.resumePrivacy,
     };
+
+    const isValidUserId = await User.exists({ _id: data.userId });
+    if (!isValidUserId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
+      });
+    }
 
     const newApplicant = await Applicant.create(applicantObj);
     if (addApplicant) {

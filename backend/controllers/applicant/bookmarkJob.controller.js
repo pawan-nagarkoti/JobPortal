@@ -1,3 +1,5 @@
+import { Applicant } from "../../models/applicant.modal.js";
+import { JobListing } from "../../models/jobListing.modal.js";
 import { SavedJob } from "../../models/savedJob.modal.js";
 
 export const addBookmark = async (req, res) => {
@@ -7,6 +9,16 @@ export const addBookmark = async (req, res) => {
     if (!jobId || !applicantId) {
       return res.status(400).json({
         message: "required fields",
+      });
+    }
+
+    const isValidJobId = await JobListing.exists({ _id: jobId });
+    const isValidApplicantId = await Applicant.exists({ _id: applicantId });
+
+    if (!isValidJobId || !isValidApplicantId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
       });
     }
 

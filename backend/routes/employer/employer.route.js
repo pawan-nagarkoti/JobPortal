@@ -8,10 +8,11 @@ import {
 } from "../../controllers/employer/employer.controller.js";
 import express from "express";
 import { upload } from "../../middleware/multer.middlewre.js";
+import { validateObjectIds } from "../../middleware/validObjectId.middleware.js";
 const router = express.Router();
 
 router.get("/fetch", fetchEmployers);
-router.get("/single/:id", fetchSingleEmployer);
+router.get("/single/:id", validateObjectIds(["id"]), fetchSingleEmployer);
 router.post(
   "/add",
   upload.fields([
@@ -26,9 +27,10 @@ router.put(
     { name: "logo", maxCount: 1 },
     { name: "banner", maxCount: 1 },
   ]),
+  validateObjectIds(["id"]),
   updateEmployer
 );
-router.delete("/delete/:id", deleteEmployer);
+router.delete("/delete/:id", validateObjectIds(["id"]), deleteEmployer);
 router.delete("/delete-all", deleteAllEmployer);
 
 export default router;

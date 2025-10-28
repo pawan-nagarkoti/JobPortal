@@ -14,6 +14,15 @@ export const addResume = async (req, res) => {
       });
     }
 
+    const isValidApplicantId = await Applicant.exists({ _id: applicantId });
+
+    if (!isValidApplicantId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
+      });
+    }
+
     const resumeFile = await uploadOnCloudinary(
       cv[0]?.path,
       "jobPortal/resume"
@@ -43,6 +52,15 @@ export const updateResume = async (req, res) => {
     const { id } = req.params;
     const { applicantId, title } = req.body;
     const { cv } = req.files;
+
+    const isValidApplicantId = await Applicant.exists({ _id: applicantId });
+
+    if (!isValidApplicantId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
+      });
+    }
 
     let resumeFile;
     if (cv) {

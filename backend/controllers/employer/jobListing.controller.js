@@ -1,3 +1,4 @@
+import { Employer } from "../../models/employer.modal.js";
 import { JobListing } from "../../models/jobListing.modal.js";
 
 export const addJob = async (req, res) => {
@@ -28,6 +29,15 @@ export const addJob = async (req, res) => {
       isActive,
       expiresAt,
     } = req.body;
+
+    const isValidEmployertId = await Employer.exists({ _id: employerId });
+
+    if (!isValidEmployertId) {
+      return res.status(400).json({
+        success: false,
+        message: "Id not found",
+      });
+    }
 
     const add = await JobListing.create({
       employerId,
