@@ -1,3 +1,4 @@
+import { JOB_TYPE, WORK_TYPE } from "../../constant.js";
 import { Employer } from "../../models/employer.modal.js";
 import { JobListing } from "../../models/jobListing.modal.js";
 
@@ -93,13 +94,65 @@ export const addJob = async (req, res) => {
 
 export const fetchJobs = async (req, res) => {
   try {
+    const search = req.query.search;
+    const location = req.query.location;
+    const workType = req.query.workType;
+    const remoteJob = req.query.remoteJob;
+    const industry = req.query.industry;
+    const salary = req.query.salary;
+
+    let filter = {};
+
+    if (search || location) {
+      const searchContainer = [];
+
+      if (search) {
+        searchContainer.push({
+          $or: [
+            { title: { $regex: search, $options: "i" } },
+            { jobLevel: { $regex: search, $options: "i" } },
+            { workType: { $regex: search, $options: "i" } },
+            { jobType: { $regex: search, $options: "i" } },
+            { tags: { $in: [new RegExp(search, "i")] } },
+          ],
+        });
+      }
+
+      if (location) {
+        searchContainer.push({
+          $or: [
+            { "location.country": { $regex: location, $options: "i" } },
+            { "location.city": { $regex: location, $options: "i" } },
+          ],
+        });
+      }
+
+      // Combine both groups with $and (only if there are conditions)
+      filter = searchContainer.length ? { $and: searchContainer } : {};
+    }
+
+    switch (true) {
+      case remoteJob === "yes":
+        filter.jobType = "remote";
+
+      case workType ===
+        (Object.values(WORK_TYPE).includes(workType) ? workType : "null"):
+        filter.workType = workType;
+
+      default:
+        break;
+    }
+
+    console.log(filter);
+
+    //pagination
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const totalItems = await JobListing.countDocuments();
+    const totalItems = await JobListing.countDocuments(filter);
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const allJobs = await JobListing.find().skip(skip).limit(limit);
+    const allJobs = await JobListing.find(filter).skip(skip).limit(limit);
 
     if (allJobs) {
       return res.status(200).json({
