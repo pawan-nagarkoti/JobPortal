@@ -20,10 +20,10 @@ router.post(
   validateObjectIds(["applicant", "employer"]),
   addBlog
 );
-router.put("/update/:id", auth, updateBlog);
+router.put("/update/:id", upload.none(), auth, updateBlog);
 router.get("/fetch", fetchBlogs);
-router.get("/single", fetchSingleBlog);
-router.delete("/delete", auth, deleteBlog);
+router.get("/single/:id", fetchSingleBlog);
+router.delete("/delete/:id", auth, deleteBlog);
 router.delete("/delete-all", auth, deleteAllBlogs);
 
 export default router;

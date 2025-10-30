@@ -48,6 +48,33 @@ export const addBlog = async (req, res) => {
 
 export const updateBlog = async (req, res) => {
   try {
+    const { id } = req.params;
+    const data = qs.parse(req.body, { allowDots: true });
+
+    const blogObj = {
+      title: data.title,
+      shortDescription: data.shortDescription,
+      longDescription: data.longDescription,
+      date: data.date,
+      comments: data.comments,
+      categories: data.categories,
+      tags: data.tags,
+      applicant: data.applicant,
+      employer: data.employer,
+      isVerified: data.isVerified,
+    };
+
+    const updatedBlog = await Blog.findByIdAndUpdate({ _id: id }, blogObj, {
+      new: true,
+    });
+
+    if (updatedBlog) {
+      return res.status(200).json({
+        success: true,
+        updatedBlog,
+        message: "blog updated successfully",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -59,6 +86,14 @@ export const updateBlog = async (req, res) => {
 
 export const fetchBlogs = async (req, res) => {
   try {
+    const blog = await Blog.find();
+    if (blog) {
+      return res.status(200).json({
+        success: true,
+        data: blog,
+        message: "fetch all blogs",
+      });
+    }
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -70,6 +105,19 @@ export const fetchBlogs = async (req, res) => {
 
 export const fetchSingleBlog = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "blog id not found",
+      });
+    }
+    const singleBlog = await Blog.findOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: singleBlog,
+      message: "deleted blog",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
@@ -81,6 +129,19 @@ export const fetchSingleBlog = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
   try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "deleted id not found",
+      });
+    }
+    const deletedBlog = await Blog.findByIdAndDelete({ _id: id });
+    return res.status(200).json({
+      success: true,
+      data: deletedBlog,
+      message: "deleted blog",
+    });
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
