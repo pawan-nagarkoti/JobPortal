@@ -23,6 +23,7 @@ import applicantRoutes from "./routes/applicant/applicant.route.js";
 import resumeRoutes from "./routes/applicant/resume.route.js";
 import bookmarkJobs from "./routes/applicant/bookmark.route.js";
 import jobApplicationsRoute from "./routes/applicant/jobApplication.route.js";
+import blogRoutes from "./routes/blog/blog.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
@@ -31,6 +32,7 @@ app.use("/api/applicant", auth, applicantRoutes);
 app.use("/api/resume", auth, resumeRoutes);
 app.use("/api/bookmark-job", auth, bookmarkJobs);
 app.use("/api/job-application", auth, jobApplicationsRoute);
+app.use("/api/blog", blogRoutes);
 
 connectToDB();
 

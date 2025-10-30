@@ -87,3 +87,46 @@ export const APPLICATION_STATUS = {
   REJECTED: "rejected",
   WITHDRAWN: "withdrawn",
 };
+
+// 🏷️ Blog Categories
+export const BLOG_CATEGORIES = {
+  TECHNOLOGY: "technology",
+  BUSINESS: "business",
+  DESIGN: "design",
+  DEVELOPMENT: "development",
+  HEALTH_WELLNESS: "health & wellness",
+  EDUCATION: "education",
+  FINANCE: "finance",
+  LIFESTYLE: "lifestyle",
+  TRAVEL: "travel",
+  FOOD: "food",
+  SCIENCE: "science",
+  ENTERTAINMENT: "entertainment",
+  PRODUCTIVITY: "productivity",
+  CAREER: "career",
+  OTHER: "other",
+};
+
+// 🔖 Blog Tags
+export const BLOG_TAGS = {
+  AI: "ai",
+  STARTUPS: "startups",
+  CODING: "coding",
+  UI_UX: "ui/ux",
+  REMOTE_WORK: "remote work",
+  SELF_IMPROVEMENT: "self improvement",
+  DATA_SCIENCE: "data science",
+  BLOCKCHAIN: "blockchain",
+  CYBERSECURITY: "cybersecurity",
+  WEB_DEVELOPMENT: "web development",
+  MARKETING: "marketing",
+  SEO: "seo",
+  ENTREPRENEURSHIP: "entrepreneurship",
+  INVESTING: "investing",
+  MENTAL_HEALTH: "mental health",
+  FITNESS: "fitness",
+  CREATIVITY: "creativity",
+  DESIGN_THINKING: "design thinking",
+  PERSONAL_GROWTH: "personal growth",
+  INNOVATION: "innovation",
+};
