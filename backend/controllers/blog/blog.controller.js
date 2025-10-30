@@ -86,11 +86,24 @@ export const updateBlog = async (req, res) => {
 
 export const fetchBlogs = async (req, res) => {
   try {
-    const blog = await Blog.find();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const totalItems = await Blog.countDocuments();
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+
+    const blog = await Blog.find().skip(skip).limit(limit);
     if (blog) {
       return res.status(200).json({
         success: true,
         data: blog,
+        page: page,
+        limit: limit,
+        totalPages,
+        previousPage: page > 1,
+        nextPage: page < totalPages,
+        totalItems,
+        currentPageItems: blog.length,
         message: "fetch all blogs",
       });
     }
