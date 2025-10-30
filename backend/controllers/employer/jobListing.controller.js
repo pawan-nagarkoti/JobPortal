@@ -94,62 +94,48 @@ export const addJob = async (req, res) => {
 
 export const fetchJobs = async (req, res) => {
   try {
-    const search = req.query.search;
-    const location = req.query.location;
-    const workType = req.query.workType;
+    const title = req.query.title;
+    const country = req.query.country;
+    const city = req.query.city;
+    const jobType = req.query.jobType;
     const remoteJob = req.query.remoteJob;
-    const industry = req.query.industry;
     const salary = req.query.salary;
 
     let filter = {};
 
-    if (search || location) {
-      const searchContainer = [];
-
-      if (search) {
-        searchContainer.push({
-          $or: [
-            { title: { $regex: search, $options: "i" } },
-            { jobLevel: { $regex: search, $options: "i" } },
-            { workType: { $regex: search, $options: "i" } },
-            { jobType: { $regex: search, $options: "i" } },
-            { tags: { $in: [new RegExp(search, "i")] } },
-          ],
-        });
-      }
-
-      if (location) {
-        searchContainer.push({
-          $or: [
-            { "location.country": { $regex: location, $options: "i" } },
-            { "location.city": { $regex: location, $options: "i" } },
-          ],
-        });
-      }
-
-      // Combine both groups with $and (only if there are conditions)
-      filter = searchContainer.length ? { $and: searchContainer } : {};
+    if (title) {
+      filter.title = title;
     }
-
-    switch (true) {
-      case remoteJob === "yes":
-        filter.jobType = "remote";
-
-      case workType ===
-        (Object.values(WORK_TYPE).includes(workType) ? workType : "null"):
-        filter.workType = workType;
-
-      default:
-        break;
+    if (country) {
+      filter["location.country"] = country;
     }
+    if (city) {
+      filter["location.city"] = city;
+    }
+    if (jobType) {
+      filter.jobType = jobType;
+    }
+    if (remoteJob) {
+      filter.jobType = "remote";
+    }
+    if (salary) {
+      const match = salary.match(
+        /\$?(\d+(?:\.\d+)?)(?:\s*-\s*\$?(\d+(?:\.\d+)?))?/
+      );
+      const minimum = parseFloat(match[1]);
+      const maximum = parseFloat(match[2]);
 
-    console.log(filter);
+      filter = {
+        "salary.minSalary": { $gte: minimum },
+        "salary.maxSalary": { $lte: maximum },
+      };
+    }
 
     //pagination
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const totalItems = await JobListing.countDocuments(filter);
+    const totalItems = await JobListing.countDocuments(filter); // filter with count
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
     const allJobs = await JobListing.find(filter).skip(skip).limit(limit);
