@@ -86,13 +86,28 @@ export const updateBlog = async (req, res) => {
 
 export const fetchBlogs = async (req, res) => {
   try {
+    const title = req.query.title || "";
+    const tag = req.query.tag || [];
+    const category = req.query.category || [];
+    let filter = {};
+
+    if (title) {
+      filter.title = { $regex: title, $options: "i" };
+    }
+    if (tag) {
+      filter.tags = { $in: tag.split(",") };
+    }
+    if (category) {
+      filter.categories = { $in: category.split(",") };
+    }
+
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const totalItems = await Blog.countDocuments();
+    const totalItems = await Blog.countDocuments(filter);
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const blog = await Blog.find().skip(skip).limit(limit);
+    const blog = await Blog.find(filter).skip(skip).limit(limit);
     if (blog) {
       return res.status(200).json({
         success: true,
