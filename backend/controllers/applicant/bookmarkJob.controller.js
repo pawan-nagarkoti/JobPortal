@@ -37,7 +37,7 @@ export const addBookmark = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -75,7 +75,7 @@ export const fetchBookmark = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -98,7 +98,7 @@ export const fetchSingleBookmark = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -116,7 +116,7 @@ export const deleteBookmark = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -133,7 +133,7 @@ export const deleteAllBookmark = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

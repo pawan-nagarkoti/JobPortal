@@ -52,7 +52,7 @@ export const updateBlog = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -63,7 +63,7 @@ export const fetchBlogs = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -74,7 +74,7 @@ export const fetchSingleBlog = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -85,7 +85,7 @@ export const deleteBlog = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -101,7 +101,7 @@ export const deleteAllBlogs = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

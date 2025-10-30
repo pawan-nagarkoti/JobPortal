@@ -42,7 +42,7 @@ export const addResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -88,7 +88,7 @@ export const updateResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -104,7 +104,7 @@ export const fetchResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -122,7 +122,7 @@ export const fetchSingleResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -139,7 +139,7 @@ export const deleteResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -155,7 +155,7 @@ export const deleteAllResume = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

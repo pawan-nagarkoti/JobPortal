@@ -47,7 +47,7 @@ export const addJob = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -103,7 +103,7 @@ export const updateJob = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -133,7 +133,7 @@ export const fetchAllJobs = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -151,7 +151,7 @@ export const fetchSingleJob = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -169,7 +169,7 @@ export const deleteJob = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -186,7 +186,7 @@ export const deleteAllJobs = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

@@ -96,7 +96,7 @@ export const signUp = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -172,7 +172,7 @@ export const signIn = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -192,7 +192,7 @@ export const logout = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -233,7 +233,7 @@ export const refreshToken = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -287,7 +287,7 @@ export const emailVerified = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -344,7 +344,7 @@ export const forgotPassword = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -392,7 +392,7 @@ export const resetPassword = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -408,7 +408,7 @@ export const deleteAll = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

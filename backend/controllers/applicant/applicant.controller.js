@@ -63,7 +63,7 @@ export const addApplicant = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -112,7 +112,7 @@ export const fetchApplicant = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: "false",
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -148,7 +148,7 @@ export const deleteApplicant = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -165,7 +165,7 @@ export const deleteAllApplicant = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -225,7 +225,7 @@ export const updateApplicant = async (req, res) => {
     console.log(e.message);
     return res.status(500).json({
       success: false,
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };

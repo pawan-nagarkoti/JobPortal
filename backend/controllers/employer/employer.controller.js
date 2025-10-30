@@ -46,7 +46,7 @@ export const addEmployer = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -96,7 +96,7 @@ export const fetchEmployers = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -191,7 +191,7 @@ export const updateEmployer = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -221,7 +221,7 @@ export const deleteEmployer = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -253,7 +253,7 @@ export const fetchSingleEmployer = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
@@ -268,7 +268,7 @@ export const deleteAllEmployer = async (req, res) => {
   } catch (e) {
     console.log(e.message);
     return res.status(500).json({
-      message: "server error",
+      message: `server error ${e.message}`,
     });
   }
 };
