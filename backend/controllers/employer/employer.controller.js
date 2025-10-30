@@ -53,13 +53,33 @@ export const addEmployer = async (req, res) => {
 
 export const fetchEmployers = async (req, res) => {
   try {
+    const name = req.query.name;
+    const country = req.query.country;
+    const city = req.query.city;
+
+    let filter = {};
+
+    if (name) {
+      filter.name = { $regex: name, $options: "i" };
+    }
+
+    if (country) {
+      filter["contact.location.country"] = country;
+    }
+
+    if (city) {
+      filter["contact.location.city"] = city;
+    }
+
+    console.log(filter);
+
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const totalItems = await Employer.countDocuments();
+    const totalItems = await Employer.countDocuments(filter);
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const getEmployers = await Employer.find().skip(skip).limit(limit);
+    const getEmployers = await Employer.find(filter).skip(skip).limit(limit);
 
     return res.status(200).json({
       success: true,

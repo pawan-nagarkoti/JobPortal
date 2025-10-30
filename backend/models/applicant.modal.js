@@ -10,6 +10,7 @@ const applicantSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    name: String,
     profilePicture: {
       type: String,
       required: true,

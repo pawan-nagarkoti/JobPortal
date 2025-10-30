@@ -104,7 +104,7 @@ export const fetchJobs = async (req, res) => {
     let filter = {};
 
     if (title) {
-      filter.title = title;
+      filter.title = { $regex: title, $options: "i" };
     }
     if (country) {
       filter["location.country"] = country;

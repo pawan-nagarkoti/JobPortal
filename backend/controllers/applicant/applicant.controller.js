@@ -2,6 +2,7 @@ import qs from "qs";
 import { uploadOnCloudinary } from "../../lib/cloudinary.js";
 import { Applicant } from "../../models/applicant.modal.js";
 import { User } from "../../models/user.modal.js";
+import { GENDER } from "../../constant.js";
 
 export const addApplicant = async (req, res) => {
   try {
@@ -11,6 +12,7 @@ export const addApplicant = async (req, res) => {
     );
 
     const applicantObj = {
+      name: data.name,
       userId: data.userId,
       profilePicture: profileImage.secure_url,
       biography: data.biography,
@@ -68,13 +70,31 @@ export const addApplicant = async (req, res) => {
 
 export const fetchApplicant = async (req, res) => {
   try {
+    const applicantName = req.query.name;
+    const location = req.query.location;
+    const gender = req.query.gender;
+
+    const filter = {};
+
+    if (applicantName) {
+      filter.name = { $regex: applicantName, $options: "i" };
+    }
+
+    if (location) {
+      filter.location = { $regex: location, $options: "i" };
+    }
+
+    if (gender) {
+      filter.gender = Object.values(GENDER).includes(gender) ? gender : null;
+    }
+
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const totalItems = await Applicant.countDocuments();
+    const totalItems = await Applicant.countDocuments(filter);
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const applicants = await Applicant.find().skip(skip).limit(limit);
+    const applicants = await Applicant.find(filter).skip(skip).limit(limit);
 
     return res.status(200).json({
       success: true,
@@ -164,6 +184,7 @@ export const updateApplicant = async (req, res) => {
     }
 
     const applicantObj = {
+      name: data.name,
       userId: data.userId,
       profilePicture: profileImage,
       biography: data.biography,
