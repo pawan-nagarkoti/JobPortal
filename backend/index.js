@@ -25,6 +25,7 @@ import bookmarkJobs from "./routes/applicant/bookmark.route.js";
 import jobApplicationsRoute from "./routes/applicant/jobApplication.route.js";
 import blogRoutes from "./routes/blog/blog.route.js";
 import getInTouch from "./routes/other/getInTouch.route.js";
+import globalSearchRoute from "./routes/other/globalSearch.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
@@ -35,6 +36,7 @@ app.use("/api/bookmark-job", auth, bookmarkJobs);
 app.use("/api/job-application", auth, jobApplicationsRoute);
 app.use("/api/blog", blogRoutes);
 app.use("/api/contact", getInTouch);
+app.use("/api/global", globalSearchRoute);
 
 connectToDB();
 
