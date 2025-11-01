@@ -3,6 +3,8 @@ import FeaturedJobs from "../../components/employer/featuredJobs";
 import HeroSection from "../../components/other/heroSection";
 import StatsSection from "../../components/other/statsSection";
 import CategoriesSection from "../../components/employer/categoriesSection";
+import TopCompanies from "../../components/employer/topCompanies";
+import CTACards from "../../components/other/CTACards";
 
 export default function Home() {
   const [jobs, setJobs] = useState([
@@ -66,12 +68,71 @@ export default function Home() {
     console.log("Searching for:", searchTerm, "in", location);
     // Implement search functionality here
   };
+
+  const companies = [
+    {
+      id: 1,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+    {
+      id: 2,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+    {
+      id: 3,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+    {
+      id: 4,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+    {
+      id: 5,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+    {
+      id: 6,
+      name: "Dribbble",
+      logo: "https://cdn.dribbble.com/assets/logo-small-2x-9fe74d2ad7b25fba0f50168523c15fda4c35534f9ea0b1011179275383035439.png",
+      location: "Dhaka, Bangladesh",
+      isFeatured: true,
+      openPositions: 3,
+      bgColor: "bg-pink-500",
+    },
+  ];
   return (
     <>
       <HeroSection onSearch={handleSearch} />
       <StatsSection />
       <FeaturedJobs jobs={jobs} />
+      <TopCompanies companies={companies} />
       <CategoriesSection />
+      <CTACards />
     </>
   );
 }
