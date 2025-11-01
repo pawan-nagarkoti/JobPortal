@@ -1,17 +1,17 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { Button } from "@/components/ui/button";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/other/home";
+import Layout from "./pages/other/layout";
+import Employer from "./pages/employer/employer";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-[red]">Hello world!</h1>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="/emp" element={<Employer />} />
+        </Route>
+      </Routes>
     </>
   );
 }
