@@ -7,6 +7,7 @@ import SignIn from "./pages/auth/SignIn";
 import ForgetPassword from "./pages/auth/ForgetPassword";
 import CreateAccount from "./pages/auth/CreateAccount";
 import ResetPassword from "./pages/auth/ResetPassword";
+import JobPage from "./pages/employer/job";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="emp" element={<Employer />} />
+          <Route path="/find-job" element={<JobPage />} />
         </Route>
 
         <Route path="/auth">
