@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Header from "../../components/other/header";
-import Footer from "../../components/other/footer";
-import GlobalSearchBar from "../../components/other/globalSearchBar";
+import Header from "../components/other/Header";
+import Footer from "../components/other/Footer";
+import GlobalSearchBar from "../components/other/GlobalSearchBar";
 
 export default function Layout() {
   return (

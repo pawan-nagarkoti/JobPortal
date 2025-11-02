@@ -1,4 +1,4 @@
-import CompanyCard from "./companyCard";
+import CompanyCard from "./CompanyCard";
 
 const TopCompanies = ({ companies = [] }) => {
   return (

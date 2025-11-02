@@ -1,11 +1,11 @@
 import { useState } from "react";
-import FeaturedJobs from "../../components/employer/featuredJobs";
-import HeroSection from "../../components/other/heroSection";
-import StatsSection from "../../components/other/statsSection";
-import CategoriesSection from "../../components/employer/categoriesSection";
-import TopCompanies from "../../components/employer/topCompanies";
-import CTACards from "../../components/other/CTACards";
-import { jobsObj } from "../../lib/constant";
+import HeroSection from "../components/other/HeroSection";
+import StatsSection from "../components/other/StatsSection";
+import FeaturedJobs from "../components/applicant/FeaturedJobs";
+import TopCompanies from "../components/applicant/TopCompanies";
+import CategoriesSection from "../components/applicant/CategoriesSection";
+import CTACards from "../components/other/CTACards";
+import { jobsObj } from "../lib/constant";
 
 export default function Home() {
   const [jobs] = useState(jobsObj);

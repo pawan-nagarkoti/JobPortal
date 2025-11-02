@@ -9,7 +9,7 @@ import {
 
 import React from "react";
 
-export default function SheetCompoent() {
+export default function SheetContainer() {
   return (
     <Sheet>
       <SheetTrigger>Open</SheetTrigger>

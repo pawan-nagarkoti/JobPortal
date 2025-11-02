@@ -1,8 +1,9 @@
-import React from "react";
-import SearchBar from "../../components/other/searchBar";
+import JobCard from "../../components/applicant/JobCard";
 import { BreadcrumbSection } from "../../components/other/Breadcrumb";
+import SearchBar from "../../components/other/SearchBar";
+import { jobsObj } from "../../lib/constant";
 
-export default function Employer() {
+export default function JobPage() {
   return (
     <>
       <BreadcrumbSection />
@@ -12,7 +13,9 @@ export default function Employer() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <h1>employer grid</h1>
+          {jobsObj.map((job, index) => (
+            <JobCard key={index} job={job} />
+          ))}
         </div>
       </div>
     </>

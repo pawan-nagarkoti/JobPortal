@@ -1,15 +1,16 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/other/home";
-import Layout from "./pages/other/layout";
-import Employer from "./pages/employer/employer";
+import Home from "./pages/Home";
+import Layout from "./pages/Layout";
+import Employer from "./pages/applicant/Employer";
 import EmailVerification from "./pages/auth/EmailVerification";
 import SignIn from "./pages/auth/SignIn";
 import ForgetPassword from "./pages/auth/ForgetPassword";
 import CreateAccount from "./pages/auth/CreateAccount";
 import ResetPassword from "./pages/auth/ResetPassword";
-import JobPage from "./pages/employer/job";
-import JobDetailPage from "./pages/employer/jobDetailPage";
-import EmployerDetailPage from "./pages/employer/employerDetailPage";
+import JobPage from "./pages/applicant/JobPage";
+import JobDetailPage from "./pages/applicant/JobDetailPage";
+import EmployerDetailPage from "./pages/applicant/EmployerDetailPage";
+import CandidatesList from "./pages/employer/CandidateList";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="job-detail/1" element={<JobDetailPage />} />
           <Route path="find-employer" element={<Employer />} />
           <Route path="employer-detail/1" element={<EmployerDetailPage />} />
+          <Route path="find-candidate" element={<CandidatesList />} />
         </Route>
 
         <Route path="/auth">
