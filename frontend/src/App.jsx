@@ -24,6 +24,7 @@ import AboutUs from "./pages/Aboutus";
 import CTApage from "./pages/CTApage";
 import NotFoundPage from "./pages/NotFoundpage";
 import UnderConstructionPage from "./pages/UnderConstructionPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="blog-detail/1" element={<BlogDetailPage />} />
           <Route path="about-us" element={<AboutUs />} />
           <Route path="contact-us" element={<CTApage />} />
+          <Route path="privacy" element={<TermsAndConditionsPage />} />
         </Route>
 
         <Route path="/auth">
