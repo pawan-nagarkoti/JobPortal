@@ -13,6 +13,7 @@ import EmployerDetailPage from "./pages/applicant/EmployerDetailPage";
 import CandidatesList from "./pages/employer/CandidateList";
 import Dashboard from "./pages/applicant/dashboard/dashboard";
 import Setting from "./pages/applicant/dashboard/Setting";
+import EmployerProfile from "./pages/employer/EmployerProfile";
 
 function App() {
   return (
@@ -35,6 +36,13 @@ function App() {
           <Route path="forget-password" element={<ForgetPassword />} />
           <Route path="create-account" element={<CreateAccount />} />
           <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
+
+        <Route>
+          <Route
+            path="/create/employer-profile"
+            element={<EmployerProfile />}
+          />
         </Route>
       </Routes>
     </>
