@@ -17,6 +17,7 @@ import EmployerProfile from "./pages/employer/EmployerProfile";
 import EmployerDashbord from "./pages/employer/dashboard/Dashboard";
 import PostJobForm from "./pages/employer/dashboard/PostJobForm";
 import EmployerSetting from "./pages/employer/dashboard/setting";
+import AppliedCandidateList from "./pages/employer/dashboard/AppliedCandidateList";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
           <Route path="employer-dashboard" element={<EmployerDashbord />} />
           <Route path="employer-job-post" element={<PostJobForm />} />
           <Route path="employer-setting" element={<EmployerSetting />} />
+          <Route
+            path="employer/jobname/applicant-list"
+            element={<AppliedCandidateList />}
+          />
         </Route>
 
         <Route path="/auth">
