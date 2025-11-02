@@ -11,6 +11,8 @@ import JobPage from "./pages/applicant/JobPage";
 import JobDetailPage from "./pages/applicant/JobDetailPage";
 import EmployerDetailPage from "./pages/applicant/EmployerDetailPage";
 import CandidatesList from "./pages/employer/CandidateList";
+import Dashboard from "./pages/applicant/dashboard/dashboard";
+import Setting from "./pages/applicant/dashboard/Setting";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="find-employer" element={<Employer />} />
           <Route path="employer-detail/1" element={<EmployerDetailPage />} />
           <Route path="find-candidate" element={<CandidatesList />} />
+          <Route path="employer-dashboard" element={<Dashboard />} />
+          <Route path="employer-dashboard/setting" element={<Setting />} />
         </Route>
 
         <Route path="/auth">
