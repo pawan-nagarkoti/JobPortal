@@ -9,6 +9,7 @@ import CreateAccount from "./pages/auth/CreateAccount";
 import ResetPassword from "./pages/auth/ResetPassword";
 import JobPage from "./pages/employer/job";
 import JobDetailPage from "./pages/employer/jobDetailPage";
+import EmployerDetailPage from "./pages/employer/employerDetailPage";
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="emp" element={<Employer />} />
           <Route path="find-job" element={<JobPage />} />
           <Route path="job-detail/1" element={<JobDetailPage />} />
+          <Route path="find-employer" element={<Employer />} />
+          <Route path="employer-detail/1" element={<EmployerDetailPage />} />
         </Route>
 
         <Route path="/auth">
