@@ -18,6 +18,8 @@ import EmployerDashbord from "./pages/employer/dashboard/Dashboard";
 import PostJobForm from "./pages/employer/dashboard/PostJobForm";
 import EmployerSetting from "./pages/employer/dashboard/setting";
 import AppliedCandidateList from "./pages/employer/dashboard/AppliedCandidateList";
+import BlogPage from "./pages/blog/blogPage";
+import BlogDetailPage from "./pages/blog/BlogDetailPage";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
             path="employer/jobname/applicant-list"
             element={<AppliedCandidateList />}
           />
+          <Route path="blog" element={<BlogPage />} />
+          <Route path="blog-detail/1" element={<BlogDetailPage />} />
         </Route>
 
         <Route path="/auth">
