@@ -20,6 +20,10 @@ import EmployerSetting from "./pages/employer/dashboard/setting";
 import AppliedCandidateList from "./pages/employer/dashboard/AppliedCandidateList";
 import BlogPage from "./pages/blog/blogPage";
 import BlogDetailPage from "./pages/blog/BlogDetailPage";
+import AboutUs from "./pages/Aboutus";
+import CTApage from "./pages/CTApage";
+import NotFoundPage from "./pages/NotFoundpage";
+import UnderConstructionPage from "./pages/UnderConstructionPage";
 
 function App() {
   return (
@@ -43,6 +47,8 @@ function App() {
           />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog-detail/1" element={<BlogDetailPage />} />
+          <Route path="about-us" element={<AboutUs />} />
+          <Route path="contact-us" element={<CTApage />} />
         </Route>
 
         <Route path="/auth">
@@ -59,6 +65,9 @@ function App() {
             element={<EmployerProfile />}
           />
         </Route>
+
+        <Route path="no-found" element={<NotFoundPage />} />
+        <Route path="under-construction" element={<UnderConstructionPage />} />
       </Routes>
     </>
   );
