@@ -1,4 +1,4 @@
-import SheetCompoent from "./sheetCompoent";
+import SheetCompoent from "../common/sheetCompoent";
 
 export default function SearchBar() {
   return (
