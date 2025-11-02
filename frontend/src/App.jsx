@@ -14,6 +14,9 @@ import CandidatesList from "./pages/employer/CandidateList";
 import Dashboard from "./pages/applicant/dashboard/dashboard";
 import Setting from "./pages/applicant/dashboard/Setting";
 import EmployerProfile from "./pages/employer/EmployerProfile";
+import EmployerDashbord from "./pages/employer/dashboard/Dashboard";
+import PostJobForm from "./pages/employer/dashboard/PostJobForm";
+import EmployerSetting from "./pages/employer/dashboard/setting";
 
 function App() {
   return (
@@ -26,8 +29,11 @@ function App() {
           <Route path="find-employer" element={<Employer />} />
           <Route path="employer-detail/1" element={<EmployerDetailPage />} />
           <Route path="find-candidate" element={<CandidatesList />} />
-          <Route path="employer-dashboard" element={<Dashboard />} />
-          <Route path="employer-dashboard/setting" element={<Setting />} />
+          <Route path="applicant-dashboard" element={<Dashboard />} />
+          <Route path="applicant-dashboard/setting" element={<Setting />} />
+          <Route path="employer-dashboard" element={<EmployerDashbord />} />
+          <Route path="employer-job-post" element={<PostJobForm />} />
+          <Route path="employer-setting" element={<EmployerSetting />} />
         </Route>
 
         <Route path="/auth">
