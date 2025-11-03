@@ -49,7 +49,10 @@ const CreateAccount = () => {
       {/* Left Side - Create Account Form */}
       <div className="w-full lg:w-1/2 bg-white flex flex-col">
         {/* Logo */}
-        <div className="p-8">
+        <div
+          className="p-4 cursor-pointer max-w-min"
+          onClick={() => navigate("/")}
+        >
           <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg

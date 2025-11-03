@@ -1,8 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { showError, showSuccess } from "../../lib/toast";
+import { _post } from "../../lib/api";
+import Loader from "../../components/other/Loader";
+import { addCookie } from "../../lib/cookies";
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTogglePass, setIsTogglePass] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const loginAccount = await _post("api/auth/sign-in", {
+        email,
+        password,
+      });
+      if (loginAccount.data.success) {
+        showSuccess("login successfully");
+        addCookie("accessToken", loginAccount.data.accessToken);
+        addCookie("loginUserInfo", loginAccount.data.data);
+        navigate("/");
+      }
+    } catch (e) {
+      console.log(e.message);
+      showError(e.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Sign In Form */}
@@ -48,12 +79,13 @@ const SignIn = () => {
               </span>
             </p>
 
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleLogin}>
               {/* Email Input */}
               <div>
                 <input
                   type="email"
                   placeholder="Email address"
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -61,33 +93,52 @@ const SignIn = () => {
               {/* Password Input */}
               <div className="relative">
                 <input
-                  type="password"
+                  type={isTogglePass ? "text" : "password"}
                   placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  onClick={() => setIsTogglePass((t) => !t)}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
+                  {isTogglePass ? (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 3l18 18M10.73 5.08A9.7 9.7 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.77 9.77 0 01-4.144 4.881M6.94 6.94A9.75 9.75 0 002.458 12 9.77 9.77 0 006.6 16.88M9.88 9.88a3 3 0 104.24 4.24"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
 
@@ -113,22 +164,9 @@ const SignIn = () => {
               {/* Sign In Button */}
               <button
                 type="submit"
-                className="w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                className="cursor-pointer w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
               >
-                Sign In
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                {isLoading ? <Loader /> : "Sign In"}
               </button>
 
               {/* Divider */}
