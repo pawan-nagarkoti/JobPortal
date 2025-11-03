@@ -158,7 +158,7 @@ const ForgetPassword = () => {
         }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 py-16">

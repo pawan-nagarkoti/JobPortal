@@ -1,6 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { _post } from "../../lib/api";
+import { showError, showSuccess } from "../../lib/toast";
+import Loader from "../../components/other/Loader";
 
 const CreateAccount = () => {
+  const navigate = useNavigate();
+  const [accountType, setAccountType] = useState("applicant");
+  const [fullname, setFullname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [togglePass, setTogglePass] = useState(false);
+  const [toggleConfirmPass, setToggleConfirmPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // create new account
+  const handleCreateAccountForm = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const createAccountObj = {
+      role: accountType,
+      name: fullname,
+      username,
+      email,
+      password,
+      confirmPassword,
+    };
+
+    try {
+      const addAccount = await _post("api/auth/sign-up", createAccountObj);
+      if (addAccount.data.success) {
+        showSuccess("account created successfully");
+        navigate("/auth/sign-in");
+      }
+    } catch (e) {
+      console.log(e.message);
+      showError(e.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Create Account Form */}
@@ -35,62 +78,78 @@ const CreateAccount = () => {
             </h1>
             <p className="text-gray-600 mb-8">
               Already have account?{" "}
-              <a
-                href="#"
-                className="text-blue-600 font-medium hover:text-blue-700"
+              <span
+                className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer"
+                onClick={() => navigate("/auth/sign-in")}
               >
                 Log In
-              </a>
+              </span>
             </p>
 
             {/* Account Type Toggle */}
-            <div className="mb-6">
-              <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">
-                Create Account As A
-              </p>
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  type="button"
-                  className="flex-1 flex items-center justify-center py-2.5 px-4 bg-white text-gray-900 rounded-md shadow-sm transition-all"
-                >
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <form className="space-y-4" onSubmit={handleCreateAccountForm}>
+              <div className="mb-6">
+                <p className="text-xs text-gray-500 uppercase tracking-wide mb-3">
+                  Create Account As A
+                </p>
+                <div className="flex gap-5 bg-gray-100 rounded-lg p-1">
+                  <button
+                    type="button"
+                    onClick={() => setAccountType("applicant")}
+                    className="flex-1 flex items-center justify-center py-2.5 px-4  text-gray-900 rounded-md shadow-sm transition-all"
+                    style={{
+                      background:
+                        accountType === "applicant"
+                          ? "oklch(54.6% 0.245 262.881)"
+                          : "white",
+                      color: accountType === "applicant" ? "white" : "black",
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-                  <span className="font-medium text-sm">Candidate</span>
-                </button>
-                <button
-                  type="button"
-                  className="flex-1 flex items-center justify-center py-2.5 px-4 bg-slate-900 text-white rounded-md transition-all"
-                >
-                  <svg
-                    className="w-5 h-5 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                    <span className="font-medium text-sm">Candidate</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAccountType("employer")}
+                    className="flex-1 flex items-center justify-center py-2.5 px-4 rounded-md transition-all"
+                    style={{
+                      background:
+                        accountType === "employer"
+                          ? "oklch(54.6% 0.245 262.881)"
+                          : "white",
+                      color: accountType === "employer" ? "white" : "black",
+                    }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    />
-                  </svg>
-                  <span className="font-medium text-sm">Employers</span>
-                </button>
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                      />
+                    </svg>
+                    <span className="font-medium text-sm">Employers</span>
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <form className="space-y-4">
               {/* Full Name & Username Row */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -98,6 +157,7 @@ const CreateAccount = () => {
                     type="text"
                     placeholder="Full Name"
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={(e) => setFullname(e.target.value)}
                   />
                 </div>
                 <div>
@@ -105,6 +165,7 @@ const CreateAccount = () => {
                     type="text"
                     placeholder="Username"
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
               </div>
@@ -114,6 +175,8 @@ const CreateAccount = () => {
                 <input
                   type="email"
                   placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -121,66 +184,106 @@ const CreateAccount = () => {
               {/* Password Input */}
               <div className="relative">
                 <input
-                  type="password"
+                  type={togglePass ? "text" : "password"}
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  onClick={() => setTogglePass((t) => !t)}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
+                  {togglePass ? (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 3l18 18M10.73 5.08A9.7 9.7 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.77 9.77 0 01-4.144 4.881M6.94 6.94A9.75 9.75 0 002.458 12 9.77 9.77 0 006.6 16.88M9.88 9.88a3 3 0 104.24 4.24"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
 
               {/* Confirm Password Input */}
               <div className="relative">
                 <input
-                  type="password"
+                  type={toggleConfirmPass ? "text" : "password"}
                   placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+                  onClick={() => setToggleConfirmPass((t) => !t)}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
+                  {toggleConfirmPass ? (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 3l18 18M10.73 5.08A9.7 9.7 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.77 9.77 0 01-4.144 4.881M6.94 6.94A9.75 9.75 0 002.458 12 9.77 9.77 0 006.6 16.88M9.88 9.88a3 3 0 104.24 4.24"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
 
@@ -192,12 +295,12 @@ const CreateAccount = () => {
                 />
                 <label className="ml-2 text-sm text-gray-600">
                   I've read and agree with your{" "}
-                  <a
-                    href="#"
-                    className="text-blue-600 font-medium hover:text-blue-700"
+                  <span
+                    onClick={() => navigate("/privacy")}
+                    className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer"
                   >
                     Terms of Services
-                  </a>
+                  </span>
                 </label>
               </div>
 
@@ -206,20 +309,7 @@ const CreateAccount = () => {
                 type="submit"
                 className="w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
               >
-                Create Account
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                {isLoading ? <Loader /> : "Create Account"}
               </button>
 
               {/* Divider */}
@@ -286,7 +376,7 @@ const CreateAccount = () => {
 
       {/* Right Side - Hero Section */}
       <div
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 to-slate-900 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2 bg-linear-to-br from-slate-700 to-slate-900 relative overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(51, 65, 85, 0.95), rgba(15, 23, 42, 0.95)), url(https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&h=1600&fit=crop)",
@@ -295,7 +385,7 @@ const CreateAccount = () => {
         }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 py-16">

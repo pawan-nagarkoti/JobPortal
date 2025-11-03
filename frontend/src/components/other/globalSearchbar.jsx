@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const GlobalSearchBar = () => {
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
@@ -9,6 +10,7 @@ const GlobalSearchBar = () => {
   });
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const countries = [
     { name: "India", flag: "🇮🇳", code: "IN" },
@@ -136,7 +138,10 @@ const GlobalSearchBar = () => {
 
           {/* Action Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+            <button
+              className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+              onClick={() => navigate("/auth/sign-in")}
+            >
               Sign In
             </button>
             <button className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">

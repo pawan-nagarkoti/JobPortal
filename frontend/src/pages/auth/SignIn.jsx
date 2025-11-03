@@ -1,12 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Sign In Form */}
       <div className="w-full lg:w-1/2 bg-white flex flex-col">
         {/* Logo */}
-        <div className="p-8">
+        <div
+          className="p-4 cursor-pointer max-w-min"
+          onClick={() => navigate("/")}
+        >
           <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg
@@ -35,12 +40,12 @@ const SignIn = () => {
             </h1>
             <p className="text-gray-600 mb-8">
               Don't have account{" "}
-              <a
-                href="#"
-                className="text-blue-600 font-medium hover:text-blue-700"
+              <span
+                className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer"
+                onClick={() => navigate("/auth/create-account")}
               >
                 Create Account
-              </a>
+              </span>
             </p>
 
             <form className="space-y-5">
@@ -190,7 +195,7 @@ const SignIn = () => {
 
       {/* Right Side - Hero Section */}
       <div
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 to-slate-900 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2 bg-linear-to-br from-slate-700 to-slate-900 relative overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(51, 65, 85, 0.95), rgba(15, 23, 42, 0.95)), url(https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&h=1600&fit=crop)",
@@ -199,7 +204,7 @@ const SignIn = () => {
         }}
       >
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-slate-900/50 to-slate-900/90"></div>
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center items-center text-center px-12 py-16">

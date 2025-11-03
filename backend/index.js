@@ -8,7 +8,14 @@ import bodyParser from "body-parser";
 const app = express();
 
 // middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN, // don't add * here because we are using cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse form data
 app.use(express.json());

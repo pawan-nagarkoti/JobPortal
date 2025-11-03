@@ -7,18 +7,62 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.local
+*.tmp
+
+# Optional cache folders
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# Testing
+coverage/
+jest-cache/
+jest-test-results.json
+
+# Typescript
+*.tsbuildinfo
+
+# Storybook
+storybook-static/
+
+# Firebase / Vercel / Netlify
+.firebase/
+.vercel/
+.netlify/
+
+# Optional lock files (uncomment if you don’t want them in repo)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
