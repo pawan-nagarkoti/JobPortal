@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../lib/cookies";
+import { BellRing } from "lucide-react";
 
 const GlobalSearchBar = () => {
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
@@ -137,17 +139,28 @@ const GlobalSearchBar = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button
-              className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-              onClick={() => navigate("/auth/sign-in")}
-            >
-              Sign In
-            </button>
-            <button className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
-              Post A Jobs
-            </button>
-          </div>
+          {getCookie("accessToken") ? (
+            <div className="flex gap-5 items-center">
+              <BellRing />
+              <img
+                src="https://avatar.iran.liara.run/public/40"
+                alt=""
+                className="w-10 h-10"
+              />
+            </div>
+          ) : (
+            <div className="hidden md:flex items-center space-x-4">
+              <button
+                className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                onClick={() => navigate("/auth/sign-in")}
+              >
+                Sign In
+              </button>
+              <button className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors">
+                Post A Jobs
+              </button>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">

@@ -153,12 +153,12 @@ const SignIn = () => {
                     Remember Me
                   </span>
                 </label>
-                <a
-                  href="#"
-                  className="text-sm text-blue-600 font-medium hover:text-blue-700"
+                <p
+                  onClick={() => navigate("/auth/forget-password")}
+                  className="cursor-pointer text-sm text-blue-600 font-medium hover:text-blue-700"
                 >
                   Forget password
-                </a>
+                </p>
               </div>
 
               {/* Sign In Button */}
