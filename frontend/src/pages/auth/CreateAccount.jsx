@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { _post } from "../../lib/api";
 import { showError, showSuccess } from "../../lib/toast";
 import Loader from "../../components/other/Loader";
+import useUI from "../../context/UIcontext";
+import { addCookie } from "../../lib/cookies";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
@@ -33,8 +35,11 @@ const CreateAccount = () => {
     try {
       const addAccount = await _post("api/auth/sign-up", createAccountObj);
       if (addAccount.data.success) {
-        showSuccess("account created successfully");
-        navigate("/auth/sign-in");
+        addCookie("verifyEmailOtp", addAccount.data.data.email);
+        showSuccess(
+          "We've sent an OTP to your registered email address. Please verify your account."
+        );
+        navigate("/auth/verify-email");
       }
     } catch (e) {
       console.log(e.message);

@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useUI from "../../context/UIcontext";
+import { deleteCookie, getCookie } from "../../lib/cookies";
+import { _post } from "../../lib/api";
+import { showError, showSuccess } from "../../lib/toast";
 
 const EmailVerification = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const email = "emailaddress@gmail.com"; // This should come from props or context
+  const navigate = useNavigate();
+  const email = getCookie("verifyEmailOtp");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,15 +22,20 @@ const EmailVerification = () => {
     }
 
     setIsLoading(true);
-
-    // Simulate API call
     try {
-      // Replace with your actual verification API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Verifying code:", verificationCode);
-      // Handle success - redirect to dashboard or next step
+      const isEmailVerified = await _post("api/auth/email-verify", {
+        email,
+        otp: verificationCode,
+      });
+
+      if (isEmailVerified?.data?.success) {
+        deleteCookie("verifyEmailOtp");
+        showSuccess("Email verified and account created successfully.");
+        navigate("/auth/sign-in");
+      }
+      // }
     } catch (err) {
-      setError("Invalid verification code. Please try again.");
+      showError(err.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -48,7 +59,10 @@ const EmailVerification = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12">
       {/* Logo */}
-      <div className="mb-12">
+      <div
+        className="p-4 cursor-pointer max-w-min "
+        onClick={() => navigate("/")}
+      >
         <div className="flex items-center justify-center space-x-2">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
             <svg

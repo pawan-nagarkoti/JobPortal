@@ -1,12 +1,16 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Forget Password Form */}
       <div className="w-full lg:w-1/2 bg-white flex flex-col">
         {/* Logo */}
-        <div className="p-8">
+        <div
+          className="p-4 cursor-pointer max-w-min "
+          onClick={() => navigate("/")}
+        >
           <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
               <svg
@@ -34,24 +38,24 @@ const ForgetPassword = () => {
               Forget Password
             </h1>
 
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600 mb-2 ">
               Go back to{" "}
-              <a
-                href="#"
-                className="text-blue-600 font-medium hover:text-blue-700"
+              <span
+                onClick={() => navigate("/auth/sign-in")}
+                className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer"
               >
                 Sign In
-              </a>
+              </span>
             </p>
 
             <p className="text-gray-600 mb-8">
               Don't have account{" "}
-              <a
-                href="#"
-                className="text-blue-600 font-medium hover:text-blue-700"
+              <span
+                onClick={() => navigate("/auth/create-account")}
+                className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer"
               >
                 Create Account
-              </a>
+              </span>
             </p>
 
             <form className="space-y-5">

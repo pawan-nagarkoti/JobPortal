@@ -55,9 +55,9 @@ function App() {
 
         <Route path="/auth">
           <Route path="sign-in" element={<SignIn />} />
+          <Route path="create-account" element={<CreateAccount />} />
           <Route path="verify-email" element={<EmailVerification />} />
           <Route path="forget-password" element={<ForgetPassword />} />
-          <Route path="create-account" element={<CreateAccount />} />
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
