@@ -320,7 +320,7 @@ export const forgotPassword = async (req, res) => {
 
     const resetLink = `${
       process.env.CLIENT_ORIGIN
-    }/reset-password?token=${encodeURIComponent(rawToken)}`; // reset token url
+    }/auth/reset-password?token=${encodeURIComponent(rawToken)}`; // reset token url
 
     // send reset url over the mail
     const htmlContent = await resetPasswordTempate({

@@ -1,7 +1,33 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { _post } from "../../lib/api";
+import { showError, showSuccess } from "../../lib/toast";
+import Loader from "../../components/other/Loader";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const isResetPasswordResponse = await _post("api/auth/forgot-password", {
+        email,
+      });
+      if (isResetPasswordResponse.data.success) {
+        showSuccess(
+          "We’ve sent a password reset link to your registered email. Please check your inbox and follow the link to reset your password."
+        );
+      }
+    } catch (e) {
+      showError(e.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       {/* Left Side - Forget Password Form */}
@@ -65,6 +91,7 @@ const ForgetPassword = () => {
                   type="email"
                   placeholder="Email address"
                   className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -72,21 +99,9 @@ const ForgetPassword = () => {
               <button
                 type="submit"
                 className="w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                onClick={handleResetPassword}
               >
-                Reset Password
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+                {isLoading ? <Loader /> : "Reset Password"}
               </button>
 
               {/* Divider */}
@@ -153,7 +168,7 @@ const ForgetPassword = () => {
 
       {/* Right Side - Hero Section */}
       <div
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-700 to-slate-900 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2  bg-linear-to-br from-slate-700 to-slate-900 relative overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(51, 65, 85, 0.95), rgba(15, 23, 42, 0.95)), url(https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&h=1600&fit=crop)",

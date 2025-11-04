@@ -1,10 +1,48 @@
-import React from "react";
+import { useState } from "react";
+import { showError, showSuccess } from "../../lib/toast";
+import Loader from "../../components/other/Loader";
+import { _post } from "../../lib/api";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const ResetPassword = () => {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState("");
+  const [isToggleNewPass, setIsToggleNewPass] = useState(false);
+  const [isToggleConfirmPass, setIsToggleConfirmPass] = useState(false);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const navigate = useNavigate("");
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const isResetPasswordResponse = await _post(
+        `api/auth/reset-password?token=${token}`,
+        {
+          newPassword,
+          confirmPassword,
+        }
+      );
+      if (isResetPasswordResponse.data.success) {
+        showSuccess(isResetPasswordResponse.data.message);
+        navigate("/");
+      }
+    } catch (e) {
+      showError(e.response.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12">
       {/* Logo */}
-      <div className="mb-12">
+      <div
+        className="p-4 cursor-pointer max-w-min "
+        onClick={() => navigate("/")}
+      >
         <div className="flex items-center justify-center space-x-2">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
             <svg
@@ -32,75 +70,113 @@ const ResetPassword = () => {
             Reset Password
           </h1>
           <p className="text-gray-600 leading-relaxed max-w-sm mx-auto">
-            Duis luctus interdum metus, ut consectetur ante consectetur sed.
-            Suspendisse euismod viverra massa sit amet mollis.
+            Please enter your new password below to regain access to your
+            account.
           </p>
         </div>
 
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleResetPassword}>
           {/* New Password Input */}
           <div className="relative">
             <input
-              type="password"
+              type={isToggleNewPass ? "text" : "password"}
               placeholder="New Password"
               className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setNewPassword(e.target.value)}
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+              onClick={() => setIsToggleNewPass((t) => !t)}
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
+              {isToggleNewPass ? (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 3l18 18M10.73 5.08A9.7 9.7 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.77 9.77 0 01-4.144 4.881M6.94 6.94A9.75 9.75 0 002.458 12 9.77 9.77 0 006.6 16.88M9.88 9.88a3 3 0 104.24 4.24"
+                  />
+                </svg>
+              )}
             </button>
           </div>
 
           {/* Confirm Password Input */}
           <div className="relative">
             <input
-              type="password"
+              type={isToggleConfirmPass ? "text" : "password"}
               placeholder="Confirm Password"
-              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer"
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <button
               type="button"
               className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              onClick={() => setIsToggleConfirmPass((t) => !t)}
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
+              {isToggleConfirmPass ? (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 3l18 18M10.73 5.08A9.7 9.7 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.77 9.77 0 01-4.144 4.881M6.94 6.94A9.75 9.75 0 002.458 12 9.77 9.77 0 006.6 16.88M9.88 9.88a3 3 0 104.24 4.24"
+                  />
+                </svg>
+              )}
             </button>
           </div>
 
@@ -109,20 +185,7 @@ const ResetPassword = () => {
             type="submit"
             className="w-full flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
           >
-            Reset Password
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
-            </svg>
+            {isLoading ? <Loader /> : "Reset Password"}
           </button>
         </form>
       </div>
