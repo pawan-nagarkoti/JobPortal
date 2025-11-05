@@ -1,31 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import CustomEditor from "../../components/form/customEditor";
+import { _post } from "../../lib/api";
 
 export default function EmployerProfile() {
   const [renderTab, setRenderTab] = useState(<CompanyInfo />);
+  const [tabName, setTabname] = useState("companyInfo");
+
   const handleTabname = (name) => {
     switch (true) {
       case name === "companyInfo":
+        setTabname("companyInfo");
         setRenderTab(<CompanyInfo />);
         break;
       case name === "foundingInfo":
+        setTabname("foundingInfo");
         setRenderTab(<FoundingInfo />);
         break;
       case name === "socialMedia":
+        setTabname("socialMedia");
         setRenderTab(<SocialMediaProfile />);
         break;
       case name === "contact":
+        setTabname("contact");
         setRenderTab(<Contact />);
         break;
       default:
         break;
     }
   };
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* Tabs */}
       <div className="flex border-b border-gray-200 mb-8">
         <button
-          className="flex items-center px-6 py-4 border-b-2 border-blue-600 text-blue-600 font-medium"
+          className={`flex items-center px-6 py-4 cursor-pointer  ${
+            tabName === "companyInfo"
+              ? "border-b-2 border-blue-600 text-blue-600 font-medium"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
           onClick={() => handleTabname("companyInfo")}
         >
           <svg
@@ -44,7 +57,11 @@ export default function EmployerProfile() {
           Company Info
         </button>
         <button
-          className="flex items-center px-6 py-4 text-gray-400 hover:text-gray-600"
+          className={`flex items-center px-6 py-4 cursor-pointer ${
+            tabName === "foundingInfo"
+              ? "border-b-2 border-blue-600 text-blue-600 font-medium"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
           onClick={() => handleTabname("foundingInfo")}
         >
           <svg
@@ -63,7 +80,11 @@ export default function EmployerProfile() {
           Founding Info
         </button>
         <button
-          className="flex items-center px-6 py-4 text-gray-400 hover:text-gray-600"
+          className={`flex items-center px-6 py-4 cursor-pointer ${
+            tabName === "socialMedia"
+              ? "border-b-2 border-blue-600 text-blue-600 font-medium"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
           onClick={() => handleTabname("socialMedia")}
         >
           <svg
@@ -82,7 +103,11 @@ export default function EmployerProfile() {
           Social Media Profile
         </button>
         <button
-          className="flex items-center px-6 py-4 text-gray-400 hover:text-gray-600"
+          className={`flex items-center px-6 py-4 cursor-pointer ${
+            tabName === "contact"
+              ? "border-b-2 border-blue-600 text-blue-600 font-medium"
+              : "text-gray-400 hover:text-gray-600"
+          }`}
           onClick={() => handleTabname("contact")}
         >
           <svg
@@ -108,9 +133,44 @@ export default function EmployerProfile() {
 }
 
 const CompanyInfo = () => {
+  const [logoPreview, setLogoPreview] = useState(null);
+  const [bannerPreview, setBannerPreview] = useState(null);
+  const editorRef = useRef(null);
+
+  const [logo, setLogo] = useState("");
+  const [banner, setBanner] = useState("");
+  const [companyName, setCompanyName] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const v = new FormData();
+
+    let editorContent;
+    if (editorRef.current) {
+      editorContent = editorRef.current.getContent();
+    }
+
+    v.append("name", companyName);
+    v.append("logo", logo);
+    v.append("banner", banner);
+    v.append("description", editorContent);
+
+    const res = await _post("api/employer/add", v);
+
+    console.log(res);
+    if (res) {
+    }
+  };
+
+  const handleClear = () => {
+    if (editorRef.current) {
+      editorRef.current.setContent("");
+    }
+  };
+
   return (
     <>
-      <div className="bg-white rounded-lg p-8">
+      <form className="bg-white rounded-lg p-8" onSubmit={handleSubmit}>
         {/* Logo & Banner Image Section */}
         <h2 className="text-xl font-bold text-gray-900 mb-6">
           Logo & Banner Image
@@ -122,29 +182,30 @@ const CompanyInfo = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Upload Logo
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition">
-              <div className="flex justify-center mb-3">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  />
-                </svg>
+            <div className="space-y-4">
+              <div>
+                <input
+                  type="file"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setLogoPreview(URL.createObjectURL(file));
+                      setLogo(file);
+                    }
+                  }}
+                />
+                {/* Image Preview */}
+                {logoPreview && (
+                  <div className="flex justify-center">
+                    <img
+                      src={logoPreview}
+                      alt="Preview"
+                      className="mt-4 h-50 w-full object-cover rounded-lg border border-gray-200 shadow-sm"
+                    />
+                  </div>
+                )}
               </div>
-              <p className="text-sm text-gray-600 mb-1">
-                <span className="text-gray-700 font-medium">Browse photo</span>{" "}
-                or drop here
-              </p>
-              <p className="text-xs text-gray-500">
-                A photo larger than 400 pixels work best. Max photo size 5 MB.
-              </p>
             </div>
           </div>
 
@@ -153,30 +214,28 @@ const CompanyInfo = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Banner Image
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-16 text-center hover:border-gray-400 transition h-full flex flex-col items-center justify-center">
-              <div className="flex justify-center mb-3">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            <div>
+              <input
+                type="file"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setBannerPreview(URL.createObjectURL(file));
+                    setBanner(file);
+                  }
+                }}
+              />
+              {/* Image Preview */}
+              {bannerPreview && (
+                <div className="flex justify-center">
+                  <img
+                    src={bannerPreview}
+                    alt="Preview"
+                    className="mt-4 h-50 w-full object-cover rounded-lg border border-gray-200 shadow-sm"
                   />
-                </svg>
-              </div>
-              <p className="text-sm text-gray-600 mb-1">
-                <span className="text-gray-700 font-medium">Browse photo</span>{" "}
-                or drop here
-              </p>
-              <p className="text-xs text-gray-500">
-                Bannar images optical dimension 1520×400. Supported format JPEG,
-                PNG. Max photo size 5 MB.
-              </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -189,7 +248,7 @@ const CompanyInfo = () => {
           <input
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder=""
+            onChange={(e) => setCompanyName(e.target.value)}
           />
         </div>
 
@@ -199,79 +258,16 @@ const CompanyInfo = () => {
             About Us
           </label>
           <div className="border border-gray-300 rounded-lg">
-            {/* Text Area */}
-            <textarea
-              className="w-full px-4 py-3 border-0 focus:ring-0 resize-none"
-              rows="6"
-              placeholder="Write down about your company here. Let the candidate know who we are..."
-            />
-
-            {/* Editor Toolbar */}
-            <div className="flex items-center space-x-1 px-3 py-2 border-t border-gray-300 bg-gray-50">
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <span className="text-sm font-bold">B</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded italic">
-                <span className="text-sm font-serif">I</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <span className="text-sm font-semibold underline">U</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <span className="text-sm line-through">S</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
+            <CustomEditor ref={editorRef} />
           </div>
         </div>
 
         {/* Save & Next Button */}
         <div>
-          <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
+          <button
+            type="submit"
+            className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+          >
             Save & Next
             <svg
               className="w-5 h-5 ml-2"
@@ -288,7 +284,7 @@ const CompanyInfo = () => {
             </svg>
           </button>
         </div>
-      </div>
+      </form>
     </>
   );
 };
@@ -548,7 +544,7 @@ const SocialMediaProfile = () => {
             Social Link 1
           </label>
           <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
+            <div className="relative shrink-0" style={{ width: "220px" }}>
               <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                 <option>🔵 Facebook</option>
                 <option>🐦 Twitter</option>
@@ -600,7 +596,7 @@ const SocialMediaProfile = () => {
             Social Link 2
           </label>
           <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
+            <div className="relative shrink-0" style={{ width: "220px" }}>
               <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                 <option>🔵 Facebook</option>
                 <option>🐦 Twitter</option>
@@ -652,7 +648,7 @@ const SocialMediaProfile = () => {
             Social Link 2
           </label>
           <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
+            <div className="relative shrink-0" style={{ width: "220px" }}>
               <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                 <option>🔵 Facebook</option>
                 <option>🐦 Twitter</option>
@@ -704,7 +700,7 @@ const SocialMediaProfile = () => {
             Social Link 3
           </label>
           <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
+            <div className="relative shrink-0" style={{ width: "220px" }}>
               <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
                 <option>🔵 Facebook</option>
                 <option>🐦 Twitter</option>
@@ -794,6 +790,7 @@ const SocialMediaProfile = () => {
     </div>
   );
 };
+
 const Contact = () => {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">

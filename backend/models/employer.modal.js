@@ -35,7 +35,6 @@ const employerSchema = new mongoose.Schema(
       },
       email: {
         type: String,
-        required: true,
       },
     },
   },
