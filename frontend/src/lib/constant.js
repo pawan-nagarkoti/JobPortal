@@ -88,3 +88,40 @@ export const jobsObj = [
 
 export const apiUrl = import.meta.env.VITE_API_BASE_URL;
 export const editorToken = import.meta.env.VITE_EDITOR_KEY;
+
+export const organizationTypes = [
+  { id: 1, name: "Software Development" },
+  { id: 2, name: "IT Consulting" },
+  { id: 3, name: "Managed Services Provider (MSP)" },
+  { id: 4, name: "Cloud Services" },
+  { id: 5, name: "Cybersecurity Services" },
+  { id: 6, name: "Data Analytics and AI" },
+  { id: 7, name: "IT Infrastructure" },
+  { id: 8, name: "E-commerce" },
+  { id: 9, name: "Telecommunications" },
+  { id: 10, name: "Software as a Service (SaaS)" },
+];
+
+export const industryTypes = [
+  { id: 1, name: "Agriculture" },
+  { id: 2, name: "Manufacturing" },
+  { id: 3, name: "Construction" },
+  { id: 4, name: "Transportation" },
+  { id: 5, name: "Information Technology" },
+  { id: 6, name: "Healthcare" },
+  { id: 7, name: "Finance" },
+  { id: 8, name: "Retail" },
+  { id: 9, name: "Education" },
+  { id: 10, name: "Hospitality" },
+];
+
+export const teamSizeList = [
+  { id: 1, name: "1-3 members" },
+  { id: 2, name: "4-6 members" },
+  { id: 3, name: "7-9 members" },
+  { id: 4, name: "10-15 members" },
+  { id: 5, name: "16-20 members" },
+  { id: 6, name: "21-50 members" },
+  { id: 7, name: "51-100 members" },
+  { id: 8, name: "100+ members" },
+];

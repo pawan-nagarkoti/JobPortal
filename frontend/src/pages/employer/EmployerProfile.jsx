@@ -1,6 +1,12 @@
 import React, { useState, useRef } from "react";
 import CustomEditor from "../../components/form/customEditor";
 import { _post } from "../../lib/api";
+import {
+  industryTypes,
+  organizationTypes,
+  teamSizeList,
+} from "../../lib/constant";
+import useUI from "../../context/UIcontext";
 
 export default function EmployerProfile() {
   const [renderTab, setRenderTab] = useState(<CompanyInfo />);
@@ -133,44 +139,40 @@ export default function EmployerProfile() {
 }
 
 const CompanyInfo = () => {
-  const [logoPreview, setLogoPreview] = useState(null);
-  const [bannerPreview, setBannerPreview] = useState(null);
-  const editorRef = useRef(null);
+  const { employerTabData, setEmployerTabData } = useUI();
 
-  const [logo, setLogo] = useState("");
-  const [banner, setBanner] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [logoPreview, setLogoPreview] = useState(
+    (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) || null
+  );
+  const [bannerPreview, setBannerPreview] = useState(
+    (employerTabData.logo && URL?.createObjectURL(employerTabData.banner)) ||
+      null
+  );
+  const editorRef = useRef(employerTabData.description || null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const v = new FormData();
+  const [logo, setLogo] = useState(employerTabData.logo || "");
+  const [banner, setBanner] = useState(employerTabData.banner || "");
+  const [companyName, setCompanyName] = useState(
+    employerTabData.companyName || ""
+  );
 
+  const handleCompanyInfo = async () => {
     let editorContent;
     if (editorRef.current) {
       editorContent = editorRef.current.getContent();
     }
-
-    v.append("name", companyName);
-    v.append("logo", logo);
-    v.append("banner", banner);
-    v.append("description", editorContent);
-
-    const res = await _post("api/employer/add", v);
-
-    console.log(res);
-    if (res) {
-    }
-  };
-
-  const handleClear = () => {
-    if (editorRef.current) {
-      editorRef.current.setContent("");
-    }
+    const companyObj = {
+      description: editorContent,
+      logo,
+      banner,
+      companyName,
+    };
+    setEmployerTabData(companyObj);
   };
 
   return (
     <>
-      <form className="bg-white rounded-lg p-8" onSubmit={handleSubmit}>
+      <div className="bg-white rounded-lg p-8">
         {/* Logo & Banner Image Section */}
         <h2 className="text-xl font-bold text-gray-900 mb-6">
           Logo & Banner Image
@@ -247,6 +249,7 @@ const CompanyInfo = () => {
           </label>
           <input
             type="text"
+            value={companyName}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             onChange={(e) => setCompanyName(e.target.value)}
           />
@@ -258,7 +261,16 @@ const CompanyInfo = () => {
             About Us
           </label>
           <div className="border border-gray-300 rounded-lg">
-            <CustomEditor ref={editorRef} />
+            <CustomEditor
+              ref={editorRef}
+              value={employerTabData.description || ""}
+              onEditorChange={(newContent) =>
+                setEmployerTabData((prev) => ({
+                  ...prev,
+                  description: newContent,
+                }))
+              }
+            />
           </div>
         </div>
 
@@ -267,6 +279,7 @@ const CompanyInfo = () => {
           <button
             type="submit"
             className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+            onClick={handleCompanyInfo}
           >
             Save & Next
             <svg
@@ -284,14 +297,24 @@ const CompanyInfo = () => {
             </svg>
           </button>
         </div>
-      </form>
+      </div>
     </>
   );
 };
 
 const FoundingInfo = () => {
+  const [organisationType, setOrganisationType] = useState("");
+  const [industryType, setIndustryType] = useState("");
+  const [teamSize, setTeamSize] = useState("");
+  const [establishmentYear, setEstablishmentYear] = useState("");
+  const [companyUrl, setCompanyUrl] = useState("");
+  const editorRef = useRef(null);
+
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <form
+      className="max-w-6xl mx-auto p-6 space-y-6"
+      onSubmit={handleFundingFormData}
+    >
       {/* Row 1: Organization Type, Industry Types, Team Size */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
@@ -299,8 +322,13 @@ const FoundingInfo = () => {
             Organization Type
           </label>
           <div className="relative">
-            <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-              <option>Select...</option>
+            <select
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              onChange={(e) => setOrganisationType(e.target.value)}
+            >
+              {organizationTypes?.map((v, i) => (
+                <option value={v.name}>{v.name}</option>
+              ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
               <svg
@@ -325,8 +353,13 @@ const FoundingInfo = () => {
             Industry Types
           </label>
           <div className="relative">
-            <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-              <option>Select...</option>
+            <select
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              onChange={(e) => setIndustryType(e.target.value)}
+            >
+              {industryTypes?.map((v, i) => (
+                <option value={v.name}>{v.name}</option>
+              ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
               <svg
@@ -351,8 +384,13 @@ const FoundingInfo = () => {
             Team Size
           </label>
           <div className="relative">
-            <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-              <option>Select...</option>
+            <select
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              onChange={(e) => setTeamSize(e.target.value)}
+            >
+              {teamSizeList?.map((v, i) => (
+                <option value={v.name}>{v.name}</option>
+              ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
               <svg
@@ -381,25 +419,11 @@ const FoundingInfo = () => {
           </label>
           <div className="relative">
             <input
-              type="text"
+              type="date"
               placeholder="dd/mm/yyyy"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setEstablishmentYear(e.target.value)}
             />
-            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg
-                className="w-5 h-5 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
           </div>
         </div>
 
@@ -427,6 +451,7 @@ const FoundingInfo = () => {
               type="url"
               placeholder="Website url..."
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setCompanyUrl(e.target.value)}
             />
           </div>
         </div>
@@ -438,73 +463,7 @@ const FoundingInfo = () => {
           Company Vision
         </label>
         <div className="border border-gray-300 rounded-lg">
-          {/* Text Area */}
-          <textarea
-            className="w-full px-4 py-3 border-0 focus:ring-0 resize-none"
-            rows="6"
-            placeholder="Tell us about your company vision..."
-          />
-
-          {/* Editor Toolbar */}
-          <div className="flex items-center space-x-1 px-3 py-2 border-t border-gray-300 bg-gray-50">
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <span className="text-sm font-bold">B</span>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded italic">
-              <span className="text-sm font-serif">I</span>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <span className="text-sm font-semibold underline">U</span>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <span className="text-sm line-through">S</span>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
+          <CustomEditor ref={editorRef} />
         </div>
       </div>
 
@@ -513,7 +472,10 @@ const FoundingInfo = () => {
         <button className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300">
           Previous
         </button>
-        <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
+        <button
+          type="submit"
+          className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+        >
           Save & Next
           <svg
             className="w-5 h-5 ml-2"
@@ -530,7 +492,7 @@ const FoundingInfo = () => {
           </svg>
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 
@@ -1009,3 +971,26 @@ const Contact = () => {
     </div>
   );
 };
+
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
+//   const v = new FormData();
+
+//   let editorContent;
+//   if (editorRef.current) {
+//     editorContent = editorRef.current.getContent();
+//   }
+
+//   v.append("name", companyName);
+//   v.append("logo", logo);
+//   v.append("banner", banner);
+//   v.append("description", editorContent);
+
+//   const res = await _post("api/employer/add", v);
+// };
+
+// const handleClear = () => {
+//   if (editorRef.current) {
+//     editorRef.current.setContent("");
+//   }
+// };

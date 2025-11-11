@@ -3,9 +3,9 @@ import { createContext, useContext, useState } from "react";
 export const UIcontext = createContext();
 
 export const UIprovider = ({ children }) => {
-  const [otpEmail, setOtpEmail] = useState("");
+  const [employerTabData, setEmployerTabData] = useState([]);
   return (
-    <UIcontext.Provider value={{ otpEmail, setOtpEmail }}>
+    <UIcontext.Provider value={{ employerTabData, setEmployerTabData }}>
       {children}
     </UIcontext.Provider>
   );
