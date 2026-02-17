@@ -4,8 +4,16 @@ export const UIcontext = createContext();
 
 export const UIprovider = ({ children }) => {
   const [employerTabData, setEmployerTabData] = useState([]);
+  const [employerTabController, setEmployerTabController] = useState("");
   return (
-    <UIcontext.Provider value={{ employerTabData, setEmployerTabData }}>
+    <UIcontext.Provider
+      value={{
+        employerTabData,
+        setEmployerTabData,
+        employerTabController,
+        setEmployerTabController,
+      }}
+    >
       {children}
     </UIcontext.Provider>
   );

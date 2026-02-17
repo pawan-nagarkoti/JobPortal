@@ -7,10 +7,18 @@ import {
   teamSizeList,
 } from "../../lib/constant";
 import useUI from "../../context/UIcontext";
+import { v4 as uuidv4 } from "uuid";
 
 export default function EmployerProfile() {
+  const { employerTabController } = useUI();
   const [renderTab, setRenderTab] = useState(<CompanyInfo />);
-  const [tabName, setTabname] = useState("companyInfo");
+  const [tabName, setTabname] = useState(
+    employerTabController || "companyInfo",
+  );
+
+  useEffect(() => {
+    handleTabname(employerTabController);
+  }, [employerTabController]);
 
   const handleTabname = (name) => {
     switch (true) {
@@ -139,7 +147,8 @@ export default function EmployerProfile() {
 }
 
 const CompanyInfo = () => {
-  const { employerTabData, setEmployerTabData } = useUI();
+  const { employerTabData, setEmployerTabData, setEmployerTabController } =
+    useUI();
 
   const [logoPreview, setLogoPreview] = useState(
     (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) ||
@@ -170,6 +179,8 @@ const CompanyInfo = () => {
     };
 
     setEmployerTabData((prev) => ({ ...prev, ...companyObj }));
+
+    setEmployerTabController("foundingInfo");
   };
 
   return (
@@ -305,7 +316,8 @@ const CompanyInfo = () => {
 };
 
 const FoundingInfo = () => {
-  const { employerTabData, setEmployerTabData } = useUI();
+  const { employerTabData, setEmployerTabData, setEmployerTabController } =
+    useUI();
 
   const [organisationType, setOrganisationType] = useState(
     employerTabData.organisationType || "",
@@ -339,6 +351,8 @@ const FoundingInfo = () => {
     };
 
     setEmployerTabData((prev) => ({ ...prev, ...fundingObj }));
+
+    setEmployerTabController("socialMedia");
   };
 
   return (
@@ -526,7 +540,10 @@ const FoundingInfo = () => {
 
       {/* Buttons */}
       <div className="flex items-center gap-4">
-        <button className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300">
+        <button
+          className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300"
+          onClick={() => setEmployerTabController("companyInfo")}
+        >
           Previous
         </button>
         <button
@@ -555,241 +572,147 @@ const FoundingInfo = () => {
 };
 
 const SocialMediaProfile = () => {
+  const { employerTabData, setEmployerTabData, setEmployerTabController } =
+    useUI();
+
+  const [socialLinks, setSocialLinks] = useState(
+    (employerTabData.socialLinks && employerTabData.socialLinks) || [
+      { id: uuidv4(), platform: "", url: "" },
+    ],
+  );
+
+  const handleAddSocialLink = () => {
+    setSocialLinks((prev) => [
+      ...prev,
+      { id: uuidv4(), platform: "", url: "" },
+    ]);
+  };
+
+  const handleRemoveSocialLink = (deletedId) => {
+    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+  };
+
+  const handleInputChange = (id, field, value) => {
+    setSocialLinks((prev) =>
+      prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)),
+    );
+  };
+
+  const handleSocialMediaProfile = () => {
+    setEmployerTabData((prev) => ({ ...prev, socialLinks }));
+    setEmployerTabController("contact");
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white rounded-lg p-6 space-y-6">
-        {/* Social Link 1 */}
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 1
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+          {socialLinks.map((link, index) => (
+            <div
+              key={link.id}
+              className="mb-6 p-4 border border-gray-200 rounded-lg"
+            >
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Social Link {index + 1}
+              </label>
+              <div className="flex items-center gap-3">
+                <div className="relative shrink-0" style={{ width: "220px" }}>
+                  <select
+                    value={link.platform}
+                    onChange={(e) =>
+                      handleInputChange(link.id, "platform", e.target.value)
+                    }
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                  >
+                    <option value="">Select Platform</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Youtube">Youtube</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Profile link/url..."
+                  value={link.url}
+                  onChange={(e) =>
+                    handleInputChange(link.id, "url", e.target.value)
+                  }
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                {socialLinks.length > 1 && (
+                  <button
+                    onClick={() => handleRemoveSocialLink(link.id)}
+                    className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
+                    title="Remove"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+          ))}
 
-        {/* Social Link 2 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 2
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Social Link 3 (Instagram) */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 2
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Social Link 4 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 3
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Add New Social Link Button */}
-        <button className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+          <button
+            className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
+            onClick={handleAddSocialLink}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Add New Social Link
-        </button>
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Add New Social Link
+          </button>
+        </div>
 
         {/* Navigation Buttons */}
         <div className="flex items-center gap-4">
-          <button className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300">
+          <button
+            className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300"
+            onClick={() => setEmployerTabController("foundingInfo")}
+          >
             Previous
           </button>
-          <button className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
+          <button
+            className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+            onClick={handleSocialMediaProfile}
+          >
             Save & Next
             <svg
               className="w-5 h-5 ml-2"
