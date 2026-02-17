@@ -51,6 +51,11 @@ function App() {
           <Route path="about-us" element={<AboutUs />} />
           <Route path="contact-us" element={<CTApage />} />
           <Route path="privacy" element={<TermsAndConditionsPage />} />
+          // create employer profile
+          <Route
+            path="/create/employer-profile"
+            element={<EmployerProfile />}
+          />
         </Route>
 
         <Route path="/auth">
@@ -61,12 +66,12 @@ function App() {
           <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
-        <Route>
+        {/* <Route>
           <Route
             path="/create/employer-profile"
             element={<EmployerProfile />}
           />
-        </Route>
+        </Route> */}
 
         <Route path="no-found" element={<NotFoundPage />} />
         <Route path="under-construction" element={<UnderConstructionPage />} />

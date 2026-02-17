@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,10 +22,10 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <div className="shrink-0 flex items-center">
+            <Link to="/" className="shrink-0 flex items-center">
               <i className="fas fa-briefcase text-primary text-2xl mr-2"></i>
               <span className="font-bold text-xl text-gray-900">JobPilot</span>
-            </div>
+            </Link>
           </div>
 
           <div className="hidden md:block">
@@ -41,12 +42,12 @@ export default function Header() {
               >
                 Find Jobs
               </a>
-              <a
-                href="#"
+              <Link
+                to="/create/employer-profile"
                 className="text-gray-700 hover:text-primary transition"
               >
                 Employers
-              </a>
+              </Link>
               <a
                 href="#"
                 className="text-gray-700 hover:text-primary transition"

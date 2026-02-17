@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CustomEditor from "../../components/form/customEditor";
 import { _post } from "../../lib/api";
 import {
@@ -142,18 +142,19 @@ const CompanyInfo = () => {
   const { employerTabData, setEmployerTabData } = useUI();
 
   const [logoPreview, setLogoPreview] = useState(
-    (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) || null
+    (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) ||
+      null,
   );
   const [bannerPreview, setBannerPreview] = useState(
     (employerTabData.logo && URL?.createObjectURL(employerTabData.banner)) ||
-      null
+      null,
   );
   const editorRef = useRef(employerTabData.description || null);
 
   const [logo, setLogo] = useState(employerTabData.logo || "");
   const [banner, setBanner] = useState(employerTabData.banner || "");
   const [companyName, setCompanyName] = useState(
-    employerTabData.companyName || ""
+    employerTabData.companyName || "",
   );
 
   const handleCompanyInfo = async () => {
@@ -167,7 +168,8 @@ const CompanyInfo = () => {
       banner,
       companyName,
     };
-    setEmployerTabData(companyObj);
+
+    setEmployerTabData((prev) => ({ ...prev, ...companyObj }));
   };
 
   return (
@@ -303,18 +305,44 @@ const CompanyInfo = () => {
 };
 
 const FoundingInfo = () => {
-  const [organisationType, setOrganisationType] = useState("");
-  const [industryType, setIndustryType] = useState("");
-  const [teamSize, setTeamSize] = useState("");
-  const [establishmentYear, setEstablishmentYear] = useState("");
-  const [companyUrl, setCompanyUrl] = useState("");
-  const editorRef = useRef(null);
+  const { employerTabData, setEmployerTabData } = useUI();
+
+  const [organisationType, setOrganisationType] = useState(
+    employerTabData.organisationType || "",
+  );
+  const [industryType, setIndustryType] = useState(
+    employerTabData.industryType || "",
+  );
+  const [teamSize, setTeamSize] = useState(employerTabData.teamSize || "");
+  const [establishmentYear, setEstablishmentYear] = useState(
+    employerTabData.establishmentYear || "",
+  );
+  const [companyUrl, setCompanyUrl] = useState(
+    employerTabData.companyUrl || "",
+  );
+  const editorRefVision = useRef(
+    employerTabData.companyVisionDescription || null,
+  );
+
+  const handleFundingFormData = () => {
+    let editorContent;
+    if (editorRefVision.current) {
+      editorContent = editorRefVision.current.getContent();
+    }
+    const fundingObj = {
+      organisationType,
+      industryType,
+      teamSize,
+      establishmentYear,
+      companyUrl,
+      companyVisionDescription: editorContent,
+    };
+
+    setEmployerTabData((prev) => ({ ...prev, ...fundingObj }));
+  };
 
   return (
-    <form
-      className="max-w-6xl mx-auto p-6 space-y-6"
-      onSubmit={handleFundingFormData}
-    >
+    <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Row 1: Organization Type, Industry Types, Team Size */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
@@ -323,11 +351,17 @@ const FoundingInfo = () => {
           </label>
           <div className="relative">
             <select
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+              defaultValue={organisationType}
               onChange={(e) => setOrganisationType(e.target.value)}
             >
+              <option value="" disabled>
+                Choose Organisation Type
+              </option>
               {organizationTypes?.map((v, i) => (
-                <option value={v.name}>{v.name}</option>
+                <option value={v.name} key={i}>
+                  {v.name}
+                </option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
@@ -354,11 +388,17 @@ const FoundingInfo = () => {
           </label>
           <div className="relative">
             <select
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+              defaultValue={industryType}
               onChange={(e) => setIndustryType(e.target.value)}
             >
+              <option value="" disabled>
+                Choose Industry Type
+              </option>
               {industryTypes?.map((v, i) => (
-                <option value={v.name}>{v.name}</option>
+                <option value={v.name} key={i}>
+                  {v.name}
+                </option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
@@ -385,11 +425,17 @@ const FoundingInfo = () => {
           </label>
           <div className="relative">
             <select
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+              defaultValue={teamSize}
               onChange={(e) => setTeamSize(e.target.value)}
             >
+              <option value="" disabled>
+                Choose Team Size
+              </option>
               {teamSizeList?.map((v, i) => (
-                <option value={v.name}>{v.name}</option>
+                <option value={v.name} key={i}>
+                  {v.name}
+                </option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
@@ -421,6 +467,7 @@ const FoundingInfo = () => {
             <input
               type="date"
               placeholder="dd/mm/yyyy"
+              value={establishmentYear}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               onChange={(e) => setEstablishmentYear(e.target.value)}
             />
@@ -450,6 +497,7 @@ const FoundingInfo = () => {
             <input
               type="url"
               placeholder="Website url..."
+              value={companyUrl}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               onChange={(e) => setCompanyUrl(e.target.value)}
             />
@@ -463,7 +511,16 @@ const FoundingInfo = () => {
           Company Vision
         </label>
         <div className="border border-gray-300 rounded-lg">
-          <CustomEditor ref={editorRef} />
+          <CustomEditor
+            ref={editorRefVision}
+            value={employerTabData.companyVisionDescription || ""}
+            onEditorChange={(newContent) =>
+              setEmployerTabData((prev) => ({
+                ...prev,
+                companyVisionDescription: newContent,
+              }))
+            }
+          />
         </div>
       </div>
 
@@ -475,6 +532,7 @@ const FoundingInfo = () => {
         <button
           type="submit"
           className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+          onClick={handleFundingFormData}
         >
           Save & Next
           <svg
@@ -492,7 +550,7 @@ const FoundingInfo = () => {
           </svg>
         </button>
       </div>
-    </form>
+    </div>
   );
 };
 
