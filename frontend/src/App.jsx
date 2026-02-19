@@ -25,6 +25,7 @@ import CTApage from "./pages/CTApage";
 import NotFoundPage from "./pages/NotFoundpage";
 import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
+import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             path="/create/employer-profile"
             element={<EmployerProfile />}
           />
+          <Route path="/profile-completed" element={<ProfileCompleteUI />} />
         </Route>
 
         <Route path="/auth">

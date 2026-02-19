@@ -1,15 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menuItems = [
-    { id: "overview", label: "Overview", icon: "layers", active: true },
+    {
+      id: "overview",
+      label: "Overview",
+      icon: "layers",
+      active: true,
+    },
     { id: "profile", label: "Employers Profile", icon: "user" },
-    { id: "post", label: "Post a Job", icon: "plus-circle" },
+    {
+      id: "post",
+      label: "Post a Job",
+      icon: "plus-circle",
+      url: "/employer-job-post",
+    },
     { id: "jobs", label: "My Jobs", icon: "briefcase" },
     { id: "saved", label: "Saved Candidate", icon: "bookmark" },
     { id: "plans", label: "Plans & Billing", icon: "credit-card" },
     { id: "companies", label: "All Companies", icon: "building" },
-    { id: "settings", label: "Settings", icon: "settings" },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: "settings",
+      url: "/employer-setting",
+    },
   ];
 
   const getIcon = (iconName) => {
@@ -153,7 +169,8 @@ const Sidebar = () => {
 
         <nav className="space-y-1">
           {menuItems.map((item) => (
-            <a
+            <Link
+              to={item.url}
               key={item.id}
               href={`#${item.id}`}
               className={`flex items-center px-4 py-3 rounded-lg transition ${
@@ -164,7 +181,7 @@ const Sidebar = () => {
             >
               {getIcon(item.icon)}
               <span className="ml-3 text-sm font-medium">{item.label}</span>
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

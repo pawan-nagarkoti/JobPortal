@@ -8,6 +8,7 @@ import {
 } from "../../lib/constant";
 import useUI from "../../context/UIcontext";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 export default function EmployerProfile() {
   const { employerTabController } = useUI();
@@ -735,6 +736,21 @@ const SocialMediaProfile = () => {
 };
 
 const Contact = () => {
+  const { setEmployerTabData } = useUI();
+  const [map, setMap] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleContactForm = () => {
+    const contactFromObj = {
+      map,
+      mobileNo,
+      email,
+    };
+    setEmployerTabData((prev) => ({ ...prev, ...contactFromObj }));
+    navigate("/profile-completed");
+  };
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Contact Information Section */}
@@ -752,6 +768,7 @@ const Contact = () => {
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder=""
+            onChange={(e) => setMap(e.target.value)}
           />
         </div>
 
@@ -761,13 +778,14 @@ const Contact = () => {
             Phone
           </label>
           <div className="flex gap-2">
-            <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
+            {/* <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
               <option>🇧🇩 +880</option>
-            </select>
+            </select> */}
             <input
               type="tel"
               placeholder="Phone number.."
               className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setMobileNo(e.target.value)}
             />
           </div>
         </div>
@@ -797,11 +815,15 @@ const Contact = () => {
               type="email"
               placeholder="Email address"
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
 
-        <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+        <button
+          onClick={handleContactForm}
+          className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+        >
           Save Changes
         </button>
       </div>
