@@ -57,30 +57,45 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center space-x-8">
-            <a href="#" className="text-gray-700 hover:text-primary transition">
+            <Link
+              to="/"
+              className="text-gray-700 hover:text-primary transition"
+            >
               Home
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary transition">
+            </Link>
+            <Link to="" className="text-gray-700 hover:text-primary transition">
               Find Jobs
-            </a>
+            </Link>
             <Link to="" className="text-gray-700 hover:text-primary transition">
               Employers
             </Link>
-            <a href="#" className="text-gray-700 hover:text-primary transition">
+            <Link to="" className="text-gray-700 hover:text-primary transition">
               Candidates
-            </a>
-            <a href="#" className="text-gray-700 hover:text-primary transition">
+            </Link>
+            <Link to="" className="text-gray-700 hover:text-primary transition">
               About
-            </a>
+            </Link>
             {getCookie("accessToken") ? (
-              <div className="flex gap-5 items-center cursor-pointer">
-                <button
-                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
-                  onClick={logout}
+              <>
+                <Link
+                  to={
+                    getCookie("loginUserInfo")?.role === "applicant"
+                      ? "applicant-dashboard"
+                      : "employer-dashboard"
+                  }
+                  className="text-gray-700 hover:text-primary transition"
                 >
-                  Logout
-                </button>
-              </div>
+                  Dashboard
+                </Link>
+                <div className="flex gap-5 items-center cursor-pointer">
+                  <button
+                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                    onClick={logout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
             ) : (
               <div className="flex items-center space-x-4">
                 <button
