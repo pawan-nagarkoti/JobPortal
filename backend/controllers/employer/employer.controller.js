@@ -11,6 +11,7 @@ export const addEmployer = async (req, res) => {
     const employerBanner = await uploadOnCloudinary(banner[0].path);
 
     const employerObj = {
+      userId: req.user.id,
       name: data.name,
       description: data.description,
       organization: data.organization,
@@ -117,11 +118,11 @@ export const updateEmployer = async (req, res) => {
 
     const bannerImage = await detectsImages(
       data?.banner || "",
-      req?.files?.banner?.[0]?.path || ""
+      req?.files?.banner?.[0]?.path || "",
     );
     const logoImage = await detectsImages(
       data?.logo || "",
-      req?.files?.logo?.[0]?.path || ""
+      req?.files?.logo?.[0]?.path || "",
     );
 
     // let bannerImage, logoImage;
@@ -171,7 +172,7 @@ export const updateEmployer = async (req, res) => {
       employerObj,
       {
         new: true,
-      }
+      },
     );
 
     if (update) {

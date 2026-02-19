@@ -24,7 +24,10 @@ const SignIn = () => {
         showSuccess("login successfully");
         addCookie("accessToken", loginAccount.data.accessToken);
         addCookie("loginUserInfo", loginAccount.data.data);
-        navigate("/");
+
+        loginAccount?.data?.data?.role === "employer"
+          ? navigate("/create/employer-profile")
+          : navigate("/");
       }
     } catch (e) {
       console.log(e.message);

@@ -43,7 +43,7 @@ export default function Header() {
                 Find Jobs
               </a>
               <Link
-                to="/create/employer-profile"
+                to=""
                 className="text-gray-700 hover:text-primary transition"
               >
                 Employers

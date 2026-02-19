@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 export default function Layout() {
   const location = useLocation();
   const isHide =
-    location.pathname === "/create/employer-profile" || "/profile-completed";
+    location.pathname === "/create/employer-profile" ||
+    location.pathname === "/profile-completed";
   return (
     <>
       <Header />

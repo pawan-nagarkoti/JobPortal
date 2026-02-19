@@ -55,28 +55,28 @@ export const signUp = async (req, res) => {
     }
 
     const hasPassword = await bcrypt.hash(password, 12); // password hasing
-    const otp = generateOTP(6); // generate otp
-    const expiresInMinutes = 10; // expire time
-    const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000); // added 10 min in current time
+    // const otp = generateOTP(6); // generate otp
+    // const expiresInMinutes = 10; // expire time
+    // const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000); // added 10 min in current time
 
     // verification mail and sended otp over the mail
-    await sendEmail(
-      {
-        username,
-        email,
-        otp,
-        expiresInMinutes,
-        subject: "Verification Mail",
-        text: "verification mail",
-      },
-      emailVerifyTemplate({
-        // email template
-        username,
-        email,
-        otp,
-        expireAt: expiresInMinutes,
-      })
-    );
+    // await sendEmail(
+    //   {
+    //     username,
+    //     email,
+    //     otp,
+    //     expiresInMinutes,
+    //     subject: "Verification Mail",
+    //     text: "verification mail",
+    //   },
+    //   emailVerifyTemplate({
+    //     // email template
+    //     username,
+    //     email,
+    //     otp,
+    //     expireAt: expiresInMinutes,
+    //   })
+    // );
 
     const addUser = await User.create({
       name,
@@ -84,8 +84,8 @@ export const signUp = async (req, res) => {
       email,
       password: hasPassword,
       role,
-      otp,
-      otpExpiresAt: expiresAt,
+      // otp,
+      // otpExpiresAt: expiresAt,
     });
 
     res.status(201).json({
@@ -140,7 +140,7 @@ export const signIn = async (req, res) => {
         role: checkUser.role,
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN }
+      { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN },
     );
 
     const refreshToken = jwt.sign(
@@ -150,7 +150,7 @@ export const signIn = async (req, res) => {
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
-      }
+      },
     );
     // setup refresh token on cookies
     res.cookie("refreshToken", refreshToken, {
@@ -219,13 +219,13 @@ export const refreshToken = async (req, res) => {
                 role: user.role,
               },
               process.env.ACCESS_TOKEN_SECRET,
-              { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN }
+              { expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN },
             );
 
             return res.json({ accessToken });
             console.log(user);
           }
-        }
+        },
       );
     } else {
       return res.status(406).json({ message: "Unauthorized" });
@@ -276,7 +276,7 @@ export const emailVerified = async (req, res) => {
     const updatedEmail = await User.findByIdAndUpdate(
       { _id: user._id },
       { isEmailVerified: true, otp: null, otpExpiresAt: null },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({
@@ -334,7 +334,7 @@ export const forgotPassword = async (req, res) => {
         subject: "Reset Password",
         text: "RESET PASSWORD",
       },
-      htmlContent
+      htmlContent,
     );
 
     res.status(200).json({
@@ -382,7 +382,7 @@ export const resetPassword = async (req, res) => {
         resetPasswordTokenHash: "",
         resetPasswordExpires: "",
       },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({

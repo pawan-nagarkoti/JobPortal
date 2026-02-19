@@ -9,6 +9,7 @@ import {
 import useUI from "../../context/UIcontext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { showSuccess } from "../../lib/toast";
 
 export default function EmployerProfile() {
   const { employerTabController } = useUI();
@@ -736,20 +737,45 @@ const SocialMediaProfile = () => {
 };
 
 const Contact = () => {
-  const { setEmployerTabData } = useUI();
+  const { employerTabData } = useUI();
   const [map, setMap] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  const handleContactForm = () => {
-    const contactFromObj = {
-      map,
-      mobileNo,
-      email,
-    };
-    setEmployerTabData((prev) => ({ ...prev, ...contactFromObj }));
-    navigate("/profile-completed");
+  const handleContactForm = async () => {
+    const formData = new FormData();
+    formData.append("logo", employerTabData.logo);
+    formData.append("banner", employerTabData.banner);
+    formData.append("name", employerTabData.companyName);
+    formData.append("url", employerTabData.companyUrl);
+    formData.append("description", employerTabData.description);
+    formData.append("organization", employerTabData.organisationType);
+    formData.append("industry", employerTabData.industryType);
+    formData.append("teamSize", employerTabData.teamSize);
+    formData.append("establishmentYear", employerTabData.establishmentYear);
+    formData.append("companyVision", employerTabData.companyVisionDescription);
+    formData.append("number", mobileNo);
+    formData.append("email", email);
+
+    formData.append("countryCode", 91);
+    formData.append("location", map);
+
+    // Loop through socialLinks array
+    employerTabData?.socialLinks?.forEach((link, index) => {
+      formData.append(`socialLinks[${index}][name]`, link.platform || "");
+      formData.append(`socialLinks[${index}][url]`, link.url || "");
+    });
+
+    const createEmployerProfileResponse = await _post(
+      "api/employer/add",
+      formData,
+    );
+
+    if (createEmployerProfileResponse.data.success) {
+      showSuccess("Employer Profile Created Successfully");
+      navigate("/profile-completed");
+    }
   };
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">

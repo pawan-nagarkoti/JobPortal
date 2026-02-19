@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
+import { User } from "./user.modal.js";
 
 const employerSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
+      index: true,
+    },
     name: {
       type: String,
       required: true,
@@ -13,7 +20,7 @@ const employerSchema = new mongoose.Schema(
     description: String,
     organization: String,
     industry: String,
-    teamSize: Number,
+    teamSize: String,
     establishmentYear: Date,
     url: String,
     companyVision: String,
@@ -38,7 +45,7 @@ const employerSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Employer = mongoose.model("Employer", employerSchema);

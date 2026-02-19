@@ -37,7 +37,7 @@ const CreateAccount = () => {
       if (addAccount.data.success) {
         addCookie("verifyEmailOtp", addAccount.data.data.email);
         showSuccess(
-          "We've sent an OTP to your registered email address. Please verify your account."
+          "We've sent an OTP to your registered email address. Please verify your account.",
         );
         navigate("/auth/verify-email");
       }

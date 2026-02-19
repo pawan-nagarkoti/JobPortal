@@ -25,7 +25,10 @@ const ProfileCompleteUI = () => {
         >
           View Dashboard
         </button>
-        <button className="px-8 py-3 bg-linear-to-r from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 text-slate-800 font-medium rounded-xl shadow-lg hover:shadow-xl border border-slate-300 transform hover:-translate-y-0.5 transition-all duration-200">
+        <button
+          className="px-8 py-3 bg-linear-to-r from-slate-100 to-slate-200 hover:from-slate-200 hover:to-slate-300 text-slate-800 font-medium rounded-xl shadow-lg hover:shadow-xl border border-slate-300 transform hover:-translate-y-0.5 transition-all duration-200"
+          onClick={() => navigate("/employer-job-post")}
+        >
           Post Job
         </button>
       </div>
