@@ -1,10 +1,32 @@
 import { createContext, useContext, useState } from "react";
+import { _post } from "../lib/api";
+import { deleteCookie } from "../lib/cookies";
+import { showSuccess } from "../lib/toast";
+import { useNavigate } from "react-router-dom";
 
 export const UIcontext = createContext();
 
 export const UIprovider = ({ children }) => {
   const [employerTabData, setEmployerTabData] = useState([]);
   const [employerTabController, setEmployerTabController] = useState("");
+  const navigate = useNavigate();
+
+  // logout functionality
+  const logout = async () => {
+    try {
+      const logoutResponse = await _post("api/auth/logout");
+      if (logoutResponse.data.success) {
+        deleteCookie("refreshToken");
+        deleteCookie("accessToken");
+        deleteCookie("loginUserInfo");
+        navigate("/");
+        showSuccess("Logout successfully");
+      }
+    } catch (error) {
+      console.log("errror while logout", error);
+    } finally {
+    }
+  };
   return (
     <UIcontext.Provider
       value={{
@@ -12,6 +34,7 @@ export const UIprovider = ({ children }) => {
         setEmployerTabData,
         employerTabController,
         setEmployerTabController,
+        logout,
       }}
     >
       {children}

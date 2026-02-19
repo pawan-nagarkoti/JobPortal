@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getCookie } from "../../lib/cookies";
+import useUI from "../../context/UIcontext";
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate("");
+  const { logout } = useUI();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,96 +31,69 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
-              <a
-                href="#"
-                className="text-gray-700 hover:text-primary transition"
-              >
-                Home
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-primary transition"
-              >
-                Find Jobs
-              </a>
-              <Link
-                to=""
-                className="text-gray-700 hover:text-primary transition"
-              >
-                Employers
-              </Link>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-primary transition"
-              >
-                Candidates
-              </a>
-              <a
-                href="#"
-                className="text-gray-700 hover:text-primary transition"
-              >
-                About
-              </a>
+          <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg
+                  className="h-5 w-5 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder="Job tittle, keyword, company"
+                className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
             </div>
           </div>
 
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-gray-700"
-            >
-              <i
-                className={`fas ${isMenuOpen ? "fa-times" : "fa-bars"} text-xl`}
-              ></i>
-            </button>
+          <div className="ml-10 flex items-center space-x-8">
+            <a href="#" className="text-gray-700 hover:text-primary transition">
+              Home
+            </a>
+            <a href="#" className="text-gray-700 hover:text-primary transition">
+              Find Jobs
+            </a>
+            <Link to="" className="text-gray-700 hover:text-primary transition">
+              Employers
+            </Link>
+            <a href="#" className="text-gray-700 hover:text-primary transition">
+              Candidates
+            </a>
+            <a href="#" className="text-gray-700 hover:text-primary transition">
+              About
+            </a>
+            {getCookie("accessToken") ? (
+              <div className="flex gap-5 items-center cursor-pointer">
+                <button
+                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <button
+                  className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors cursor-pointer"
+                  onClick={() => navigate("/auth/sign-in")}
+                >
+                  Sign In
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {isMenuOpen && (
-        <div className="md:hidden bg-gray-50 border-t">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            <a
-              href="#"
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              Home
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              Find Jobs
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              Employers
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              Candidates
-            </a>
-            <a
-              href="#"
-              className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              About
-            </a>
-            <button className="w-full text-left px-3 py-2 text-primary font-medium">
-              Sign In
-            </button>
-            <button className="w-full bg-primary text-white px-3 py-2 rounded-md mt-2">
-              Post Job
-            </button>
-          </div>
-        </div>
-      )}
     </nav>
   );
 }
