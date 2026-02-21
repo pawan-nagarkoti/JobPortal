@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
 import {
   EDUCATION,
+  JOB_BENEFITS,
+  JOB_CATEGORIES,
   JOB_LEVEL,
+  JOB_ROLES,
   JOB_TYPE,
   SALARY_CURRENCY,
   SALARY_PERIOD,
@@ -10,12 +13,27 @@ import {
 
 const jobListingSchema = new mongoose.Schema(
   {
+    employerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Employer",
+      required: true,
+    },
     title: { type: String, required: true, index: true, trim: true },
     tags: [
       {
-        name: String,
+        name: {
+          type: String,
+          enum: Object.values(JOB_ROLES),
+        },
+        category: {
+          type: String,
+          enum: Object.values(JOB_CATEGORIES),
+        },
       },
     ],
+    role: {
+      type: String,
+    },
     salary: {
       minSalary: String,
       maxSalary: String,
@@ -52,20 +70,19 @@ const jobListingSchema = new mongoose.Schema(
       city: String,
       isRemoteWorldwidePosition: { type: Boolean, default: false },
     },
-    jobBenefits: [{ name: "String" }],
+    jobBenefits: [
+      {
+        name: {
+          type: String,
+          enum: Object.values(JOB_BENEFITS),
+        },
+      },
+    ],
     description: String,
-    applyJob: String,
-    isExpired: { type: Boolean, default: false },
     isFeatured: { type: Boolean, default: false },
     isActive: { type: Boolean, default: false },
-    employerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Employer",
-      required: true,
-    },
-    expiresAt: Date,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const JobListing = mongoose.model("JobListing", jobListingSchema);

@@ -125,3 +125,331 @@ export const teamSizeList = [
   { id: 7, name: "51-100 members" },
   { id: 8, name: "100+ members" },
 ];
+
+export const JOB_ROLES_LIST = [
+  {
+    id: "1",
+    key: "FULL_STACK_DEVELOPER",
+    name: "Full Stack Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "2",
+    key: "FRONTEND_DEVELOPER",
+    name: "Frontend Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "3",
+    key: "BACKEND_DEVELOPER",
+    name: "Backend Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "4",
+    key: "REACT_DEVELOPER",
+    name: "React Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "5",
+    key: "NODE_JS_DEVELOPER",
+    name: "Node.js Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "6",
+    key: "MERN_STACK_DEVELOPER",
+    name: "MERN Stack Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "7",
+    key: "JAVASCRIPT_DEVELOPER",
+    name: "JavaScript Developer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "8",
+    key: "SOFTWARE_ENGINEER",
+    name: "Software Engineer",
+    category: "DEVELOPMENT",
+  },
+  {
+    id: "9",
+    key: "PROJECT_MANAGER",
+    name: "Project Manager",
+    category: "MANAGEMENT",
+  },
+  {
+    id: "10",
+    key: "PRODUCT_MANAGER",
+    name: "Product Manager",
+    category: "MANAGEMENT",
+  },
+  {
+    id: "11",
+    key: "UI_UX_DESIGNER",
+    name: "UI/UX Designer",
+    category: "DESIGN",
+  },
+  {
+    id: "12",
+    key: "QA_ENGINEER",
+    name: "QA Engineer",
+    category: "QA_TESTING",
+  },
+  {
+    id: "13",
+    key: "DEVOPS_ENGINEER",
+    name: "DevOps Engineer",
+    category: "SUPPORT",
+  },
+  {
+    id: "14",
+    key: "DATA_ANALYST",
+    name: "Data Analyst",
+    category: "DATA_ANALYTICS",
+  },
+  { id: "15", key: "INTERN", name: "Intern", category: "OTHER" },
+  { id: "16", key: "FRESHER", name: "Fresher", category: "OTHER" },
+];
+
+export const salaryPeriod = [
+  {
+    id: "1",
+    key: "hourly",
+    name: "Hourly",
+    label: "₹/hour",
+  },
+  {
+    id: "2",
+    key: "monthly",
+    name: "Monthly",
+    label: "₹/month",
+  },
+  {
+    id: "3",
+    key: "yearly",
+    name: "Yearly",
+    label: "₹/year (LPA)",
+  },
+];
+
+export const EDUCATION_LEVELS = [
+  {
+    id: "1",
+    key: "none",
+    name: "No Formal Education",
+  },
+  {
+    id: "2",
+    key: "high_school",
+    name: "High School",
+  },
+  {
+    id: "3",
+    key: "undergraduate",
+    name: "Undergraduate/Bachelor's",
+  },
+  {
+    id: "4",
+    key: "masters",
+    name: "Master's Degree",
+  },
+  {
+    id: "5",
+    key: "phd",
+    name: "PhD/Doctorate",
+  },
+];
+
+export const EXPERIENCE_LEVELS = [
+  {
+    id: "1",
+    key: "fresher",
+    name: "Fresher (0 years)",
+  },
+  {
+    id: "2",
+    key: "0-1",
+    name: "0-1 Year",
+  },
+  {
+    id: "3",
+    key: "1-2",
+    name: "1-2 Years",
+  },
+  {
+    id: "4",
+    key: "2-3",
+    name: "2-3 Years",
+  },
+  {
+    id: "5",
+    key: "3-5",
+    name: "3-5 Years",
+  },
+  {
+    id: "6",
+    key: "5-8",
+    name: "5-8 Years",
+  },
+  {
+    id: "7",
+    key: "8+",
+    name: "8+ Years",
+  },
+];
+
+export const JOB_TYPES = [
+  {
+    id: "1",
+    key: "remote",
+    name: "Remote",
+  },
+  {
+    id: "2",
+    key: "hybrid",
+    name: "Hybrid",
+  },
+  {
+    id: "3",
+    key: "on-site",
+    name: "On-site",
+  },
+];
+
+export const JOB_LEVELS = [
+  {
+    id: "1",
+    key: "INTERNSHIP",
+    name: "Internship",
+  },
+  {
+    id: "2",
+    key: "ENTRY_LEVEL",
+    name: "Entry Level",
+  },
+  {
+    id: "3",
+    key: "JUNIOR",
+    name: "Junior",
+  },
+  {
+    id: "4",
+    key: "MID_LEVEL",
+    name: "Mid Level",
+  },
+  {
+    id: "5",
+    key: "SENIOR_LEVEL",
+    name: "Senior Level",
+  },
+  {
+    id: "6",
+    key: "LEAD",
+    name: "Lead",
+  },
+  {
+    id: "7",
+    key: "MANAGER",
+    name: "Manager",
+  },
+  {
+    id: "8",
+    key: "DIRECTOR",
+    name: "Director",
+  },
+  {
+    id: "9",
+    key: "EXECUTIVE",
+    name: "Executive",
+  },
+];
+
+export const COUNTRIES = [
+  { id: "1", key: "IN", name: "India" },
+  { id: "2", key: "US", name: "United States" },
+  { id: "3", key: "GB", name: "United Kingdom" },
+  { id: "4", key: "CA", name: "Canada" },
+  { id: "5", key: "AU", name: "Australia" },
+  { id: "6", key: "DE", name: "Germany" },
+  { id: "7", key: "FR", name: "France" },
+  { id: "8", key: "SG", name: "Singapore" },
+  { id: "9", key: "AE", name: "United Arab Emirates" },
+  { id: "10", key: "NL", name: "Netherlands" },
+  { id: "11", key: "JP", name: "Japan" },
+  { id: "12", key: "CN", name: "China" },
+  { id: "13", key: "IT", name: "Italy" },
+  { id: "14", key: "ES", name: "Spain" },
+  { id: "15", key: "BR", name: "Brazil" },
+];
+
+export const INDIA_CITIES = [
+  { id: "1", key: "bangalore", name: "Bangalore" },
+  { id: "2", key: "hyderabad", name: "Hyderabad" },
+  { id: "3", key: "mumbai", name: "Mumbai" },
+  { id: "4", key: "pune", name: "Pune" },
+  { id: "5", key: "chennai", name: "Chennai" },
+  { id: "6", key: "delhi", name: "Delhi" },
+  { id: "7", key: "noida", name: "Noida" },
+  { id: "8", key: "gurgaon", name: "Gurgaon" },
+  { id: "9", key: "ahmedabad", name: "Ahmedabad" },
+  { id: "10", key: "kolkata", name: "Kolkata" },
+  { id: "11", key: "coimbatore", name: "Coimbatore" },
+  { id: "12", key: "kochi", name: "Kochi" },
+  { id: "13", key: "chandigarh", name: "Chandigarh" },
+  { id: "14", key: "jaipur", name: "Jaipur" },
+  { id: "15", key: "indore", name: "Indore" },
+  { id: "16", key: "lucknow", name: "Lucknow" },
+  { id: "17", key: "kanpur", name: "Kanpur" },
+  { id: "18", key: "nagpur", name: "Nagpur" },
+  { id: "19", key: "vadodara", name: "Vadodara" },
+  { id: "20", key: "visakhapatnam", name: "Visakhapatnam" },
+  { id: "21", key: "bhopal", name: "Bhopal" },
+  { id: "22", key: "bhuvneshwar", name: "Bhuvneshwar" },
+  { id: "23", key: "surat", name: "Surat" },
+  { id: "24", key: "ramnagar", name: "Rāmnagar" },
+];
+
+export const JOB_BENEFITS = [
+  { id: "1", key: "HEALTH_INSURANCE", name: "Health Insurance" },
+  { id: "2", key: "DENTAL_INSURANCE", name: "Dental Insurance" },
+  { id: "3", key: "LIFE_INSURANCE", name: "Life Insurance" },
+  { id: "4", key: "RETIREMENT_PLAN", name: "Retirement Plan (PF)" },
+  { id: "5", key: "PAID_LEAVE", name: "Paid Time Off" },
+  { id: "6", key: "WORK_FROM_HOME", name: "Work From Home" },
+  { id: "7", key: "FLEXIBLE_HOURS", name: "Flexible Hours" },
+  { id: "8", key: "GYM_MEMBERSHIP", name: "Gym Membership" },
+  { id: "9", key: "FOOD_CANTEEN", name: "Free Meals/Canteen" },
+  {
+    id: "10",
+    key: "TRANSPORTATION",
+    name: "Transportation Allowance",
+  },
+  { id: "11", key: "CHILDCARE", name: "Childcare Support" },
+  { id: "12", key: "TRAINING", name: "Professional Training" },
+  { id: "13", key: "STOCK_OPTIONS", name: "Stock Options/ESOP" },
+  { id: "14", key: "BONUS", name: "Performance Bonus" },
+  { id: "15", key: "TEAM_OUTINGS", name: "Team Outings" },
+  { id: "16", key: "LAPTOP_PROVIDED", name: "Laptop Provided" },
+  {
+    id: "17",
+    key: "PHONE_REIMBURSEMENT",
+    name: "Phone Reimbursement",
+  },
+  {
+    id: "18",
+    key: "INTERNET_REIMBURSEMENT",
+    name: "Internet Reimbursement",
+  },
+];
+
+export const WORK_TYPE = [
+  { id: "full-time", label: "Full Time", value: "full-time" },
+  { id: "part-time", label: "Part Time", value: "part-time" },
+  { id: "contract", label: "Contract", value: "contract" },
+  { id: "temporary", label: "Temporary", value: "temporary" },
+  { id: "freelance", label: "Freelance", value: "freelance" },
+];

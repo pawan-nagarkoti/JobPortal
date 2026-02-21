@@ -53,6 +53,7 @@ export const addJob = async (req, res) => {
       education,
       experience,
       jobType,
+      workType,
       vacancies,
       expirationDate,
       workType,
@@ -120,7 +121,7 @@ export const fetchJobs = async (req, res) => {
     }
     if (salary) {
       const match = salary.match(
-        /\$?(\d+(?:\.\d+)?)(?:\s*-\s*\$?(\d+(?:\.\d+)?))?/
+        /\$?(\d+(?:\.\d+)?)(?:\s*-\s*\$?(\d+(?:\.\d+)?))?/,
       );
       const minimum = parseFloat(match[1]);
       const maximum = parseFloat(match[2]);
@@ -285,7 +286,7 @@ export const updateJob = async (req, res) => {
         _id: id,
       },
       updatedJobObj,
-      { new: true }
+      { new: true },
     );
 
     if (updatedJob) {
