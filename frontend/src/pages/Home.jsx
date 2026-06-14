@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HeroSection from "../components/other/HeroSection";
 import StatsSection from "../components/other/StatsSection";
 import FeaturedJobs from "../components/applicant/FeaturedJobs";
 import TopCompanies from "../components/applicant/TopCompanies";
 import CategoriesSection from "../components/applicant/CategoriesSection";
 import CTACards from "../components/other/CTACards";
-import { jobsObj } from "../lib/constant";
+import { _get } from "../lib/api";
 
 export default function Home() {
-  const [jobs] = useState(jobsObj);
+  const [jobList, setJobList] = useState("");
 
   const handleSearch = (searchTerm, location) => {
     console.log("Searching for:", searchTerm, "in", location);
@@ -71,11 +71,22 @@ export default function Home() {
       bgColor: "bg-pink-500",
     },
   ];
+
+  // fetch all jobs
+  const fetchJobs = async () => {
+    const fetchJobsResponse = await _get("api/jobList/fetch");
+    if (fetchJobsResponse.data.success) {
+      setJobList(fetchJobsResponse.data);
+    }
+  };
+  useEffect(() => {
+    fetchJobs();
+  }, []);
   return (
     <>
       <HeroSection onSearch={handleSearch} />
       <StatsSection />
-      <FeaturedJobs jobs={jobs} />
+      <FeaturedJobs jobs={jobList} />
       <TopCompanies companies={companies} />
       <CategoriesSection />
       <CTACards />

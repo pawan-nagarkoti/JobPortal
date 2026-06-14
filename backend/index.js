@@ -14,7 +14,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true })); // Middleware to parse form data
@@ -36,7 +36,9 @@ import globalSearchRoute from "./routes/other/globalSearch.route.js";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", auth, employerRoutes);
-app.use("/api/jobList", auth, jobListingRoutes);
+// app.use("/api/jobList", auth, jobListingRoutes);
+app.use("/api/jobList", jobListingRoutes);
+
 app.use("/api/applicant", auth, applicantRoutes);
 app.use("/api/resume", auth, resumeRoutes);
 app.use("/api/bookmark-job", auth, bookmarkJobs);

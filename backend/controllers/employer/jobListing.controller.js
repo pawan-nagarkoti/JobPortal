@@ -139,7 +139,13 @@ export const fetchJobs = async (req, res) => {
     const totalItems = await JobListing.countDocuments(filter); // filter with count
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const allJobs = await JobListing.find(filter).skip(skip).limit(limit);
+    const allJobs = await JobListing.find(filter)
+      .populate({
+        path: "employerId",
+        select: "name logo",
+      })
+      .skip(skip)
+      .limit(limit);
 
     if (allJobs) {
       return res.status(200).json({

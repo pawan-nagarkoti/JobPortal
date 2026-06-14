@@ -1,7 +1,7 @@
 import React from "react";
 import JobCard from "./JobCard";
 
-const FeaturedJobs = ({ jobs }) => {
+const FeaturedJobs = ({ jobs = "" }) => {
   return (
     <div className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +15,7 @@ const FeaturedJobs = ({ jobs }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobs.map((job, index) => (
+          {jobs?.data?.map((job, index) => (
             <JobCard key={index} job={job} />
           ))}
         </div>
