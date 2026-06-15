@@ -12,7 +12,7 @@ const JobCard = ({ job }) => {
             <h3 className="font-semibold text-lg text-gray-900 mb-1">
               {job.title}
             </h3>
-            <p className="text-gray-600 text-sm">{job.employerId.name}</p>
+            <p className="text-gray-600 text-sm">{job?.employerId?.name}</p>
           </div>
         </div>
         <button className="text-gray-400 hover:text-red-500 transition">

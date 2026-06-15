@@ -63,10 +63,16 @@ export default function Header() {
             >
               Home
             </Link>
-            <Link to="" className="text-gray-700 hover:text-primary transition">
+            <Link
+              to="/find-job"
+              className="text-gray-700 hover:text-primary transition"
+            >
               Find Jobs
             </Link>
-            <Link to="" className="text-gray-700 hover:text-primary transition">
+            <Link
+              to="/find-employer"
+              className="text-gray-700 hover:text-primary transition"
+            >
               Employers
             </Link>
             <Link to="" className="text-gray-700 hover:text-primary transition">

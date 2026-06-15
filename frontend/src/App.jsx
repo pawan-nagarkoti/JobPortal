@@ -26,10 +26,12 @@ import NotFoundPage from "./pages/NotFoundpage";
 import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
+import ScrollToTop from "./components/other/ScrollToTop";
 
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

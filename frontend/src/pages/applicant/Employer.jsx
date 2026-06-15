@@ -1,18 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/other/SearchBar";
-import { BreadcrumbSection } from "../../components/other/Breadcrumb";
+import { _get } from "../../lib/api";
+import CompanyCard from "../../components/applicant/CompanyCard";
 
 export default function Employer() {
+  const [companies, setCompanies] = useState("");
+
+  // fetch employer
+  const fetchEmployers = async () => {
+    const fetchEmployersResponse = await _get("api/employer/fetch");
+    if (fetchEmployersResponse.data.success) {
+      setCompanies(fetchEmployersResponse.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployers();
+  }, []);
+
   return (
     <>
-      <BreadcrumbSection />
       <div className="container mx-auto">
         <div className="mt-5 mb-4">
           <SearchBar />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <h1>employer grid</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-5">
+          {companies?.data?.map((company, i) => (
+            <CompanyCard key={i} company={company} />
+          ))}
         </div>
       </div>
     </>
