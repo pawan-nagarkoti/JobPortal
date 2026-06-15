@@ -101,6 +101,7 @@ export const fetchJobs = async (req, res) => {
     const jobType = req.query.jobType;
     const remoteJob = req.query.remoteJob;
     const salary = req.query.salary;
+    const isFeatured = req.query.isFeatured;
 
     let filter = {};
 
@@ -130,6 +131,10 @@ export const fetchJobs = async (req, res) => {
         "salary.minSalary": { $gte: minimum },
         "salary.maxSalary": { $lte: maximum },
       };
+    }
+
+    if (isFeatured) {
+      filter.isFeatured = isFeatured;
     }
 
     //pagination

@@ -19,7 +19,7 @@ export default function Home() {
   // fetch all jobs
 
   const fetchJobs = async () => {
-    const fetchJobsResponse = await _get("api/jobList/fetch");
+    const fetchJobsResponse = await _get("api/jobList/fetch?isFeatured=true");
     if (fetchJobsResponse.data.success) {
       setJobList(fetchJobsResponse.data);
     }
