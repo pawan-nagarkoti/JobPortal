@@ -9,16 +9,8 @@ export default function CompanyCard({ company }) {
           {/* Logo and Name */}
           <div className="flex items-center space-x-3">
             {/* Logo with colored background */}
-            <div
-              className={`w-14 h-14 ${company.bgColor} rounded-lg flex items-center justify-center flex-shrink-0`}
-            >
-              <svg
-                className="w-8 h-8 text-white"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
-              </svg>
+            <div className="w-12  overflow-hidden h-auto max-h-12 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
+              <img src={company?.logo} alt="" />
             </div>
 
             {/* Company Name and Location */}
@@ -46,25 +38,29 @@ export default function CompanyCard({ company }) {
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                {company.location}
+                {company?.contact?.location?.country}
               </div>
             </div>
           </div>
-
-          {/* Featured Badge */}
-          {company.isFeatured && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
-              Featured
-            </span>
-          )}
         </div>
       </div>
 
       {/* Open Position Footer */}
       <div className="bg-blue-50 px-6 py-3 border-t border-gray-100">
-        <button className="w-full text-center text-blue-600 font-medium text-sm hover:text-blue-700 transition-colors">
-          Open Position ({company.openPositions})
-        </button>
+        <div className="flex items-center justify-center gap-4">
+          {company.socialLinks?.map((s, i) => (
+            <a
+              key={i}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.name}
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
+            >
+              {s.name}
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );

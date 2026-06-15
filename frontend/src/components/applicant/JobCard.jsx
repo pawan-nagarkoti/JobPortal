@@ -6,7 +6,7 @@ const JobCard = ({ job }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-start space-x-4">
           <div className="w-12  overflow-hidden h-auto max-h-12 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
-            <img src={job.employerId.logo} alt="" className="rounded" />
+            <img src={job?.employerId?.logo} alt="" className="rounded" />
           </div>
           <div>
             <h3 className="font-semibold text-lg text-gray-900 mb-1">

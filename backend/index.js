@@ -35,8 +35,7 @@ import getInTouch from "./routes/other/getInTouch.route.js";
 import globalSearchRoute from "./routes/other/globalSearch.route.js";
 
 app.use("/api/auth", authRoutes);
-app.use("/api/employer", auth, employerRoutes);
-// app.use("/api/jobList", auth, jobListingRoutes);
+app.use("/api/employer", employerRoutes);
 app.use("/api/jobList", jobListingRoutes);
 
 app.use("/api/applicant", auth, applicantRoutes);
