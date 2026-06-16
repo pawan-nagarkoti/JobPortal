@@ -75,10 +75,16 @@ export default function Header() {
             >
               Employers
             </Link>
-            <Link to="" className="text-gray-700 hover:text-primary transition">
+            <Link
+              to="find-candidate"
+              className="text-gray-700 hover:text-primary transition"
+            >
               Candidates
             </Link>
-            <Link to="" className="text-gray-700 hover:text-primary transition">
+            <Link
+              to="/about-us"
+              className="text-gray-700 hover:text-primary transition"
+            >
               About
             </Link>
             {getCookie("accessToken") ? (

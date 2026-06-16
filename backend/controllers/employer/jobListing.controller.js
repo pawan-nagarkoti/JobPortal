@@ -95,6 +95,7 @@ export const addJob = async (req, res) => {
 
 export const fetchJobs = async (req, res) => {
   try {
+    const jobId = req.params;
     const title = req.query.title;
     const country = req.query.country;
     const city = req.query.city;
@@ -183,7 +184,10 @@ export const fetchJobs = async (req, res) => {
 export const singleJob = async (req, res) => {
   try {
     const { id } = req.params;
-    const fetchSingleJob = await JobListing.findOne({ _id: id });
+    const fetchSingleJob = await JobListing.findOne({ _id: id }).populate({
+      path: "employerId",
+      select: "name logo",
+    });
     return res.status(200).json({
       success: true,
       data: fetchSingleJob,

@@ -36,9 +36,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="find-job" element={<JobPage />} />
-          <Route path="job-detail/1" element={<JobDetailPage />} />
+          <Route path="job-detail/:id" element={<JobDetailPage />} />
           <Route path="find-employer" element={<Employer />} />
-          <Route path="employer-detail/1" element={<EmployerDetailPage />} />
+          <Route path="employer-detail/:id" element={<EmployerDetailPage />} />
           <Route path="find-candidate" element={<CandidatesList />} />
           <Route path="applicant-dashboard" element={<Dashboard />} />
           <Route path="applicant-dashboard/setting" element={<Setting />} />

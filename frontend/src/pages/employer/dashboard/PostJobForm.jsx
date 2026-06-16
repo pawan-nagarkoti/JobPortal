@@ -69,7 +69,7 @@ const PostJobForm = () => {
     }
 
     const jobPostObject = {
-      employerId: "6996d85cd8c9bd66217fab6b",
+      employerId: "6a2fa31a6f7a10b398e8ce09",
       title,
       tags: tagContainer,
       role: jobRole,

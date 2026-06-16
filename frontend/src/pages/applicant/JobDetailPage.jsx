@@ -1,73 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BreadcrumbSection } from "../../components/other/Breadcrumb";
 import DiloagContainer from "../../components/common/DiloagContainer";
+import { _get } from "../../lib/api";
+import { useParams } from "react-router-dom";
+import { date } from "../../lib/utils";
+import { HtmlSanitizer } from "../../components/other/htmlSanitizer";
 
 export default function JobDetailPage() {
-  const job = {
-    title: "Senior UX Designer",
-    company: "Facebook",
-    location: "Dhaka, Bangladesh",
-    type: "FULL-TIME",
-    featured: true,
-    salary: "$100,000 - $120,000",
-    salaryNote: "Yearly salary",
-    remote: "Worldwide",
-    posted: "14 Jun, 2021",
-    expires: "14 Aug, 2021",
-    experience: "$50k-80k/month",
-    education: "Graduation",
-    jobLevel: "Entry Level",
-    logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-    logoBg: "bg-blue-600",
+  const [job, setJob] = useState("");
+  const { id } = useParams();
+
+  const fetchJobDetail = async () => {
+    const response = await _get(`api/jobList/single/${id}`);
+    console.log(response.data.data);
+    if (response?.data?.success) {
+      setJob(response.data.data);
+    }
   };
+  useEffect(() => {
+    fetchJobDetail();
+  }, []);
 
-  const benefits = [
-    "401k Salary",
-    "Async",
-    "Learning budget",
-    "Vision Insurance",
-    "4 day workweek",
-    "Profit Sharing",
-    "Free gym membership",
-    "Equity Compensation",
-    "No politics at work",
-  ];
+  if (!job) return "Loading...";
 
-  const jobDescription = `Velstar is a Shopify Plus agency, and we partner with brands to help them grow, we also do the same with our people!
-  
-  Here at Velstar, we don't just make websites, we create exceptional digital experiences that consumers love. Our team of designers, developers, strategists, and creators work together to push brands to the next level. From Platform Migration, User Experience & User Interface Design, to Digital Marketing, we have a proven track record in delivering outstanding eCommerce solutions and driving sales for our clients.
-  
-  The role will involve translating project specifications into clean, test-driven, easily maintainable code. You will work with the Project and Development teams as well as with the Technical Director, adhering closely to project plans and delivering work that meets functional & non-functional requirements. You will have the opportunity to create new, innovative, secure and scalable features for our clients on the Shopify platform
-  
-  Want to work with us? You're in good company!`;
-
-  const requirements = [
-    "Great troubleshooting and analytical skills combined with the desire to tackle challenges head-on",
-    "3+ years of experience in back-end development working either with multiple smaller projects simultaneously or large-scale applications",
-    "Experience with HTML, JavaScript, CSS, PHP, Symphony and/or Laravel",
-    "Working regularly with APIs and Web Services (REST, GraphQL, SOAP, etc)",
-    "Have experience/awareness in Agile application development, commercial off-the-shelf software, middleware, servers and storage, and database management.",
-    "Familiarity with version control and project management (e.g., Github, Jira)",
-    "Great troubleshooting and analytical skills combined with the desire to tackle challenges head-on",
-    "Ambitious and hungry to grow your career in a fast-growing agency",
-  ];
-
-  const desirable = [
-    "Working knowledge of eCommerce platforms, ideally Shopify but also others e.g. Magento, WooCommerce, Visualsoft to enable seamless migrations.",
-    "Working knowledge of payment gateways",
-    "API platform experience / Building restful APIs",
-  ];
-
-  const companyBenefits = [
-    "Early finish on Fridays for our end of week catch up (4:30 finish, and drink of your choice from the bar)",
-    "28 days holiday (including bank holidays) rising by 1 day per year PLUS an additional day off on your birthday",
-    "Generous annual bonus.",
-    "Healthcare package",
-    "Paid community days to volunteer for a charity of your choice",
-    "£100 contribution for your own personal learning and development",
-    "Free Breakfast on Mondays and free snacks in the office",
-    "Access to Perkbox with numerous discounts plus free points from the company to spend as you wish.",
-  ];
   return (
     <>
       <BreadcrumbSection />
@@ -80,15 +35,9 @@ export default function JobDetailPage() {
                 <div className="flex items-start space-x-4">
                   {/* Company Logo */}
                   <div
-                    className={`w-16 h-16 ${job.logoBg} rounded-lg flex items-center justify-center flex-shrink-0`}
+                    className={`w-16 h-16  rounded-lg flex items-center justify-center shrink-0`}
                   >
-                    <svg
-                      className="w-10 h-10 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
+                    <img src={job?.employerId?.logo} alt="" />
                   </div>
 
                   {/* Job Info */}
@@ -97,9 +46,9 @@ export default function JobDetailPage() {
                       {job.title}
                     </h1>
                     <div className="flex items-center space-x-4 text-gray-600">
-                      <span>at {job.company}</span>
+                      <span>at {job?.employerId?.name}</span>
                       <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded">
-                        {job.type}
+                        {job.workType}
                       </span>
                       {job.featured && (
                         <span className="px-3 py-1 bg-yellow-50 text-yellow-700 text-xs font-medium rounded border border-yellow-200">
@@ -158,16 +107,12 @@ export default function JobDetailPage() {
                 <div className="bg-white rounded-lg p-6">
                   <h2 className="text-xl font-bold mb-4">Job Description</h2>
                   <div className="text-gray-700 space-y-4">
-                    {jobDescription.split("\n\n").map((paragraph, index) => (
-                      <p key={index} className="leading-relaxed">
-                        {paragraph}
-                      </p>
-                    ))}
+                    {HtmlSanitizer(job?.description)}
                   </div>
                 </div>
 
                 {/* Requirements */}
-                <div className="bg-white rounded-lg p-6">
+                {/* <div className="bg-white rounded-lg p-6">
                   <h2 className="text-xl font-bold mb-4">Requirements</h2>
                   <ul className="space-y-3">
                     {requirements.map((req, index) => (
@@ -177,10 +122,10 @@ export default function JobDetailPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Desirable */}
-                <div className="bg-white rounded-lg p-6">
+                {/* <div className="bg-white rounded-lg p-6">
                   <h2 className="text-xl font-bold mb-4">Desirable:</h2>
                   <ul className="space-y-3">
                     {desirable.map((item, index) => (
@@ -190,16 +135,16 @@ export default function JobDetailPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Benefits */}
                 <div className="bg-white rounded-lg p-6">
                   <h2 className="text-xl font-bold mb-4">Benefits</h2>
                   <ul className="space-y-3">
-                    {companyBenefits.map((benefit, index) => (
+                    {job?.jobBenefits?.map((benefit, index) => (
                       <li key={index} className="flex items-start">
                         <span className="text-blue-600 mr-2">•</span>
-                        <span className="text-gray-700">{benefit}</span>
+                        <span className="text-gray-700">{benefit.name}</span>
                       </li>
                     ))}
                   </ul>
@@ -212,7 +157,7 @@ export default function JobDetailPage() {
                 <div className="bg-white rounded-lg p-6">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-medium text-gray-600">
-                      Salary (USD)
+                      Salary [{job.salary.currency}]
                     </h3>
                     <svg
                       className="w-6 h-6 text-blue-600"
@@ -229,9 +174,9 @@ export default function JobDetailPage() {
                     </svg>
                   </div>
                   <p className="text-2xl font-bold text-green-600 mb-1">
-                    {job.salary}
+                    ${job.salary.minSalary} - ${job.salary.maxSalary}
                   </p>
-                  <p className="text-sm text-gray-500">{job.salaryNote}</p>
+                  <p className="text-sm text-gray-500">{job.salary.period}</p>
                 </div>
 
                 {/* Job Location */}
@@ -261,7 +206,8 @@ export default function JobDetailPage() {
                     </svg>
                   </div>
                   <p className="font-semibold text-gray-900 mb-2">
-                    {job.location}
+                    {job.location.city} &nbsp;
+                    {job.location.country}
                   </p>
                   <div className="flex items-center text-sm text-gray-600 mt-4">
                     <svg
@@ -278,8 +224,12 @@ export default function JobDetailPage() {
                       />
                     </svg>
                     <div>
-                      <p className="font-medium">Remote Job</p>
-                      <p className="text-gray-500">{job.remote}</p>
+                      <p className="font-medium">
+                        {job.jobLevel} {job.jobType} Job
+                      </p>
+                      {job.location.isRemoteWorldwidePosition && (
+                        <p className="text-gray-500">Worldwide</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -288,12 +238,12 @@ export default function JobDetailPage() {
                 <div className="bg-white rounded-lg p-6">
                   <h3 className="text-lg font-bold mb-4">Job Benefits</h3>
                   <div className="flex flex-wrap gap-2">
-                    {benefits.map((benefit, index) => (
+                    {job?.jobBenefits.map((benefit, index) => (
                       <span
                         key={index}
                         className="px-3 py-1.5 bg-green-50 text-green-700 text-sm rounded-md border border-green-200"
                       >
-                        {benefit}
+                        {benefit.name}
                       </span>
                     ))}
                   </div>
@@ -322,7 +272,8 @@ export default function JobDetailPage() {
                         <p className="text-xs text-gray-500 uppercase">
                           Job Posted:
                         </p>
-                        <p className="font-semibold">{job.posted}</p>
+                        {/* <p className="font-semibold">{job.posted}</p> */}
+                        <p className="font-semibold">{date(job.createdAt)}</p>
                       </div>
                     </div>
 
@@ -345,7 +296,9 @@ export default function JobDetailPage() {
                         <p className="text-xs text-gray-500 uppercase">
                           Job Expire In:
                         </p>
-                        <p className="font-semibold">{job.expires}</p>
+                        <p className="font-semibold">
+                          {date(job?.expirationDate)}
+                        </p>
                       </div>
                     </div>
 
@@ -391,7 +344,11 @@ export default function JobDetailPage() {
                         <p className="text-xs text-gray-500 uppercase">
                           Experience
                         </p>
-                        <p className="font-semibold">{job.experience}</p>
+                        <p className="font-semibold">
+                          {/* ${job.salary.minSalary} - ${job.salary.minSalary}/
+                          {job.salary.period} */}
+                          {job?.experience}
+                        </p>
                       </div>
                     </div>
 
@@ -480,18 +437,12 @@ export default function JobDetailPage() {
                 <div className="bg-white rounded-lg p-6">
                   <h3 className="text-lg font-bold mb-4">Job tags:</h3>
                   <div className="flex flex-wrap gap-2">
-                    {[
-                      "Back-end",
-                      "PHP",
-                      "Laravel",
-                      "Development",
-                      "Front-end",
-                    ].map((tag, index) => (
+                    {job?.tags?.map((tag, index) => (
                       <span
                         key={index}
                         className="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 cursor-pointer"
                       >
-                        {tag}
+                        {tag.name}
                       </span>
                     ))}
                   </div>

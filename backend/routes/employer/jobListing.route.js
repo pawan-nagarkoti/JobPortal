@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.post("/add", auth, validateObjectIds(["employerId"]), addJob);
 router.get("/fetch", fetchJobs);
-router.get("/single/:id", auth, validateObjectIds(["id"]), singleJob);
+router.get("/single/:id", validateObjectIds(["id"]), singleJob);
 router.delete("/delete/:id", auth, validateObjectIds(["id"]), deleteJob);
 router.delete("/delete-all", auth, deleteAllJob);
 router.put(
