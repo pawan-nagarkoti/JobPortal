@@ -1,9 +1,29 @@
 import SheetCompoent from "../common/SheetContainer";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [country, setCountry] = useState("");
+  const [city, setCity] = useState("");
 
+  const [, setSearchParams] = useSearchParams();
+
+  const updateSearchParams = (values) => {
+    const filtered = Object.fromEntries(
+      Object.entries(values).filter(([_, value]) => value?.trim()),
+    );
+    setSearchParams(filtered);
+  };
+
+  const handleFindJob = () => {
+    updateSearchParams({
+      title,
+      country,
+      city,
+    });
+  };
   return (
     <>
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -27,6 +47,7 @@ export default function SearchBar() {
               type="text"
               placeholder="Job title"
               className="w-full outline-none text-gray-600 placeholder-gray-400 text-sm"
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
 
@@ -53,15 +74,15 @@ export default function SearchBar() {
             </svg>
             <input
               type="text"
-              placeholder="Country and State"
+              placeholder="Country"
               className="w-full outline-none text-gray-600 placeholder-gray-400 text-sm"
+              onChange={(e) => setCountry(e.target.value)}
             />
           </div>
 
-          {/* Location Button */}
-          <button className="px-4 py-5 hover:bg-gray-50 transition-colors">
+          <div className="flex-1 flex items-center px-4 py-5">
             <svg
-              className="w-5 h-5 text-gray-600"
+              className="w-5 h-5 text-blue-600 mr-3 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -79,7 +100,13 @@ export default function SearchBar() {
                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-          </button>
+            <input
+              type="text"
+              placeholder="State"
+              className="w-full outline-none text-gray-600 placeholder-gray-400 text-sm"
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
 
           {/* Filters Button */}
           <button
@@ -104,7 +131,10 @@ export default function SearchBar() {
           <SheetCompoent open={open} setOpen={setOpen} />
 
           {/* Find Job Button */}
-          <button className="px-8 py-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-r-lg transition-colors text-sm">
+          <button
+            className="px-8 py-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-r-lg transition-colors text-sm"
+            onClick={handleFindJob}
+          >
             Find Job
           </button>
         </div>

@@ -91,7 +91,7 @@ export const updateJob = async (req, res) => {
         appliedAt,
         statusUpdateAt,
       },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({

@@ -2,21 +2,34 @@ import JobCard from "../../components/applicant/JobCard";
 import SearchBar from "../../components/other/SearchBar";
 import { _get } from "../../lib/api";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function JobPage() {
   const [jobList, setJobList] = useState("");
+  const [searchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
+
+  const title = searchParams.get("title") || "";
+  const country = searchParams.get("country") || "";
+  const city = searchParams.get("city") || "";
 
   // fetch all jobs
   const fetchJobs = async () => {
-    const fetchJobsResponse = await _get("api/jobList/fetch");
+    const fetchJobsResponse = await _get(
+      `api/jobList/fetch?title=${title}&country=${country}&city=${city}`,
+    );
     if (fetchJobsResponse.data.success) {
       setJobList(fetchJobsResponse.data);
     }
   };
 
   useEffect(() => {
-    fetchJobs();
+    setSearchParams({}); // delete all query param after refresh page
   }, []);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [searchParams]);
 
   return (
     <>
