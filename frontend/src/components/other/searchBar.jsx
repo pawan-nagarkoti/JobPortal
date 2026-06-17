@@ -1,6 +1,9 @@
 import SheetCompoent from "../common/SheetContainer";
+import { useState } from "react";
 
 export default function SearchBar() {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
@@ -8,7 +11,7 @@ export default function SearchBar() {
           {/* Search Input */}
           <div className="flex-1 flex items-center px-4 py-5">
             <svg
-              className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0"
+              className="w-5 h-5 text-blue-600 mr-3 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -22,7 +25,7 @@ export default function SearchBar() {
             </svg>
             <input
               type="text"
-              placeholder="Search by: Job title, Position, Keyword..."
+              placeholder="Job title"
               className="w-full outline-none text-gray-600 placeholder-gray-400 text-sm"
             />
           </div>
@@ -30,7 +33,7 @@ export default function SearchBar() {
           {/* Location Input */}
           <div className="flex-1 flex items-center px-4 py-5">
             <svg
-              className="w-5 h-5 text-blue-600 mr-3 flex-shrink-0"
+              className="w-5 h-5 text-blue-600 mr-3 shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -50,7 +53,7 @@ export default function SearchBar() {
             </svg>
             <input
               type="text"
-              placeholder="City, state or zip code"
+              placeholder="Country and State"
               className="w-full outline-none text-gray-600 placeholder-gray-400 text-sm"
             />
           </div>
@@ -79,7 +82,10 @@ export default function SearchBar() {
           </button>
 
           {/* Filters Button */}
-          <button className="flex items-center px-5 py-5 hover:bg-gray-50 transition-colors">
+          <button
+            className="flex items-center px-5 py-5 hover:bg-gray-50 transition-colors"
+            onClick={() => setOpen(true)}
+          >
             <svg
               className="w-5 h-5 text-gray-700 mr-2"
               fill="none"
@@ -95,7 +101,7 @@ export default function SearchBar() {
             </svg>
             <span className="font-semibold text-gray-900 text-sm">Filters</span>
           </button>
-          <SheetCompoent />
+          <SheetCompoent open={open} setOpen={setOpen} />
 
           {/* Find Job Button */}
           <button className="px-8 py-5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-r-lg transition-colors text-sm">

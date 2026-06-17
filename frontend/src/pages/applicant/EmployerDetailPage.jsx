@@ -1,32 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { _get } from "../../lib/api";
+import { useParams } from "react-router-dom";
+import { date } from "../../lib/utils";
 
 export default function EmployerDetailPage() {
-  // Dummy company data
-  const company = {
-    name: "Twitter",
-    category: "Information Technology (IT)",
-    logo: "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png",
-    logoBg: "bg-gradient-to-br from-pink-500 to-orange-500",
-    founded: "14 June, 2021",
-    organizationType: "Private Company",
-    teamSize: "120-300 Candidates",
-    industryType: "Technology",
-    website: "www.estherhoward.com",
-    phone: "+1-202-555-0141",
-    email: "esther.howard@gmail.com",
-  };
-
-  const description = `Fusce et erat at nibh maximus fermentum. Mauris ac justo nibh. Praesent nec lorem lorem. Donec ullamcorper lacus mollis tortor pretium malesuada. In quis porta nisl, quis fringilla orci. Donec porttitor, odio a efficitur blandit, orci nisl porta elit, eget vulputate quam nibh ut tellus. Sed ut posuere risus, vitae commodo velit. Nullam eu lorem lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla tincidunt ac quam quis vehicula. Quisque sagittis ullamcorper magna. Vivamus elementum sed gravida. Sed dignissim placerat diam, ac laoreet eros rutrum sit amet. Donec imperdiet in leo at imperdiet. In hac habitasse platea dictumst. Sed quis nisl molestie diam ullamcorper condimentum. Sed aliquet, arcu eget pretium bibendum, odio enim rutrum arcu, quis suscipit mauris turpis in neque. Vestibulum id vestibulum odio. Sed dolor felis, iaculis eget turpis eu, lobortis imperdiet massa.`;
-
-  const benefits = [
-    "In hac habitasse platea dictumst.",
-    "Sed aliquet, arcu eget pretium bibendum, odio enim rutrum arcu.",
-    "Vestibulum id vestibulum odio.",
-    "Etiam libero ante accumsan id tellus venenatis rhoncus vulputate velit.",
-    "Nam condimentum sit amet ipsum id malesuada.",
-  ];
-
-  const vision = `Praesent ultrices mauris at nisi euismod, ut venenatis augue blandit. Etiam massa risus, accumsan nec tempus nec, venenatis in nisl. Maecenas nulla ex, blandit in magna id, pellentesque facilisis sapien. In feugiat auctor mi, eget commodo lectus convallis ac.`;
+  const { id } = useParams();
+  const [data, setData] = useState("");
 
   const socialLinks = [
     { name: "Facebook", icon: "facebook", url: "#", color: "bg-blue-600" },
@@ -35,45 +14,46 @@ export default function EmployerDetailPage() {
     { name: "YouTube", icon: "youtube", url: "#", color: "bg-red-600" },
   ];
 
+  const fetchEmployer = async () => {
+    const response = await _get(`/api/employer/single/${id}`);
+    if (response.data.success) {
+      setData(response.data.data);
+    }
+  };
+  useEffect(() => {
+    fetchEmployer();
+  }, []);
+
+  if (!data) return "Loding...";
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Banner with Company Info */}
-      <div className="relative h-64 bg-gradient-to-r from-blue-600 to-purple-600">
+      <div className="relative h-64 bg-linear-to-r from-blue-600 to-purple-600">
         {/* Background Image */}
         <img
-          src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=400&fit=crop"
+          // src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=400&fit=crop"
+          src={data?.banner}
           alt="Company banner"
           className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50"
         />
 
         {/* Company Logo and Info Overlay */}
-        <div className="absolute -bottom-16 left-0 right-0 bg-[red]">
+        <div className="absolute -bottom-16 left-0 right-0 bg-[#cfb4b4]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end space-x-6">
               {/* Company Logo */}
               <div
-                className={`w-32 h-32 ${company.logoBg} rounded-2xl flex items-center justify-center border-4 border-white shadow-lg flex-shrink-0`}
+                className={`w-32 h-32  rounded-2xl flex items-center justify-center border-4 border-white shadow-lg shrink-0`}
               >
-                <svg
-                  className="w-16 h-16 text-white"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
+                <img src={data.logo} alt="" />
               </div>
 
               {/* Company Name and Info */}
               <div className="pb-4 flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <h1 className="text-3xl font-bold text-white">
-                    {company.name}
-                  </h1>
-                  <span className="px-3 py-1 bg-yellow-400 text-yellow-900 text-xs font-medium rounded-full">
-                    Featured
-                  </span>
+                  <h1 className="text-3xl font-bold text-white">{data.name}</h1>
                 </div>
-                <p className="text-blue-100">{company.category}</p>
+                <p className="text-blue-100">{data.industry}</p>
               </div>
 
               {/* View Open Position Button */}
@@ -108,31 +88,9 @@ export default function EmployerDetailPage() {
             {/* Description */}
             <div className="bg-white rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4">Description</h2>
-              <p className="text-gray-700 leading-relaxed">{description}</p>
-            </div>
-
-            {/* Company Benefits */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Company Benefits</h2>
-              <p className="text-gray-700 mb-4">
-                Donec dignissim nunc et tellus malesuada fermentum. Sed blandit
-                in magna id accumsan. Etiam libero ante accumsan id tellus
-                venenatis rhoncus vulputate velit. Auctor neque.
+              <p className="text-gray-700 leading-relaxed">
+                {data.companyVision}
               </p>
-              <ul className="space-y-3">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-blue-600 mr-2">•</span>
-                    <span className="text-gray-700">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company Vision */}
-            <div className="bg-white rounded-lg p-6">
-              <h2 className="text-xl font-bold mb-4">Company Vision</h2>
-              <p className="text-gray-700 leading-relaxed">{vision}</p>
             </div>
 
             {/* Share Profile */}
@@ -198,7 +156,7 @@ export default function EmployerDetailPage() {
                     Founded In
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {company.founded}
+                    {date(data.establishmentYear)}
                   </p>
                 </div>
 
@@ -223,7 +181,7 @@ export default function EmployerDetailPage() {
                     Organization Type
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {company.organizationType}
+                    {data.organization}
                   </p>
                 </div>
 
@@ -248,7 +206,7 @@ export default function EmployerDetailPage() {
                     Team Size
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {company.teamSize}
+                    {data.teamSize} Candidates
                   </p>
                 </div>
 
@@ -272,9 +230,7 @@ export default function EmployerDetailPage() {
                   <p className="text-xs text-gray-500 uppercase mb-1">
                     Industry Types
                   </p>
-                  <p className="font-semibold text-gray-900">
-                    {company.industryType}
-                  </p>
+                  <p className="font-semibold text-gray-900">{data.industry}</p>
                 </div>
               </div>
             </div>
@@ -285,7 +241,7 @@ export default function EmployerDetailPage() {
               <div className="space-y-4">
                 {/* Website */}
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
                     <svg
                       className="w-5 h-5 text-blue-600"
                       fill="none"
@@ -305,17 +261,17 @@ export default function EmployerDetailPage() {
                       Website
                     </p>
                     <a
-                      href={`https://${company.website}`}
+                      href={`https://${data.url}`}
                       className="text-blue-600 hover:underline font-medium"
                     >
-                      {company.website}
+                      {data.url}
                     </a>
                   </div>
                 </div>
 
                 {/* Phone */}
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
                     <svg
                       className="w-5 h-5 text-blue-600"
                       fill="none"
@@ -335,17 +291,18 @@ export default function EmployerDetailPage() {
                       Phone
                     </p>
                     <a
-                      href={`tel:${company.phone}`}
+                      href={`tel:${data.contact.phone.number}`}
                       className="text-gray-900 hover:text-blue-600 font-medium"
                     >
-                      {company.phone}
+                      +{data.contact.phone.countryCode}{" "}
+                      {data.contact.phone.number}
                     </a>
                   </div>
                 </div>
 
                 {/* Email */}
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
                     <svg
                       className="w-5 h-5 text-blue-600"
                       fill="none"
@@ -365,10 +322,10 @@ export default function EmployerDetailPage() {
                       Email Address
                     </p>
                     <a
-                      href={`mailto:${company.email}`}
+                      href={`mailto:${data.contact.email}`}
                       className="text-blue-600 hover:underline font-medium break-all"
                     >
-                      {company.email}
+                      {data.contact.email}
                     </a>
                   </div>
                 </div>

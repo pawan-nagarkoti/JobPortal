@@ -9,19 +9,21 @@ import {
 } from "../../controllers/applicant/applicant.controller.js";
 import { upload } from "../../middleware/multer.middlewre.js";
 import { validateObjectIds } from "../../middleware/validObjectId.middleware.js";
+import { auth } from "../../middleware/auth.middleware.js";
+
 const router = express.Router();
 
 router.post(
   "/add",
   upload.fields([{ name: "profilePicture", maxCount: 1 }]),
   validateObjectIds(["userId"]),
-  addApplicant
+  addApplicant,
 );
 
 router.get("/fetch", fetchApplicant);
 router.get("/single/:id", validateObjectIds(["id"]), singleApplicant);
-router.delete("/delete/:id", validateObjectIds(["id"]), deleteApplicant);
-router.delete("/delete-all", deleteAllApplicant);
+router.delete("/delete/:id", auth, validateObjectIds(["id"]), deleteApplicant);
+router.delete("/delete-all", auth, deleteAllApplicant);
 router.put(
   "/update/:id",
   upload.fields([
@@ -31,7 +33,7 @@ router.put(
     },
   ]),
   validateObjectIds(["id", "userId"]),
-  updateApplicant
+  updateApplicant,
 );
 
 export default router;

@@ -9,10 +9,12 @@ import {
 
 import React from "react";
 
-export default function SheetContainer() {
+export default function SheetContainer({ open, setOpen }) {
+  // const [open, setOpen] = useState(false);
+
   return (
-    <Sheet>
-      <SheetTrigger>Open</SheetTrigger>
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger></SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>Are you absolutely sure?</SheetTitle>
