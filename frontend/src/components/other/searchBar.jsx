@@ -1,6 +1,7 @@
 import SheetCompoent from "../common/SheetContainer";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import FilterJob from "../applicant/filterJob";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
@@ -128,7 +129,9 @@ export default function SearchBar() {
             </svg>
             <span className="font-semibold text-gray-900 text-sm">Filters</span>
           </button>
-          <SheetCompoent open={open} setOpen={setOpen} />
+          <SheetCompoent open={open} setOpen={setOpen}>
+            <FilterJob />
+          </SheetCompoent>
 
           {/* Find Job Button */}
           <button

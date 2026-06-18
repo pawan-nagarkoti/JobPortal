@@ -306,17 +306,17 @@ export const JOB_TYPES = [
   {
     id: "1",
     key: "remote",
-    name: "Remote",
+    name: "remote",
   },
   {
     id: "2",
     key: "hybrid",
-    name: "Hybrid",
+    name: "hybrid",
   },
   {
     id: "3",
     key: "on-site",
-    name: "On-site",
+    name: "on-site",
   },
 ];
 
@@ -447,9 +447,9 @@ export const JOB_BENEFITS = [
 ];
 
 export const WORK_TYPE = [
-  { id: "full-time", label: "Full Time", value: "full-time" },
-  { id: "part-time", label: "Part Time", value: "part-time" },
-  { id: "contract", label: "Contract", value: "contract" },
-  { id: "temporary", label: "Temporary", value: "temporary" },
-  { id: "freelance", label: "Freelance", value: "freelance" },
+  { id: "full-time", label: "full-time", value: "full-time" },
+  { id: "part-time", label: "part-time", value: "part-time" },
+  { id: "contract", label: "contract", value: "contract" },
+  { id: "temporary", label: "temporary", value: "temporary" },
+  { id: "freelance", label: "freelance", value: "freelance" },
 ];

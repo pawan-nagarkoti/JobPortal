@@ -29,7 +29,7 @@ const JobCard = ({ job }) => {
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="inline-flex items-center px-3 py-1 bg-green-50 text-green-700 text-xs rounded-full">
               <i className="fas fa-briefcase mr-1"></i>
-              {job.workType}
+              {job.jobType}
             </span>
             <span className="inline-flex items-center px-3 py-1 bg-yellow-50 text-yellow-700 text-xs rounded-full">
               <i className="fas fa-dollar-sign mr-1"></i> {job.salary.maxSalary}{" "}

@@ -12,11 +12,15 @@ export default function JobPage() {
   const title = searchParams.get("title") || "";
   const country = searchParams.get("country") || "";
   const city = searchParams.get("city") || "";
+  const jobType = searchParams.get("jobType") || "";
+  const workType = searchParams.get("workType") || "";
+  const salary = searchParams.get("salary") || "";
+  const isFeatured = searchParams.get("isFeatured") || "";
 
   // fetch all jobs
   const fetchJobs = async () => {
     const fetchJobsResponse = await _get(
-      `api/jobList/fetch?title=${title}&country=${country}&city=${city}`,
+      `api/jobList/fetch?title=${title}&country=${country}&city=${city}&jobType=${jobType}&isFeatured=${isFeatured}&salary=${salary}&workType=${workType}`,
     );
     if (fetchJobsResponse.data.success) {
       setJobList(fetchJobsResponse.data);

@@ -9,7 +9,7 @@ import {
 
 import React from "react";
 
-export default function SheetContainer({ open, setOpen }) {
+export default function SheetContainer({ open, setOpen, children }) {
   // const [open, setOpen] = useState(false);
 
   return (
@@ -17,11 +17,9 @@ export default function SheetContainer({ open, setOpen }) {
       <SheetTrigger></SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </SheetDescription>
+          <SheetTitle></SheetTitle>
+          <SheetDescription></SheetDescription>
+          <div>{children}</div>
         </SheetHeader>
       </SheetContent>
     </Sheet>

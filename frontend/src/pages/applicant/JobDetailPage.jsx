@@ -12,7 +12,6 @@ export default function JobDetailPage() {
 
   const fetchJobDetail = async () => {
     const response = await _get(`api/jobList/single/${id}`);
-    console.log(response.data.data);
     if (response?.data?.success) {
       setJob(response.data.data);
     }

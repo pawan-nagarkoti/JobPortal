@@ -100,6 +100,7 @@ export const fetchJobs = async (req, res) => {
     const country = req.query.country;
     const city = req.query.city;
     const jobType = req.query.jobType;
+    const workType = req.query.workType;
     const remoteJob = req.query.remoteJob;
     const salary = req.query.salary;
     const isFeatured = req.query.isFeatured;
@@ -118,16 +119,14 @@ export const fetchJobs = async (req, res) => {
     if (jobType) {
       filter.jobType = jobType;
     }
+    if (workType) {
+      filter.workType = workType;
+    }
     if (remoteJob) {
       filter.jobType = "remote";
     }
     if (salary) {
-      const match = salary.match(
-        /\$?(\d+(?:\.\d+)?)(?:\s*-\s*\$?(\d+(?:\.\d+)?))?/,
-      );
-      const minimum = parseFloat(match[1]);
-      const maximum = parseFloat(match[2]);
-
+      const [minimum, maximum] = salary.split("-").map(Number);
       filter = {
         "salary.minSalary": { $gte: minimum },
         "salary.maxSalary": { $lte: maximum },
