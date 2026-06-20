@@ -10,8 +10,6 @@ import {
 import React from "react";
 
 export default function SheetContainer({ open, setOpen, children }) {
-  // const [open, setOpen] = useState(false);
-
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger></SheetTrigger>

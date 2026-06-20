@@ -264,6 +264,14 @@ export const EDUCATION_LEVELS = [
   },
 ];
 
+export const EDUCATION = [
+  { name: "None", value: "none" },
+  { name: "High School", value: "high school" },
+  { name: "Undergraduate", value: "undergraduate" },
+  { name: "Master", value: "masters" },
+  { name: "PHD", value: "phd" },
+];
+
 export const EXPERIENCE_LEVELS = [
   {
     id: "1",

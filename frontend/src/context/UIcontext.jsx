@@ -9,6 +9,7 @@ export const UIcontext = createContext();
 export const UIprovider = ({ children }) => {
   const [employerTabData, setEmployerTabData] = useState([]);
   const [employerTabController, setEmployerTabController] = useState("");
+  const [applicantTabController, setApplicantTabController] = useState("");
   const navigate = useNavigate();
 
   // logout functionality
@@ -35,6 +36,8 @@ export const UIprovider = ({ children }) => {
         employerTabController,
         setEmployerTabController,
         logout,
+        applicantTabController,
+        setApplicantTabController,
       }}
     >
       {children}

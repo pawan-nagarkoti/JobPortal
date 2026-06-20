@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function LeftSidebar() {
   return (
@@ -9,8 +10,8 @@ export default function LeftSidebar() {
         </h2>
 
         <nav className="space-y-1">
-          <a
-            href="#"
+          <Link
+            to="/applicant-dashboard"
             className="flex items-center px-4 py-3 bg-blue-50 text-blue-600 rounded-lg"
           >
             <svg
@@ -27,7 +28,7 @@ export default function LeftSidebar() {
               />
             </svg>
             Overview
-          </a>
+          </Link>
 
           <a
             href="#"
@@ -94,8 +95,8 @@ export default function LeftSidebar() {
             Job Alert
           </a>
 
-          <a
-            href="#"
+          <Link
+            to="/applicant-dashboard/setting"
             className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
           >
             <svg
@@ -118,7 +119,7 @@ export default function LeftSidebar() {
               />
             </svg>
             Settings
-          </a>
+          </Link>
         </nav>
       </div>
 
