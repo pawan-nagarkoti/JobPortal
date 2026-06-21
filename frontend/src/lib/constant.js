@@ -461,3 +461,33 @@ export const WORK_TYPE = [
   { id: "temporary", label: "temporary", value: "temporary" },
   { id: "freelance", label: "freelance", value: "freelance" },
 ];
+
+export const MARITAL_STATUS = [
+  {
+    name: "Single",
+    value: "single",
+  },
+  {
+    name: "Married",
+    value: "married",
+  },
+  {
+    name: "Divorced",
+    value: "divorced",
+  },
+];
+
+export const GENDER = [
+  {
+    name: "Male",
+    value: "male",
+  },
+  {
+    name: "Female",
+    value: "female",
+  },
+  {
+    name: "Other",
+    value: "other",
+  },
+];

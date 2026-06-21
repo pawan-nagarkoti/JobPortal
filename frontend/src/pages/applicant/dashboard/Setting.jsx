@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import LeftSidebar from "./leftSidebar";
-import { EDUCATION } from "../../../lib/constant";
+import { EDUCATION, GENDER, MARITAL_STATUS } from "../../../lib/constant";
 import { _post } from "../../../lib/api";
 import useUI from "../../../context/UIcontext";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Setting() {
   const [renderTab, setRenderTab] = useState(<PersonalSetting />);
   const [tabName, setTabName] = useState("personal");
-  const { applicantTabController, setApplicantTabController } =
-    useUI("personal");
+  const {
+    applicantTabController,
+    setApplicantTabController,
+    applicantSettingsTabData,
+    setApplicantSettingsTabData,
+  } = useUI("personal");
 
   const handleTabname = (name) => {
     switch (true) {
@@ -42,6 +47,7 @@ export default function Setting() {
   useEffect(() => {
     handleTabname(applicantTabController);
   }, [applicantTabController]); // update tab
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
@@ -179,35 +185,46 @@ export default function Setting() {
 }
 
 const PersonalSetting = () => {
-  const [profilePic, setProfilePic] = useState("");
-  const [name, setName] = useState("");
-  const [title, setTitle] = useState("");
-  const [experience, setExperience] = useState("");
-  const [education, setEducation] = useState("");
-  const [url, setUrl] = useState("");
-  const { setApplicantTabController } = useUI();
+  const {
+    setApplicantTabController,
+    applicantSettingsTabData,
+    setApplicantSettingsTabData,
+  } = useUI();
+
+  useEffect(() => {
+    console.log(applicantSettingsTabData);
+  }, [applicantSettingsTabData]);
+  const [profilePic, setProfilePic] = useState(
+    applicantSettingsTabData?.profilePic
+      ? applicantSettingsTabData?.profilePic
+      : null,
+  );
+  const [previewImg, setPreviewImg] = useState(
+    applicantSettingsTabData?.profilePic
+      ? URL?.createObjectURL(applicantSettingsTabData.profilePic)
+      : null,
+  );
+
+  const [name, setName] = useState(applicantSettingsTabData.name || "");
+  const [title, setTitle] = useState(applicantSettingsTabData.title || "");
+  const [experience, setExperience] = useState(
+    applicantSettingsTabData.experience || "",
+  );
+  const [education, setEducation] = useState(
+    applicantSettingsTabData.education || "",
+  );
+  const [url, setUrl] = useState(applicantSettingsTabData.url || "");
 
   const handleBasicInfo = async () => {
-    const formData = new FormData();
-
-    formData.append("userId", "6996e48c469802e83cff3a37");
-    formData.append("profilePicture", profilePic);
-    formData.append("name", name);
-    formData.append("title", title);
-    formData.append("experience", experience);
-    formData.append("education", education);
-    formData.append("url", url);
-    formData.append("basicInfo", true);
-
-    // const api = await _post("api/applicant/add", formData);
-    // console.log(api);
-
-    setName("");
-    setTitle("");
-    setExperience("");
-    setEducation("");
-    setUrl("");
-
+    setApplicantSettingsTabData((prev) => ({
+      ...prev,
+      profilePic,
+      name,
+      title,
+      experience,
+      education,
+      url,
+    }));
     setApplicantTabController("profile");
   };
   return (
@@ -220,27 +237,41 @@ const PersonalSetting = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Picture Upload */}
-          <label
-            htmlFor="profileImage"
-            className="block border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition cursor-pointer"
-          >
-            <div className="flex justify-center mb-3"></div>
+          <label htmlFor="profileImage" className="cursor-pointer block">
+            {previewImg ? (
+              <img
+                src={previewImg}
+                alt="Profile preview"
+                className="h-28 w-28 rounded-full object-cover mx-auto mb-4"
+              />
+            ) : (
+              <div className="h-28 w-28 rounded-full bg-gray-100 mx-auto mb-4 flex items-center justify-center">
+                No Image
+              </div>
+            )}
 
-            <p className="text-sm text-gray-600 mb-1">
-              <span className="text-blue-600 font-medium">Browse photo</span> or
-              drag here
-            </p>
-
-            <p className="text-xs text-gray-500">
-              A photo larger than 400 pixels works best. Max photo size 5 MB.
-            </p>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition">
+              <p className="text-sm text-gray-600">
+                <span className="text-blue-600 font-medium">Browse photo</span>{" "}
+                or drag here
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                A photo larger than 400 pixels works best. Max photo size 5 MB.
+              </p>
+            </div>
 
             <input
               id="profileImage"
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => setProfilePic(e.target.files[0])}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                setProfilePic(file);
+                setPreviewImg(URL.createObjectURL(file));
+              }}
             />
           </label>
 
@@ -361,9 +392,31 @@ const PersonalSetting = () => {
 };
 
 const ProfileSetting = () => {
-  const { setApplicantTabController } = useUI();
+  const {
+    setApplicantTabController,
+    applicantSettingsTabData,
+    setApplicantSettingsTabData,
+  } = useUI();
+  const [nationality, setNationality] = useState(
+    applicantSettingsTabData.nationality || "",
+  );
+  const [dob, setDob] = useState(applicantSettingsTabData.dob || "");
+  const [gender, setGender] = useState(applicantSettingsTabData.gender || "");
+  const [maritalStatus, setMaritalStatus] = useState(
+    applicantSettingsTabData.maritalStatus || "",
+  );
+  const [bio, setBio] = useState(applicantSettingsTabData.bio || "");
+
   const handleSaveChanges = () => {
     setApplicantTabController("socialLinks");
+    setApplicantSettingsTabData((prev) => ({
+      ...prev,
+      nationality,
+      dob,
+      gender,
+      maritalStatus,
+      bio,
+    }));
   };
   const handlePreviousBtn = () => {
     setApplicantTabController("personal");
@@ -377,54 +430,24 @@ const ProfileSetting = () => {
             <label className="block text-sm font-medium text-gray-900 mb-2">
               Nationality
             </label>
-            <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-                <option>Select...</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
+            <input
+              type="text"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={nationality}
+              onChange={(e) => setNationality(e.target.value)}
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-2">
               Date of Birth
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="dd/mm/yyyy"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-            </div>
+            <input
+              type="date"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              value={dob}
+              onChange={(e) => setDob(e.target.value)}
+            />
           </div>
         </div>
 
@@ -435,8 +458,19 @@ const ProfileSetting = () => {
               Gender
             </label>
             <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-                <option>Select...</option>
+              <select
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Gender
+                </option>
+                {GENDER?.map((v, index) => (
+                  <option key={index} value={v.value}>
+                    {v.name}
+                  </option>
+                ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                 <svg
@@ -461,63 +495,19 @@ const ProfileSetting = () => {
               Marital Status
             </label>
             <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-                <option>Select...</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Row 3: Education and Experience */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Education
-            </label>
-            <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-                <option>Select...</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Experience
-            </label>
-            <div className="relative">
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white text-gray-400">
-                <option>Select...</option>
+              <select
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none "
+                value={maritalStatus}
+                onChange={(e) => setMaritalStatus(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select Marital Status
+                </option>
+                {MARITAL_STATUS?.map((v, index) => (
+                  <option key={index} value={v.value}>
+                    {v.name}
+                  </option>
+                ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
                 <svg
@@ -549,80 +539,8 @@ const ProfileSetting = () => {
               className="w-full px-4 py-3 border-0 focus:ring-0 resize-none"
               rows="8"
               placeholder="Write down your biography here. Let the employers know who you are..."
+              onChange={(e) => setBio(e.target.value)}
             />
-
-            {/* Editor Toolbar */}
-            <div className="flex items-center space-x-1 px-3 py-2 border-t border-gray-300 bg-gray-50">
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 12h12M6 8h12M6 16h12"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded italic">
-                <span className="text-sm font-serif">I</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <span className="text-sm font-semibold underline">U</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <span className="text-sm line-through">S</span>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 10h16M4 14h16M4 18h16"
-                  />
-                </svg>
-              </button>
-              <button className="p-2 text-gray-600 hover:bg-gray-200 rounded">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
           </div>
         </div>
 
@@ -647,255 +565,166 @@ const ProfileSetting = () => {
 };
 
 const SocialLinksSetting = () => {
-  const { setApplicantTabController } = useUI();
-  const handleSaveChanges = () => {
+  const {
+    applicantTabController,
+    setApplicantTabController,
+    applicantSettingsTabData,
+    setApplicantSettingsTabData,
+  } = useUI();
+
+  const [socialLinks, setSocialLinks] = useState(
+    (applicantTabController.socialLinks &&
+      applicantTabController.socialLinks) || [
+      { id: uuidv4(), platform: "", url: "" },
+    ],
+  );
+
+  const handleAddSocialLink = () => {
+    setSocialLinks((prev) => [
+      ...prev,
+      { id: uuidv4(), platform: "", url: "" },
+    ]);
+  };
+
+  const handleRemoveSocialLink = (deletedId) => {
+    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+  };
+
+  const handleInputChange = (id, field, value) => {
+    setSocialLinks((prev) =>
+      prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)),
+    );
+  };
+
+  const handleSocialMediaProfile = () => {
+    setApplicantSettingsTabData((prev) => ({ ...prev, socialLinks }));
     setApplicantTabController("account");
   };
-  const handlePreviousBtn = () => {
-    setApplicantTabController("profile");
-  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="bg-white rounded-lg p-6 space-y-6">
-        {/* Social Link 1 */}
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 1
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+          {socialLinks.map((link, index) => (
+            <div
+              key={link.id}
+              className="mb-6 p-4 border border-gray-200 rounded-lg"
+            >
+              <label className="block text-sm font-medium text-gray-900 mb-2">
+                Social Link {index + 1}
+              </label>
+              <div className="flex items-center gap-3">
+                <div className="relative shrink-0" style={{ width: "220px" }}>
+                  <select
+                    value={link.platform}
+                    onChange={(e) =>
+                      handleInputChange(link.id, "platform", e.target.value)
+                    }
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                  >
+                    <option value="">Select Platform</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Twitter">Twitter</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Youtube">Youtube</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Profile link/url..."
+                  value={link.url}
+                  onChange={(e) =>
+                    handleInputChange(link.id, "url", e.target.value)
+                  }
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                {socialLinks.length > 1 && (
+                  <button
+                    onClick={() => handleRemoveSocialLink(link.id)}
+                    className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
+                    title="Remove"
+                  >
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+          ))}
 
-        {/* Social Link 2 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 2
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Social Link 3 (Instagram) */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 2
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Social Link 4 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Social Link 3
-          </label>
-          <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0" style={{ width: "220px" }}>
-              <select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                <option>🔵 Facebook</option>
-                <option>🐦 Twitter</option>
-                <option>📷 Instagram</option>
-                <option>▶️ Youtube</option>
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <input
-              type="text"
-              placeholder="Profile link/url..."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <button className="p-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
-              <svg
-                className="w-5 h-5 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* Add New Social Link Button */}
-        <button className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Add New Social Link
-        </button>
-
-        {/* Save Changes Button */}
-        <div className="flex gap-3">
           <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handlePreviousBtn()}
+            className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
+            onClick={handleAddSocialLink}
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Add New Social Link
+          </button>
+        </div>
+
+        {/* Navigation Buttons */}
+        <div className="flex items-center gap-4">
+          <button
+            className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300"
+            onClick={() => setApplicantTabController("profile")}
           >
             Previous
           </button>
           <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handleSaveChanges()}
+            className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+            onClick={handleSocialMediaProfile}
           >
-            Save Changes
+            Save & Next
+            <svg
+              className="w-5 h-5 ml-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
           </button>
         </div>
       </div>
@@ -904,10 +733,63 @@ const SocialLinksSetting = () => {
 };
 
 const AccountSetting = () => {
-  const { setApplicantTabController } = useUI();
+  const {
+    setApplicantTabController,
+    applicantSettingsTabData,
+    setApplicantSettingsTabData,
+  } = useUI();
   const handlePreviousBtn = () => {
     setApplicantTabController("socialLinks");
   };
+
+  const [location, setLocation] = useState(
+    applicantSettingsTabData.location || "",
+  );
+  const [countryCode, setCountryCode] = useState(91);
+  const [number, setNumber] = useState(applicantSettingsTabData.number || "");
+  const [email, setEmail] = useState(applicantSettingsTabData.email || "");
+
+  useEffect(() => {
+    console.log(applicantSettingsTabData);
+  }, [applicantSettingsTabData]);
+
+  const handleSaveChanges = async () => {
+    setApplicantSettingsTabData((prev) => ({
+      ...prev,
+      location,
+      countryCode,
+      number,
+      email,
+    }));
+
+    const formData = new FormData();
+
+    formData.append("userId", "6996e48c469802e83cff3a37");
+    formData.append("profilePicture", applicantSettingsTabData.profilePic);
+    formData.append("name", applicantSettingsTabData.name);
+    formData.append("title", applicantSettingsTabData.title);
+    formData.append("experience", applicantSettingsTabData.experience);
+    formData.append("education", applicantSettingsTabData.education);
+    formData.append("websiteUrl", applicantSettingsTabData.url);
+    formData.append("nationality", applicantSettingsTabData.nationality);
+    formData.append("dob", applicantSettingsTabData.dob);
+    formData.append("gender", applicantSettingsTabData.gender);
+    formData.append("maritalStatus", applicantSettingsTabData.maritalStatus);
+    formData.append("biography", applicantSettingsTabData.biography);
+
+    applicantSettingsTabData.socialLinks.forEach((v, i) => {
+      formData.append(`socialLinks[${i}].name`, v.platform);
+      formData.append(`socialLinks[${i}].url`, v.url);
+    });
+
+    formData.append("location", applicantSettingsTabData.location);
+    formData.append("countryCode", applicantSettingsTabData.countryCode);
+    formData.append("number", applicantSettingsTabData.number);
+
+    const api = await _post("api/applicant/add", formData);
+    console.log(api);
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Contact Info Section */}
@@ -922,7 +804,7 @@ const AccountSetting = () => {
           <input
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder=""
+            onChange={(e) => setLocation(e.target.value)}
           />
         </div>
 
@@ -933,12 +815,13 @@ const AccountSetting = () => {
           </label>
           <div className="flex gap-2">
             <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-              <option>🇧🇩 +880</option>
+              <option>+91</option>
             </select>
             <input
               type="tel"
               placeholder="Phone number.."
               className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setNumber(e.target.value)}
             />
           </div>
         </div>
@@ -968,6 +851,7 @@ const AccountSetting = () => {
               type="email"
               placeholder="Email address"
               className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
@@ -979,7 +863,10 @@ const AccountSetting = () => {
           >
             Previous
           </button>
-          <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+          <button
+            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+            onClick={() => handleSaveChanges()}
+          >
             Save Changes
           </button>
         </div>

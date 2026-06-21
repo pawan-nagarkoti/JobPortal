@@ -10,6 +10,7 @@ export const UIprovider = ({ children }) => {
   const [employerTabData, setEmployerTabData] = useState([]);
   const [employerTabController, setEmployerTabController] = useState("");
   const [applicantTabController, setApplicantTabController] = useState("");
+  const [applicantSettingsTabData, setApplicantSettingsTabData] = useState("");
   const navigate = useNavigate();
 
   // logout functionality
@@ -38,6 +39,8 @@ export const UIprovider = ({ children }) => {
         logout,
         applicantTabController,
         setApplicantTabController,
+        applicantSettingsTabData,
+        setApplicantSettingsTabData,
       }}
     >
       {children}
