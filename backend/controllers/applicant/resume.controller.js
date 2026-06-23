@@ -25,7 +25,7 @@ export const addResume = async (req, res) => {
 
     const resumeFile = await uploadOnCloudinary(
       cv[0]?.path,
-      "jobPortal/resume"
+      "jobPortal/resume",
     );
 
     const add = await Resume.create({
@@ -77,7 +77,7 @@ export const updateResume = async (req, res) => {
         title,
         cv: resumeFile,
       },
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({
@@ -95,7 +95,7 @@ export const updateResume = async (req, res) => {
 
 export const fetchResume = async (req, res) => {
   try {
-    const fetch = await Resume.find();
+    const fetch = await Resume.find().sort({ createdAt: -1 });
     return res.status(200).json({
       success: true,
       data: fetch,
