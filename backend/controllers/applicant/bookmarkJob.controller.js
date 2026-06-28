@@ -49,11 +49,23 @@ export const fetchBookmark = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalItems = await SavedJob.countDocuments();
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
+    const jobId = req.query.jobId;
+    const applicantId = req.query.applicantId;
 
-    const fetch = await SavedJob.find()
+    let filter = {};
+
+    if (jobId) {
+      filter.jobId = jobId;
+    }
+
+    if (applicantId) {
+      filter.applicantId = applicantId;
+    }
+
+    const fetch = await SavedJob.find(filter)
       .populate(
         "jobId",
-        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expiresAt"
+        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expiresAt",
       )
       .populate("applicantId", "profilePicture")
       .skip(skip)
@@ -86,7 +98,7 @@ export const fetchSingleBookmark = async (req, res) => {
     const single = await SavedJob.findOne({ _id: id })
       .populate(
         "jobId",
-        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expiresAt"
+        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expiresAt",
       )
       .populate("applicantId", "profilePicture");
     return res.status(200).json({

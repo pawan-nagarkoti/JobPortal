@@ -40,7 +40,7 @@ app.use("/api/jobList", jobListingRoutes);
 
 app.use("/api/applicant", auth, applicantRoutes);
 app.use("/api/resume", auth, resumeRoutes);
-app.use("/api/bookmark-job", auth, bookmarkJobs);
+app.use("/api/bookmark-job", bookmarkJobs);
 app.use("/api/job-application", auth, jobApplicationsRoute);
 app.use("/api/blog", blogRoutes);
 app.use("/api/contact", getInTouch);

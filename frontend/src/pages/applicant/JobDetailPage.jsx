@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { BreadcrumbSection } from "../../components/other/Breadcrumb";
 import DiloagContainer from "../../components/common/DiloagContainer";
-import { _get } from "../../lib/api";
+import { _delete, _get, _post } from "../../lib/api";
 import { useParams } from "react-router-dom";
 import { date } from "../../lib/utils";
 import { HtmlSanitizer } from "../../components/other/htmlSanitizer";
 import ResumeModal from "../../components/applicant/resumeModal";
 import useUI from "../../context/UIcontext";
+import { showSuccess, showInfo } from "../../lib/toast";
 
 export default function JobDetailPage() {
   const [job, setJob] = useState("");
   const { id } = useParams();
   const { openModal, setOpenModal } = useUI();
+  const [toggleBookmark, setToggleBookmark] = useState(false);
+  const [applicantData, setApplicantData] = useState("");
 
   const fetchJobDetail = async () => {
     const response = await _get(`api/jobList/single/${id}`);
@@ -19,9 +22,56 @@ export default function JobDetailPage() {
       setJob(response.data.data);
     }
   };
+
+  const fetchApplicant = async () => {
+    const response = await _get(`api/applicant/fetch`);
+    if (response.data.success) {
+      setApplicantData(response.data.applicants[0]);
+      if (response.data.applicants[0]._id) {
+        await checkBookmark(response.data.applicants[0]._id);
+      }
+    }
+  };
+
+  const checkBookmark = async (applicantID) => {
+    const hasBookmark = await _get(
+      `api/bookmark-job/fetch?jobId=${id}&applicantId=${applicantID}`,
+    );
+    if (hasBookmark.data.success) {
+      hasBookmark.data.data.length && setToggleBookmark(true);
+      return hasBookmark;
+    }
+  };
+
   useEffect(() => {
     fetchJobDetail();
+    fetchApplicant();
   }, []);
+
+  const addBookmark = async () => {
+    const addResponse = await _post("api/bookmark-job/add", {
+      jobId: id,
+      applicantId: applicantData._id,
+      notes: "",
+    });
+    if (addResponse.data.success) {
+      showSuccess("add bookmark");
+    }
+  };
+
+  const removeBookmark = async () => {
+    let hasBookmark = await checkBookmark(applicantData._id);
+
+    if (hasBookmark.data.success) {
+      const deleteResponse = await _delete(
+        `api/bookmark-job/delete/${hasBookmark?.data?.data[0]?._id}`,
+      );
+      if (deleteResponse.data.success) {
+        setToggleBookmark(false);
+        showInfo("Remove bookmark");
+      }
+    }
+  };
 
   if (!job) return "Loading...";
 
@@ -63,20 +113,43 @@ export default function JobDetailPage() {
 
                 {/* Action Buttons */}
                 <div className="flex items-center space-x-3">
-                  <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                    <svg
-                      className="w-5 h-5 text-gray-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                      />
-                    </svg>
+                  <button
+                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    onClick={() => {
+                      setToggleBookmark((prev) => !prev);
+                    }}
+                  >
+                    {toggleBookmark ? (
+                      <span onClick={() => removeBookmark()}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path d="M6 2c-1.1 0-2 .9-2 2v18l8-4 8 4V4c0-1.1-.9-2-2-2H6z" />
+                        </svg>
+                      </span>
+                    ) : (
+                      <span onClick={() => addBookmark()}>
+                        <svg
+                          className="w-5 h-5 text-gray-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+                          />
+                        </svg>
+                      </span>
+                    )}
                   </button>
                   <button
                     className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
