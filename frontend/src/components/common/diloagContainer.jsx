@@ -9,17 +9,15 @@ import {
 
 import React from "react";
 
-export default function DiloagContainer() {
+export default function DiloagContainer({ open, setOpen, children }) {
   return (
-    <Dialog>
-      <DialogTrigger>Open</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
-          <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DialogDescription>
+          <DialogTitle></DialogTitle>
+          <DialogDescription></DialogDescription>
+          <div>{children}</div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

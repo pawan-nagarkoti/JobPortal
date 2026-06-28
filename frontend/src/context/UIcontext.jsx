@@ -11,6 +11,8 @@ export const UIprovider = ({ children }) => {
   const [employerTabController, setEmployerTabController] = useState("");
   const [applicantTabController, setApplicantTabController] = useState("");
   const [applicantSettingsTabData, setApplicantSettingsTabData] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+
   const navigate = useNavigate();
 
   // logout functionality
@@ -41,6 +43,8 @@ export const UIprovider = ({ children }) => {
         setApplicantTabController,
         applicantSettingsTabData,
         setApplicantSettingsTabData,
+        openModal,
+        setOpenModal,
       }}
     >
       {children}

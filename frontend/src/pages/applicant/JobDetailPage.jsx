@@ -5,10 +5,13 @@ import { _get } from "../../lib/api";
 import { useParams } from "react-router-dom";
 import { date } from "../../lib/utils";
 import { HtmlSanitizer } from "../../components/other/htmlSanitizer";
+import ResumeModal from "../../components/applicant/resumeModal";
+import useUI from "../../context/UIcontext";
 
 export default function JobDetailPage() {
   const [job, setJob] = useState("");
   const { id } = useParams();
+  const { openModal, setOpenModal } = useUI();
 
   const fetchJobDetail = async () => {
     const response = await _get(`api/jobList/single/${id}`);
@@ -75,7 +78,12 @@ export default function JobDetailPage() {
                       />
                     </svg>
                   </button>
-                  <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
+                  <button
+                    className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
+                    onClick={() => {
+                      setOpenModal(true);
+                    }}
+                  >
                     Apply Now
                     <svg
                       className="w-5 h-5 ml-2"
@@ -91,7 +99,9 @@ export default function JobDetailPage() {
                       />
                     </svg>
                   </button>
-                  <DiloagContainer />
+                  <DiloagContainer open={openModal} setOpen={setOpenModal}>
+                    <ResumeModal />
+                  </DiloagContainer>
                 </div>
               </div>
             </div>

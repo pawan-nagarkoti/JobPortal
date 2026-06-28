@@ -31,10 +31,10 @@ const jobApplicationSchema = new mongoose.Schema(
     statusUpdatedAt: Date,
     notes: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const JobApplication = mongoose.model(
   "JobApplication",
-  jobApplicationSchema
+  jobApplicationSchema,
 );
