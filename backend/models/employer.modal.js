@@ -31,11 +31,14 @@ const employerSchema = new mongoose.Schema(
         url: String,
       },
     ],
+
+    country: String,
     contact: {
-      location: {
-        country: String,
-        city: String,
-      },
+      // location: {
+      //   country: String,
+      //   city: String,
+      // },
+      location: String,
       phone: {
         countryCode: String,
         number: String,

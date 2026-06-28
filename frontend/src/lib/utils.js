@@ -26,3 +26,15 @@ export function date(v) {
 
   return `${day} ${month}, ${year}`;
 }
+
+export const getSocialUrl = (url) => {
+  if (!url) return "#";
+
+  const trimmedUrl = url.trim();
+
+  if (/^(https?:)?\/\//i.test(trimmedUrl)) {
+    return trimmedUrl;
+  }
+
+  return `https://${trimmedUrl}`;
+};

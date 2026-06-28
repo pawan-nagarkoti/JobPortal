@@ -13,7 +13,7 @@ const router = express.Router();
 import { auth } from "../../middleware/auth.middleware.js";
 
 router.get("/fetch", fetchEmployers);
-router.get("/single/:id", auth, validateObjectIds(["id"]), fetchSingleEmployer);
+router.get("/single/:id", validateObjectIds(["id"]), fetchSingleEmployer);
 router.post(
   "/add",
   auth,

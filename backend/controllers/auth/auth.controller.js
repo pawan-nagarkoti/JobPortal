@@ -166,6 +166,7 @@ export const signIn = async (req, res) => {
         username: checkUser.username,
         email: checkUser.email,
         role: checkUser.role,
+        id: checkUser._id,
       },
       message: "login successfully",
     });

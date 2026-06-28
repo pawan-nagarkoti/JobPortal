@@ -1,6 +1,7 @@
 import CompanyCard from "./CompanyCard";
 
 const TopCompanies = ({ companies = "" }) => {
+  if (!companies) return <p>Loading...</p>;
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -11,9 +12,13 @@ const TopCompanies = ({ companies = "" }) => {
 
         {/* Companies Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {companies?.data?.map((company, i) => (
-            <CompanyCard key={i} company={company} />
-          ))}
+          {companies?.data.length ? (
+            companies?.data?.map((company, i) => (
+              <CompanyCard key={i} company={company} />
+            ))
+          ) : (
+            <p>No Applicant Found.</p>
+          )}
         </div>
       </div>
     </section>

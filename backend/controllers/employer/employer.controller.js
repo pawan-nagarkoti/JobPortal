@@ -20,11 +20,13 @@ export const addEmployer = async (req, res) => {
       establishmentYear: data.establishmentYear,
       url: data.url,
       companyVision: data.companyVision,
+      country: data.country,
       contact: {
-        location: {
-          country: data.country,
-          city: data.city,
-        },
+        // location: {
+        //   country: data.country,
+        //   city: data.city,
+        // },
+        location: data.map,
         phone: {
           countryCode: data.countryCode,
           number: data.number,
@@ -57,6 +59,7 @@ export const fetchEmployers = async (req, res) => {
     const name = req.query.name;
     const country = req.query.country;
     const city = req.query.city;
+    const loginUserId = req.query.loginUserId;
 
     let filter = {};
 
@@ -70,6 +73,10 @@ export const fetchEmployers = async (req, res) => {
 
     if (city) {
       filter["contact.location.city"] = city;
+    }
+
+    if (loginUserId) {
+      filter["userId"] = loginUserId;
     }
 
     const page = Number(req.query.page) || 1;

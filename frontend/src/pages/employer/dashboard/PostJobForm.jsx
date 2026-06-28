@@ -13,8 +13,9 @@ import {
   WORK_TYPE,
 } from "../../../lib/constant";
 import CustomEditor from "../../../components/form/customEditor";
-import { _post } from "../../../lib/api";
+import { _get, _post } from "../../../lib/api";
 import { showSuccess } from "../../../lib/toast";
+import { getCookie } from "../../../lib/cookies";
 
 const PostJobForm = () => {
   const [title, setTitle] = useState("");
@@ -35,6 +36,7 @@ const PostJobForm = () => {
   const [isFeatured, setIsFeatured] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [description, setDescription] = useState("");
 
   const [selectedBenefits, setSelectedBenefits] = useState([]);
   const toggleBenefit = (benefit) => {
@@ -59,8 +61,19 @@ const PostJobForm = () => {
 
   const editorRef = useRef(null);
 
+  const fetchEmployerDetail = async () => {
+    let loginUserData = getCookie("loginUserInfo"); // get login user detail
+    const response = await _get(
+      `api/employer/fetch?loginUserId=${loginUserData.id}`,
+    );
+    if (response.data.success) {
+      return response.data.data[0]._id;
+    }
+  };
+
   const handleJobListForm = async (e) => {
     e.preventDefault();
+    let employerId = await fetchEmployerDetail();
     setIsLoading(true);
 
     let jobDescription;
@@ -69,7 +82,7 @@ const PostJobForm = () => {
     }
 
     const jobPostObject = {
-      employerId: "6a2fa31a6f7a10b398e8ce09",
+      employerId,
       title,
       tags: tagContainer,
       role: jobRole,
@@ -450,13 +463,8 @@ const PostJobForm = () => {
                 <div className="border border-gray-300 rounded-lg">
                   <CustomEditor
                     ref={editorRef}
-                    value={""}
-                    // onEditorChange={(newContent) =>
-                    //   setEmployerTabData((prev) => ({
-                    //     ...prev,
-                    //     description: newContent,
-                    //   }))
-                    // }
+                    value={description}
+                    onEditorChange={(newContent) => setDescription(newContent)}
                   />
                 </div>
               </div>

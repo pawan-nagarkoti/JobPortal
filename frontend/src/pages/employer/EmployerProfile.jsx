@@ -741,6 +741,7 @@ const Contact = () => {
   const [map, setMap] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("");
   const navigate = useNavigate();
 
   const handleContactForm = async () => {
@@ -761,6 +762,7 @@ const Contact = () => {
     formData.append("countryCode", 91);
     formData.append("location", map);
 
+    formData.append("country", country);
     // Loop through socialLinks array
     employerTabData?.socialLinks?.forEach((link, index) => {
       formData.append(`socialLinks[${index}][name]`, link.platform || "");
@@ -795,6 +797,18 @@ const Contact = () => {
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder=""
             onChange={(e) => setMap(e.target.value)}
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Country
+          </label>
+          <input
+            type="text"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder=""
+            onChange={(e) => setCountry(e.target.value)}
           />
         </div>
 

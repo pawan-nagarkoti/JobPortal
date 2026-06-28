@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { getSocialUrl } from "../../lib/utils";
 
 // Company Card Component
 export default function CompanyCard({ company }) {
@@ -46,7 +47,7 @@ export default function CompanyCard({ company }) {
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                       />
                     </svg>
-                    {company?.contact?.location?.country}
+                    {company?.country}
                   </div>
                 </div>
               </div>
@@ -60,7 +61,7 @@ export default function CompanyCard({ company }) {
             {company.socialLinks?.map((s, i) => (
               <a
                 key={i}
-                href={s.url}
+                href={getSocialUrl(s.url)}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.name}
