@@ -9,6 +9,8 @@ import {
 } from "../../lib/helper.js";
 import { emailVerifyTemplate } from "../../lib/emailTemplate/verifyEmail.js";
 import { resetPasswordTempate } from "../../lib/emailTemplate/resetPassword.js";
+import { Applicant } from "../../models/applicant.modal.js";
+import { Employer } from "../../models/employer.modal.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -158,6 +160,28 @@ export const signIn = async (req, res) => {
       secure: true,
     });
 
+    // check this user id is available inside applicant collection;
+    const checkUserIDInApplicant = await Applicant.findOne({
+      userId: checkUser._id,
+    });
+    let hasUserIdInApplicant = "";
+    if (checkUserIDInApplicant) {
+      hasUserIdInApplicant = "Yes";
+    } else {
+      hasUserIdInApplicant = "No";
+    }
+
+    // check this user id is available inside employer collection;
+    const checkUserIDInEmployer = await Employer.findOne({
+      userId: checkUser._id,
+    });
+    let hasUserIdInEmployer = "";
+    if (checkUserIDInEmployer) {
+      hasUserIdInEmployer = "Yes";
+    } else {
+      hasUserIdInEmployer = "No";
+    }
+
     return res.status(200).json({
       success: true,
       accessToken,
@@ -167,6 +191,8 @@ export const signIn = async (req, res) => {
         email: checkUser.email,
         role: checkUser.role,
         id: checkUser._id,
+        checkUserIDInApplicant: hasUserIdInApplicant,
+        checkUserIDInEmployer: hasUserIdInEmployer,
       },
       message: "login successfully",
     });
