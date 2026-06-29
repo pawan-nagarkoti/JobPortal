@@ -65,7 +65,7 @@ export const fetchBookmark = async (req, res) => {
     const fetch = await SavedJob.find(filter)
       .populate(
         "jobId",
-        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expiresAt",
+        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expirationDate",
       )
       .populate("applicantId", "profilePicture")
       .skip(skip)

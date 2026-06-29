@@ -27,6 +27,17 @@ export function date(v) {
   return `${day} ${month}, ${year}`;
 }
 
+// count remaining days from today to expiray date
+export function remainingDate(v) {
+  const targetDate = new Date(v);
+  const now = new Date();
+
+  const diffInMs = targetDate.getTime() - now.getTime();
+  const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+
+  return diffInDays;
+}
+
 export const getSocialUrl = (url) => {
   if (!url) return "#";
 
