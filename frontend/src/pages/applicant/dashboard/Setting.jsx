@@ -51,7 +51,7 @@ export default function Setting() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
-      {/* <LeftSidebar /> */}
+      <LeftSidebar />
 
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto">

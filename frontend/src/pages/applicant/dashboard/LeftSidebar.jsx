@@ -1,7 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function LeftSidebar() {
+  const location = useLocation();
   return (
     <aside className="w-64 bg-white border-r border-gray-200">
       <div className="p-6">
@@ -12,7 +13,8 @@ export default function LeftSidebar() {
         <nav className="space-y-1">
           <Link
             to="/applicant-dashboard"
-            className="flex items-center px-4 py-3 bg-blue-50 text-blue-600 rounded-lg"
+            className={`flex items-center px-4 py-3  rounded-lg
+               ${location.pathname === "/applicant-dashboard" ? `bg-blue-500 text-white` : `text-gray-700 hover:bg-gray-50`}`}
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -30,9 +32,10 @@ export default function LeftSidebar() {
             Overview
           </Link>
 
-          <a
-            href="#"
-            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+          <Link
+            className={`flex items-center px-4 py-3  rounded-lg
+               ${location.pathname === "/applicant-dashboard/applied-job" ? `bg-blue-500 text-white` : `text-gray-700 hover:bg-gray-50`}`}
+            to="/applicant-dashboard/applied-job"
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -48,11 +51,12 @@ export default function LeftSidebar() {
               />
             </svg>
             Applied Jobs
-          </a>
+          </Link>
 
-          <a
-            href="#"
-            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+          <Link
+            className={`flex items-center px-4 py-3  rounded-lg
+               ${location.pathname === "/applicant-dashboard/bookmark-job" ? `bg-blue-500 text-white` : `text-gray-700 hover:bg-gray-50`}`}
+            to="/applicant-dashboard/bookmark-job"
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -68,36 +72,33 @@ export default function LeftSidebar() {
               />
             </svg>
             Favorite Jobs
-          </a>
+          </Link>
 
-          <a
-            href="#"
-            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+          <Link
+            to="/applicant-dashboard/job-alert"
+            className={`flex items-center px-4 py-3  rounded-lg
+               ${location.pathname === "/applicant-dashboard/job-alert" ? `bg-blue-500 text-white` : `text-gray-700 hover:bg-gray-50`}`}
           >
-            <div className="relative">
-              <svg
-                className="w-5 h-5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-              <span className="absolute -top-1 -right-1 px-1.5 py-0.5 bg-blue-600 text-white text-xs rounded-full">
-                09
-              </span>
-            </div>
+            <svg
+              className="w-5 h-5 mr-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
             Job Alert
-          </a>
+          </Link>
 
           <Link
             to="/applicant-dashboard/setting"
-            className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg"
+            className={`flex items-center px-4 py-3  rounded-lg
+               ${location.pathname === "/applicant-dashboard/setting" ? `bg-blue-500 text-white` : `text-gray-700 hover:bg-gray-50`}`}
           >
             <svg
               className="w-5 h-5 mr-3"

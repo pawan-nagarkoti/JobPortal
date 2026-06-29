@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 export default function EmployerSetting() {
   return (
     <>
-      {/* <div className="flex min-h-screen bg-gray-50">
+      <div className="flex min-h-screen bg-gray-50">
         <Sidebar />
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
@@ -32,11 +32,11 @@ export default function EmployerSetting() {
                   Jobpilot
                 </span>
               </div>
-            </div> */}
-      <EmployerProfile />
-      {/* </div>
+            </div>
+            <EmployerProfile />
+          </div>
         </main>
-      </div> */}
+      </div>
     </>
   );
 }

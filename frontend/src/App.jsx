@@ -27,6 +27,9 @@ import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
 import ScrollToTop from "./components/other/ScrollToTop";
+import BookmarkJob from "./pages/applicant/dashboard/bookmarkJob";
+import AppliedJob from "./pages/applicant/dashboard/appliedJob";
+import JobAlert from "./pages/applicant/dashboard/jobAlert";
 
 function App() {
   return (
@@ -42,6 +45,15 @@ function App() {
           <Route path="find-candidate" element={<CandidatesList />} />
           <Route path="applicant-dashboard" element={<Dashboard />} />
           <Route path="applicant-dashboard/setting" element={<Setting />} />
+          <Route
+            path="applicant-dashboard/bookmark-job"
+            element={<BookmarkJob />}
+          />
+          <Route
+            path="applicant-dashboard/applied-job"
+            element={<AppliedJob />}
+          />
+          <Route path="applicant-dashboard/job-alert" element={<JobAlert />} />
           <Route path="employer-dashboard" element={<EmployerDashbord />} />
           <Route path="employer-job-post" element={<PostJobForm />} />
           <Route path="employer-setting" element={<EmployerSetting />} />
