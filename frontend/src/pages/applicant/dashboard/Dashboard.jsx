@@ -1,4 +1,5 @@
 import JobGrid from "../../../components/grids/JobGrid";
+import AppliedJob from "./appliedJob";
 import LeftSidebar from "./leftSidebar";
 
 export default function Dashboard() {
@@ -174,20 +175,7 @@ export default function Dashboard() {
               </a>
             </div>
 
-            {/* Table Header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 text-sm font-medium text-gray-600 border-b border-gray-200">
-              <div className="col-span-5">Job</div>
-              <div className="col-span-3">Date Applied</div>
-              <div className="col-span-2">Status</div>
-              <div className="col-span-2">Action</div>
-            </div>
-
-            <JobGrid />
-          </div>
-
-          {/* Footer */}
-          <div className="mt-8 text-center text-sm text-gray-500">
-            © 2021 Jobpilot - Job Board. All rights Reserved
+            <AppliedJob isHide={true} />
           </div>
         </div>
       </main>

@@ -116,7 +116,14 @@ export const fetchAllJobs = async (req, res) => {
     const totalItems = await JobApplication.countDocuments();
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const getAllJobs = await JobApplication.find().skip(skip).limit(limit);
+    const getAllJobs = await JobApplication.find()
+      .populate(
+        "jobId",
+        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expirationDate",
+      )
+      .populate("applicantId", "profilePicture")
+      .skip(skip)
+      .limit(limit);
     return res.status(200).json({
       success: true,
       data: getAllJobs,

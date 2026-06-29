@@ -1,53 +1,6 @@
 import React from "react";
 
 export default function JobGrid() {
-  const recentlyApplied = [
-    {
-      id: 1,
-      title: "Networking Engineer",
-      company: "Upwork",
-      logo: "bg-green-500",
-      location: "Washington",
-      salary: "$50k-80k/month",
-      type: "Remote",
-      dateApplied: "Feb 2, 2019 19:28",
-      status: "Active",
-    },
-    {
-      id: 2,
-      title: "Product Designer",
-      company: "Dribbble",
-      logo: "bg-pink-500",
-      location: "Dhaka",
-      salary: "$50k-80k/month",
-      type: "Full Time",
-      dateApplied: "Dec 7, 2019 23:26",
-      status: "Active",
-    },
-    {
-      id: 3,
-      title: "Junior Graphic Designer",
-      company: "Apple",
-      logo: "bg-gray-900",
-      location: "Brazil",
-      salary: "$50k-80k/month",
-      type: "Temporary",
-      dateApplied: "Feb 2, 2019 19:28",
-      status: "Active",
-    },
-    {
-      id: 4,
-      title: "Visual Designer",
-      company: "Microsoft",
-      logo: "bg-gradient-to-br from-red-500 via-green-500 via-blue-500 to-yellow-500",
-      location: "Wisconsin",
-      salary: "$50k-80k/month",
-      type: "Contract Base",
-      dateApplied: "Dec 7, 2019 23:26",
-      status: "Active",
-      isHighlighted: true,
-    },
-  ];
   return (
     <>
       {/* Job Rows */}
@@ -76,10 +29,10 @@ export default function JobGrid() {
                       job.type === "Remote"
                         ? "bg-blue-100 text-blue-700"
                         : job.type === "Full Time"
-                        ? "bg-green-100 text-green-700"
-                        : job.type === "Temporary"
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-orange-100 text-orange-700"
+                          ? "bg-green-100 text-green-700"
+                          : job.type === "Temporary"
+                            ? "bg-purple-100 text-purple-700"
+                            : "bg-orange-100 text-orange-700"
                     }`}
                   >
                     {job.type}
