@@ -5,6 +5,18 @@ import qs from "qs";
 export const addEmployer = async (req, res) => {
   try {
     const data = qs.parse(req.body, { allowDots: true });
+
+    // check user has already created employer or not?
+    const isEmployerAllreadyCreated = await Employer.exists({
+      userId: req.user.id,
+    });
+    if (isEmployerAllreadyCreated) {
+      return res.status(200).json({
+        success: false,
+        message: "user has already created employer",
+      });
+    }
+
     const { logo, banner } = req.files;
 
     const employerLogo = await uploadOnCloudinary(logo[0].path);

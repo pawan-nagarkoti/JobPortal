@@ -250,7 +250,6 @@ export const refreshToken = async (req, res) => {
             );
 
             return res.json({ accessToken });
-            console.log(user);
           }
         },
       );

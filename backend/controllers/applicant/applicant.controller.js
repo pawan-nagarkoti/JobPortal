@@ -7,8 +7,20 @@ import { GENDER } from "../../constant.js";
 export const addApplicant = async (req, res) => {
   try {
     const data = qs.parse(req.body, { allowDots: true });
+
+    // check user has already created applicant or not?
+    const isApplicantAllreadyCreated = await Applicant.exists({
+      userId: data.userId,
+    });
+    if (isApplicantAllreadyCreated) {
+      return res.status(200).json({
+        success: false,
+        message: "user is already created applicant",
+      });
+    }
+
     const profileImage = await uploadOnCloudinary(
-      req.files.profilePicture[0].path
+      req.files.profilePicture[0].path,
     );
 
     const applicantObj = {
@@ -42,7 +54,7 @@ export const addApplicant = async (req, res) => {
     if (!isValidUserId) {
       return res.status(400).json({
         success: false,
-        message: "Id not found",
+        message: "user id is not found",
       });
     }
 
@@ -213,7 +225,7 @@ export const updateApplicant = async (req, res) => {
     const updatedApplicant = await Applicant.findByIdAndUpdate(
       { _id: id },
       applicantObj,
-      { new: true }
+      { new: true },
     );
 
     return res.status(200).json({
