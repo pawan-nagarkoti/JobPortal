@@ -2,6 +2,8 @@ import React from "react";
 import JobCard from "./JobCard";
 
 const FeaturedJobs = ({ jobs = "" }) => {
+  if (!jobs) return <p>Loading...</p>;
+
   return (
     <div className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,17 +16,23 @@ const FeaturedJobs = ({ jobs = "" }) => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobs?.data?.map((job, index) => (
-            <JobCard key={index} job={job} />
-          ))}
-        </div>
+        {jobs.data.length ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs?.data?.map((job, index) => (
+                <JobCard key={index} job={job} />
+              ))}
+            </div>
 
-        <div className="text-center mt-12">
-          <button className="bg-primary text-white px-8 py-3 rounded-md hover:bg-blue-700 transition font-medium">
-            Load More Jobs
-          </button>
-        </div>
+            <div className="text-center mt-12">
+              <button className="bg-primary text-white px-8 py-3 rounded-md hover:bg-blue-700 transition font-medium">
+                Load More Jobs
+              </button>
+            </div>
+          </>
+        ) : (
+          <p className="text-center">No job found</p>
+        )}
       </div>
     </div>
   );

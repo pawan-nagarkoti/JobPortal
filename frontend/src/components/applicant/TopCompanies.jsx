@@ -3,25 +3,26 @@ import CompanyCard from "./CompanyCard";
 const TopCompanies = ({ companies = "" }) => {
   if (!companies) return <p>Loading...</p>;
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        {/* Section Title */}
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-10">
-          Top companies
-        </h2>
+    <div className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Top companies
+          </h2>
+        </div>
 
         {/* Companies Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {companies?.data.length ? (
-            companies?.data?.map((company, i) => (
+        {companies?.data.length ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {companies?.data?.map((company, i) => (
               <CompanyCard key={i} company={company} />
-            ))
-          ) : (
-            <p>No Applicant Found.</p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center">No applicant found.</p>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 

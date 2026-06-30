@@ -35,18 +35,26 @@ export default function JobPage() {
     fetchJobs();
   }, [searchParams]);
 
+  if (!jobList) return "Loding...";
+
   return (
     <>
       <div className="container mx-auto">
-        <div className="mt-5 mb-4">
-          <SearchBar />
-        </div>
+        {jobList.data.length ? (
+          <>
+            <div className="mt-5 mb-4">
+              <SearchBar />
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-4">
-          {jobList.data?.map((job, index) => (
-            <JobCard key={index} job={job} />
-          ))}
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-4">
+              {jobList.data?.map((job, index) => (
+                <JobCard key={index} job={job} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-center my-5">No job found</p>
+        )}
       </div>
     </>
   );
