@@ -27,13 +27,25 @@ const SignIn = () => {
 
         let redirection = loginAccount.data.data;
 
-        if (redirection.checkUserIDInApplicant === "No") {
-          navigate("/applicant-dashboard/setting");
-        } else if (redirection.checkUserIDInApplicant === "Yes") {
+        if (
+          redirection.checkUserIDInApplicant === "No" &&
+          redirection.role == "applicant"
+        ) {
+          navigate("applicant-dashboard/setting");
+        } else if (
+          redirection.checkUserIDInApplicant === "Yes" &&
+          redirection.role == "applicant"
+        ) {
           navigate("/applicant-dashboard");
-        } else if (redirection.checkUserIDInEmployer === "NO") {
-          navigate("/employer-dashboard/setting");
-        } else if (redirection.checkUserIDInEmployer === "Yes") {
+        } else if (
+          redirection.checkUserIDInEmployer === "No" &&
+          redirection.role == "employer"
+        ) {
+          navigate("/employer-setting");
+        } else if (
+          redirection.checkUserIDInEmployer === "Yes" &&
+          redirection.role == "employer"
+        ) {
           navigate("/employer-dashboard");
         }
       }

@@ -743,6 +743,7 @@ const Contact = () => {
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleContactForm = async () => {
     const formData = new FormData();
@@ -769,14 +770,19 @@ const Contact = () => {
       formData.append(`socialLinks[${index}][url]`, link.url || "");
     });
 
-    const createEmployerProfileResponse = await _post(
-      "api/employer/add",
-      formData,
-    );
-
-    if (createEmployerProfileResponse.data.success) {
-      showSuccess("Employer Profile Created Successfully");
-      navigate("/profile-completed");
+    setIsLoading(true);
+    try {
+      const apiResponse = await await _post("api/employer/add", formData);
+      if (apiResponse.data.success) {
+        showSuccess(apiResponse.data.message);
+        navigate("/applicant-dashboard");
+      } else {
+        showError(apiResponse.data.message);
+      }
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -864,7 +870,7 @@ const Contact = () => {
           onClick={handleContactForm}
           className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
         >
-          Save Changes
+          {isLoading ? "loading..." : "save"}
         </button>
       </div>
 

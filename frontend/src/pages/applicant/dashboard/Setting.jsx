@@ -4,6 +4,9 @@ import { EDUCATION, GENDER, MARITAL_STATUS } from "../../../lib/constant";
 import { _delete, _get, _post, _put } from "../../../lib/api";
 import useUI from "../../../context/UIcontext";
 import { v4 as uuidv4 } from "uuid";
+import { getCookie } from "../../../lib/cookies";
+import { showError, showSuccess } from "../../../lib/toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Setting() {
   const [renderTab, setRenderTab] = useState(<PersonalSetting />);
@@ -749,9 +752,9 @@ const AccountSetting = () => {
   const [number, setNumber] = useState(applicantSettingsTabData.number || "");
   const [email, setEmail] = useState(applicantSettingsTabData.email || "");
 
-  useEffect(() => {
-    console.log(applicantSettingsTabData);
-  }, [applicantSettingsTabData]);
+  let userId = getCookie("loginUserInfo");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {
     setApplicantSettingsTabData((prev) => ({
@@ -764,7 +767,7 @@ const AccountSetting = () => {
 
     const formData = new FormData();
 
-    formData.append("userId", "6996e48c469802e83cff3a37");
+    formData.append("userId", userId.id);
     formData.append("profilePicture", applicantSettingsTabData.profilePic);
     formData.append("name", applicantSettingsTabData.name);
     formData.append("title", applicantSettingsTabData.title);
@@ -786,8 +789,20 @@ const AccountSetting = () => {
     formData.append("countryCode", applicantSettingsTabData.countryCode);
     formData.append("number", applicantSettingsTabData.number);
 
-    const api = await _post("api/applicant/add", formData);
-    console.log(api);
+    setIsLoading(true);
+    try {
+      const apiResponse = await _post("api/applicant/add", formData);
+      if (apiResponse.data.success) {
+        showSuccess(apiResponse.data.message);
+        navigate("/applicant-dashboard");
+      } else {
+        showError(apiResponse.data.message);
+      }
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -867,7 +882,7 @@ const AccountSetting = () => {
             className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
             onClick={() => handleSaveChanges()}
           >
-            Save Changes
+            {isLoading ? "loading..." : "Save Changes"}
           </button>
         </div>
       </div>
