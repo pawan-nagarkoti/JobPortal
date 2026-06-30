@@ -8,6 +8,7 @@ import { HtmlSanitizer } from "../../components/other/htmlSanitizer";
 import ResumeModal from "../../components/applicant/resumeModal";
 import useUI from "../../context/UIcontext";
 import { showSuccess, showInfo } from "../../lib/toast";
+import { getCookie } from "../../lib/cookies";
 
 export default function JobDetailPage() {
   const [job, setJob] = useState("");
@@ -15,6 +16,8 @@ export default function JobDetailPage() {
   const { openModal, setOpenModal } = useUI();
   const [toggleBookmark, setToggleBookmark] = useState(false);
   const [applicantData, setApplicantData] = useState("");
+  const role = getCookie("loginUserInfo")?.role;
+  const isApplicant = role === "applicant";
 
   const fetchJobDetail = async () => {
     const response = await _get(`api/jobList/single/${id}`);
@@ -151,27 +154,28 @@ export default function JobDetailPage() {
                       </span>
                     )}
                   </button>
-                  <button
-                    className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center"
-                    onClick={() => {
-                      setOpenModal(true);
-                    }}
-                  >
-                    Apply Now
-                    <svg
-                      className="w-5 h-5 ml-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+
+                  <div className="relative group inline-block">
+                    <button
+                      className={`px-6 py-2.5 text-white font-semibold rounded-lg flex items-center ${
+                        isApplicant
+                          ? "bg-blue-600"
+                          : "bg-gray-400 cursor-not-allowed"
+                      }`}
+                      disabled={!isApplicant}
+                      onClick={() => {
+                        if (isApplicant) setOpenModal(true);
+                      }}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </button>
+                      Open
+                    </button>
+
+                    {!isApplicant && (
+                      <span className="absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 scale-95 whitespace-nowrap rounded bg-black px-3 py-1 text-sm text-white opacity-0 shadow-lg transition-all group-hover:scale-100 group-hover:opacity-100">
+                        Login as an applicant
+                      </span>
+                    )}
+                  </div>
                   <DiloagContainer open={openModal} setOpen={setOpenModal}>
                     <ResumeModal />
                   </DiloagContainer>

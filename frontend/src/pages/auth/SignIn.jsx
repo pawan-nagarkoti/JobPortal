@@ -25,9 +25,17 @@ const SignIn = () => {
         addCookie("accessToken", loginAccount.data.accessToken);
         addCookie("loginUserInfo", loginAccount.data.data);
 
-        loginAccount?.data?.data?.role === "employer"
-          ? navigate("/create/employer-profile")
-          : navigate("/");
+        let redirection = loginAccount.data.data;
+
+        if (redirection.checkUserIDInApplicant === "No") {
+          navigate("/applicant-dashboard/setting");
+        } else if (redirection.checkUserIDInApplicant === "Yes") {
+          navigate("/applicant-dashboard");
+        } else if (redirection.checkUserIDInEmployer === "NO") {
+          navigate("/employer-dashboard/setting");
+        } else if (redirection.checkUserIDInEmployer === "Yes") {
+          navigate("/employer-dashboard");
+        }
       }
     } catch (e) {
       console.log(e.message);
