@@ -1,62 +1,28 @@
 import React from "react";
 import CandidateProfile from "../../pages/employer/CandidateProfile";
+import useUI from "../../context/UIcontext";
+import DiloagContainer from "../common/diloagContainer";
 
-const CandidateGrid = () => {
-  // Dummy candidates data
-  const candidates = [
-    {
-      id: 1,
-      name: "Cody Fisher",
-      role: "Marketing Officer",
-      location: "New York",
-      experience: "3 Years experience",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-      isBookmarked: false,
-    },
-    {
-      id: 2,
-      name: "Darrell Steward",
-      role: "Interaction Designer",
-      location: "New York",
-      experience: "3 Years experience",
-      image: "https://randomuser.me/api/portraits/men/43.jpg",
-      isBookmarked: true,
-    },
-    {
-      id: 3,
-      name: "Guy Hawkins",
-      role: "Junior Graphic Designer",
-      location: "New York",
-      experience: "3 Years experience",
-      image: "https://randomuser.me/api/portraits/men/54.jpg",
-      isBookmarked: true,
-    },
-  ];
+const CandidateGrid = ({ candidate = "" }) => {
+  const { setOpenModal, setCandidateId } = useUI();
+  if (!candidate) return <p>loading...</p>;
 
   return (
-    <div className="space-y-4">
-      {candidates.map((candidate) => (
-        <div
-          key={candidate.id}
-          className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow"
-        >
+    <>
+      <div className="space-y-4">
+        <div className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
           <div className="p-6">
             <div className="flex items-center justify-between">
-              {/* Left - Profile Info */}
               <div className="flex items-center space-x-4">
-                {/* Profile Image */}
                 <img
-                  src={candidate.image}
-                  alt={candidate.name}
+                  src={candidate.profilePicture}
                   className="w-20 h-20 rounded-xl object-cover"
                 />
-
-                {/* Info */}
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-1">
                     {candidate.name}
                   </h3>
-                  <p className="text-gray-600 mb-2">{candidate.role}</p>
+                  <p className="text-gray-600">{candidate.title}</p>
 
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
@@ -101,9 +67,7 @@ const CandidateGrid = () => {
                 </div>
               </div>
 
-              {/* Right - Actions */}
               <div className="flex items-center space-x-3">
-                {/* Bookmark Button */}
                 <button
                   className={`p-2 rounded-lg border transition ${
                     candidate.isBookmarked
@@ -127,7 +91,14 @@ const CandidateGrid = () => {
                 </button>
 
                 {/* View Profile Button */}
-                <button className="px-6 py-2.5 bg-blue-50 text-blue-600 font-semibold rounded-lg hover:bg-blue-100 transition flex items-center">
+                <button
+                  type="button"
+                  className="px-6 py-2.5 bg-blue-50 text-blue-600 font-semibold rounded-lg hover:bg-blue-100 transition flex items-center"
+                  onClick={(e) => {
+                    setCandidateId(candidate._id);
+                    setOpenModal(true);
+                  }}
+                >
                   View Profile
                   <svg
                     className="w-5 h-5 ml-2"
@@ -147,9 +118,8 @@ const CandidateGrid = () => {
             </div>
           </div>
         </div>
-      ))}
-      <CandidateProfile />
-    </div>
+      </div>
+    </>
   );
 };
 

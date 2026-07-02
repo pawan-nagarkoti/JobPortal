@@ -1,7 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CandidateGrid from "../../components/applicant/CandidateGrid";
+import { _get } from "../../lib/api";
+import DiloagContainer from "../../components/common/diloagContainer";
+import CandidateProfile from "./CandidateProfile";
+import useUI from "../../context/UIcontext";
 
 const CandidatesList = () => {
+  const [candidateList, setCandidateList] = useState("");
+  const { openModal, setOpenModal } = useUI();
+
+  const fetchCandidateList = async () => {
+    try {
+      const response = await _get("api/applicant/fetch");
+      if (response.data.success) {
+        setCandidateList(response.data);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchCandidateList();
+  }, []);
+
+  if (!candidateList) return <p>Loading...</p>;
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -49,21 +72,6 @@ const CandidatesList = () => {
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold text-gray-900">Gender</h3>
-                  <button className="text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 15l7-7 7 7"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
                 {/* Radio Options */}
@@ -112,9 +120,25 @@ const CandidatesList = () => {
           {/* Right Content - Candidates List */}
           <div className="lg:col-span-3">
             <div className="space-y-4">
-              <CandidateGrid />
+              {candidateList?.applicants?.length > 0 ? (
+                candidateList?.applicants?.map((v, i) => (
+                  <div key={i}>
+                    <CandidateGrid candidate={v} />
+                  </div>
+                ))
+              ) : (
+                <p>No candidate found</p>
+              )}
             </div>
           </div>
+
+          <DiloagContainer
+            open={openModal}
+            setOpen={setOpenModal}
+            showClass={true}
+          >
+            <CandidateProfile />
+          </DiloagContainer>
         </div>
       </div>
     </div>

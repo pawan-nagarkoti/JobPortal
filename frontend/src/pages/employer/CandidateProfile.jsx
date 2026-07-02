@@ -1,24 +1,15 @@
+import { useEffect, useState } from "react";
+import useUI from "../../context/UIcontext";
+import { _get } from "../../lib/api";
+import { date } from "../../lib/utils";
+
 const CandidateProfile = () => {
-  // Dummy candidate data
+  const { candidateId } = useUI();
+  const [data, setData] = useState("");
+
   const candidate = {
-    name: "Esther Howard",
-    role: "Website Designer (UI/UX)",
-    image: "https://randomuser.me/api/portraits/women/44.jpg",
-    dateOfBirth: "14 June, 2021",
-    nationality: "Bangladesh",
-    maritalStatus: "Single",
-    gender: "Male",
-    experience: "7 Years",
-    education: "Master Degree",
-    website: "www.estherhoward.com",
-    location: "Beverly Hills, California 90202",
-    address: "Zone/Block Basement 1 Unit B2, 1372 Spring Avenue, Portland,",
-    phone: "+1-202-555-0141",
-    secondaryPhone: "+1-202-555-0189",
     email: "esther.howard@gmail.com",
   };
-
-  const biography = `I've been passionate about graphic design and digital art from an early age with a keen interest in Website and Mobile Application User Interfaces. I can create high-quality and aesthetically pleasing designs in a quick turnaround time. Check out the portfolio section of my profile to see samples of my work and feel free to discuss your designing needs. I mostly use Adobe Photoshop, Illustrator, XD and Figma. *Website User Experience and Interface (UI/UX) Design - for all kinds of Professional and Personal websites. *Mobile Application User Experience and Interface Design - for all kinds of IOS/Android and Hybrid Mobile Applications. *Wireframe Designs.`;
 
   const coverLetter = [
     "Dear Sir,",
@@ -42,26 +33,33 @@ const CandidateProfile = () => {
     { name: "YouTube", icon: "youtube", url: "#", bgColor: "bg-red-600" },
   ];
 
+  const fetchCandiate = async () => {
+    if (candidateId) {
+      const response = await _get(`api/applicant/single/${candidateId}`);
+      setData(response.data.applicant);
+    }
+  };
+  useEffect(() => {
+    fetchCandiate();
+  }, [candidateId]);
+
+  if (!data) return "loading...";
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Section */}
+    <div className="bg-gray-50">
+      <div className="px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              {/* Profile Image */}
               <img
-                src={candidate.image}
-                alt={candidate.name}
+                src={data.profilePicture}
                 className="w-20 h-20 rounded-full object-cover"
               />
 
-              {/* Name and Role */}
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  {candidate.name}
+                  {data.name}
                 </h1>
-                <p className="text-gray-600">{candidate.role}</p>
+                <p className="text-gray-600">{data.title}</p>
               </div>
             </div>
 
@@ -111,7 +109,7 @@ const CandidateProfile = () => {
                 BIOGRAPHY
               </h2>
               <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {biography}
+                {data.biography}
               </p>
             </div>
 
@@ -227,7 +225,7 @@ const CandidateProfile = () => {
                     Date of Birth
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {candidate.dateOfBirth}
+                    {date(data.dob)}
                   </p>
                 </div>
 
@@ -252,7 +250,7 @@ const CandidateProfile = () => {
                     Notionality
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {candidate.nationality}
+                    {data.nationality}
                   </p>
                 </div>
 
@@ -277,7 +275,7 @@ const CandidateProfile = () => {
                     Marital Status
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {candidate.maritalStatus}
+                    {data.maritalStatus}
                   </p>
                 </div>
 
@@ -299,9 +297,7 @@ const CandidateProfile = () => {
                     </svg>
                   </div>
                   <p className="text-xs text-gray-500 uppercase mb-1">Gender</p>
-                  <p className="font-semibold text-gray-900">
-                    {candidate.gender}
-                  </p>
+                  <p className="font-semibold text-gray-900">{data.gender}</p>
                 </div>
 
                 {/* Experience */}
@@ -325,7 +321,7 @@ const CandidateProfile = () => {
                     Experience
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {candidate.experience}
+                    {data.experience}
                   </p>
                 </div>
 
@@ -350,7 +346,7 @@ const CandidateProfile = () => {
                     Educations
                   </p>
                   <p className="font-semibold text-gray-900">
-                    {candidate.education}
+                    {data.education} Degree
                   </p>
                 </div>
               </div>
@@ -407,7 +403,7 @@ const CandidateProfile = () => {
               <div className="space-y-4">
                 {/* Website */}
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
                     <svg
                       className="w-5 h-5 text-blue-600"
                       fill="none"
@@ -427,17 +423,17 @@ const CandidateProfile = () => {
                       Website
                     </p>
                     <a
-                      href={`https://${candidate.website}`}
+                      href={`https://${data.websiteUrl}`}
                       className="text-gray-900 hover:text-blue-600 font-medium"
                     >
-                      {candidate.website}
+                      {data.websiteUrl}
                     </a>
                   </div>
                 </div>
 
                 {/* Location */}
                 <div className="flex items-start">
-                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
                     <svg
                       className="w-5 h-5 text-blue-600"
                       fill="none"
@@ -462,9 +458,7 @@ const CandidateProfile = () => {
                     <p className="text-xs text-gray-500 uppercase mb-1">
                       Location
                     </p>
-                    <p className="text-gray-900 font-medium">
-                      {candidate.location}
-                    </p>
+                    <p className="text-gray-900 font-medium">{data.location}</p>
                     <p className="text-sm text-gray-600 mt-1">
                       {candidate.address}
                     </p>
@@ -493,13 +487,8 @@ const CandidateProfile = () => {
                       Phone
                     </p>
                     <p className="text-gray-900 font-medium">
-                      {candidate.phone}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      Secondary Phone
-                    </p>
-                    <p className="text-gray-900 font-medium">
-                      {candidate.secondaryPhone}
+                      +{data.phone.countryCode} &nbsp;
+                      {data.phone.number}
                     </p>
                   </div>
                 </div>

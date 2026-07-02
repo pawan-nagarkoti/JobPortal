@@ -12,6 +12,7 @@ export const UIprovider = ({ children }) => {
   const [applicantTabController, setApplicantTabController] = useState("");
   const [applicantSettingsTabData, setApplicantSettingsTabData] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [candidateId, setCandidateId] = useState("");
 
   const navigate = useNavigate();
 
@@ -45,6 +46,8 @@ export const UIprovider = ({ children }) => {
         setApplicantSettingsTabData,
         openModal,
         setOpenModal,
+        candidateId,
+        setCandidateId,
       }}
     >
       {children}
