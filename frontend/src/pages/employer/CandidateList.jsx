@@ -8,10 +8,12 @@ import useUI from "../../context/UIcontext";
 const CandidatesList = () => {
   const [candidateList, setCandidateList] = useState("");
   const { openModal, setOpenModal } = useUI();
+  const [gender, setGender] = useState("all");
 
   const fetchCandidateList = async () => {
     try {
-      const response = await _get("api/applicant/fetch");
+      let g = gender === "all" ? "" : `?gender=${gender}`;
+      const response = await _get(`api/applicant/fetch${g}`);
       if (response.data.success) {
         setCandidateList(response.data);
       }
@@ -22,7 +24,7 @@ const CandidatesList = () => {
 
   useEffect(() => {
     fetchCandidateList();
-  }, []);
+  }, [gender]);
 
   if (!candidateList) return <p>Loading...</p>;
   return (
@@ -39,21 +41,6 @@ const CandidatesList = () => {
                     Location Radius:{" "}
                     <span className="text-blue-600">32 miles</span>
                   </h3>
-                  <button className="text-gray-400 hover:text-gray-600">
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 15l7-7 7 7"
-                      />
-                    </svg>
-                  </button>
                 </div>
 
                 {/* Range Slider */}
@@ -81,6 +68,9 @@ const CandidatesList = () => {
                       type="radio"
                       name="gender"
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                      defaultChecked
+                      value={gender}
+                      onChange={() => setGender("all")}
                     />
                     <span className="ml-3 text-gray-700">All</span>
                   </label>
@@ -89,8 +79,9 @@ const CandidatesList = () => {
                     <input
                       type="radio"
                       name="gender"
-                      defaultChecked
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                      value={gender}
+                      onChange={() => setGender("male")}
                     />
                     <span className="ml-3 text-gray-700">Male</span>
                   </label>
@@ -100,6 +91,8 @@ const CandidatesList = () => {
                       type="radio"
                       name="gender"
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                      value={gender}
+                      onChange={() => setGender("female")}
                     />
                     <span className="ml-3 text-gray-700">Female</span>
                   </label>
@@ -109,6 +102,8 @@ const CandidatesList = () => {
                       type="radio"
                       name="gender"
                       className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                      value={gender}
+                      onChange={() => setGender("other")}
                     />
                     <span className="ml-3 text-gray-700">Others</span>
                   </label>
