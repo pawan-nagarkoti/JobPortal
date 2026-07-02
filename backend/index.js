@@ -33,6 +33,7 @@ import jobApplicationsRoute from "./routes/applicant/jobApplication.route.js";
 import blogRoutes from "./routes/blog/blog.route.js";
 import getInTouch from "./routes/other/getInTouch.route.js";
 import globalSearchRoute from "./routes/other/globalSearch.route.js";
+import mongoose from "mongoose";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", employerRoutes);
@@ -47,6 +48,40 @@ app.use("/api/contact", getInTouch);
 app.use("/api/global", globalSearchRoute);
 
 connectToDB();
+
+app.delete("/api/delete-all", async (req, res) => {
+  try {
+    const db = mongoose.connection.db;
+
+    const collections = await db.listCollections().toArray();
+
+    const result = [];
+
+    for (const collection of collections) {
+      if (!collection.name.startsWith("system.")) {
+        const deleteResult = await db
+          .collection(collection.name)
+          .deleteMany({});
+
+        result.push({
+          collection: collection.name,
+          deletedCount: deleteResult.deletedCount,
+        });
+      }
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "All collection data deleted successfully",
+      result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`server is now running on port ${PORT}`);

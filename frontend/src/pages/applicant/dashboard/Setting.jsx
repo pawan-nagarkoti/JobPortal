@@ -745,25 +745,30 @@ const AccountSetting = () => {
     setApplicantTabController("socialLinks");
   };
 
-  const [location, setLocation] = useState(
-    applicantSettingsTabData.location || "",
-  );
+  // const [location, setLocation] = useState(
+  //   applicantSettingsTabData.location || "",
+  // );
+  // const [countryCode, setCountryCode] = useState(91);
+  // const [number, setNumber] = useState(applicantSettingsTabData.number || "");
+  // const [email, setEmail] = useState(applicantSettingsTabData.email || "");
+
+  const [location, setLocation] = useState();
   const [countryCode, setCountryCode] = useState(91);
-  const [number, setNumber] = useState(applicantSettingsTabData.number || "");
-  const [email, setEmail] = useState(applicantSettingsTabData.email || "");
+  const [number, setNumber] = useState();
+  const [email, setEmail] = useState();
 
   let userId = getCookie("loginUserInfo");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSaveChanges = async () => {
-    setApplicantSettingsTabData((prev) => ({
-      ...prev,
-      location,
-      countryCode,
-      number,
-      email,
-    }));
+    // setApplicantSettingsTabData((prev) => ({
+    //   ...prev,
+    //   location,
+    //   countryCode,
+    //   number,
+    //   email,
+    // }));
 
     const formData = new FormData();
 
@@ -778,16 +783,16 @@ const AccountSetting = () => {
     formData.append("dob", applicantSettingsTabData.dob);
     formData.append("gender", applicantSettingsTabData.gender);
     formData.append("maritalStatus", applicantSettingsTabData.maritalStatus);
-    formData.append("biography", applicantSettingsTabData.biography);
+    formData.append("biography", applicantSettingsTabData.bio);
 
     applicantSettingsTabData.socialLinks.forEach((v, i) => {
       formData.append(`socialLinks[${i}].name`, v.platform);
       formData.append(`socialLinks[${i}].url`, v.url);
     });
 
-    formData.append("location", applicantSettingsTabData.location);
-    formData.append("countryCode", applicantSettingsTabData.countryCode);
-    formData.append("number", applicantSettingsTabData.number);
+    formData.append("location", location);
+    formData.append("countryCode", countryCode);
+    formData.append("number", number);
 
     setIsLoading(true);
     try {
@@ -1214,17 +1219,19 @@ const ResumeSetting = () => {
   const [isLoading, setLoding] = useState(false);
   const fileInputRef = useRef(null);
 
-  const resumes = [
-    { id: 1, name: "Professional Resume", size: "3.5 MB" },
-    { id: 2, name: "Product Designer", size: "4.7 MB" },
-    { id: 3, name: "Visual Designer", size: "1.3 MB" },
-  ];
+  const fetchApplicant = async () => {
+    const res = await _get(`api/applicant/fetch`);
+    if (res.data.success) {
+      return res.data.applicants[0]._id;
+    }
+  };
 
   const handleAddCV = async () => {
     setLoding(true);
+    let applicantId = await fetchApplicant();
     try {
       const cvData = new FormData();
-      cvData.append("applicantId", "69001e288ec0da7674b77754");
+      cvData.append("applicantId", applicantId);
       cvData.append("title", title);
       cvData.append("cv", cv);
       const apiResponse = await _post("api/resume/add", cvData);

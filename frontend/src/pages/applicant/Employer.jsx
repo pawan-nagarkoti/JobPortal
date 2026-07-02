@@ -25,9 +25,9 @@ export default function Employer() {
       <div className="container mx-auto">
         {companies.data.length ? (
           <>
-            <div className="mt-5 mb-4">
+            {/* <div className="mt-5 mb-4">
               <SearchBar />
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-5">
               {companies?.data?.map((company, i) => (

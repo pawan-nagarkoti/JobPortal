@@ -31,7 +31,7 @@ const SignIn = () => {
           redirection.checkUserIDInApplicant === "No" &&
           redirection.role == "applicant"
         ) {
-          navigate("applicant-dashboard/setting");
+          navigate("/applicant-dashboard/setting");
         } else if (
           redirection.checkUserIDInApplicant === "Yes" &&
           redirection.role == "applicant"

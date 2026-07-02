@@ -18,8 +18,8 @@ const Sidebar = () => {
     },
     { id: "jobs", label: "My Jobs", icon: "briefcase" },
     { id: "saved", label: "Saved Candidate", icon: "bookmark" },
-    { id: "plans", label: "Plans & Billing", icon: "credit-card" },
-    { id: "companies", label: "All Companies", icon: "building" },
+    // { id: "plans", label: "Plans & Billing", icon: "credit-card" },
+    // { id: "companies", label: "All Companies", icon: "building" },
     {
       id: "settings",
       label: "Settings",
