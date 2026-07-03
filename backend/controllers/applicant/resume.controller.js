@@ -95,7 +95,11 @@ export const updateResume = async (req, res) => {
 
 export const fetchResume = async (req, res) => {
   try {
-    const fetch = await Resume.find().sort({ createdAt: -1 });
+    const fetch = await Resume.find({
+      applicantId: req.query.applicantId,
+    }).sort({
+      createdAt: -1,
+    });
     return res.status(200).json({
       success: true,
       data: fetch,

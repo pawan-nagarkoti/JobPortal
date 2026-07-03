@@ -85,6 +85,7 @@ export const fetchApplicant = async (req, res) => {
     const applicantName = req.query.name;
     const location = req.query.location;
     const gender = req.query.gender;
+    const userId = req.query.userId;
 
     const filter = {};
 
@@ -98,6 +99,10 @@ export const fetchApplicant = async (req, res) => {
 
     if (gender) {
       filter.gender = Object.values(GENDER).includes(gender) ? gender : null;
+    }
+
+    if (userId) {
+      filter.userId = userId;
     }
 
     const page = Number(req.query.page) || 1;

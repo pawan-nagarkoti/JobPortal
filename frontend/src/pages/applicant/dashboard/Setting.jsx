@@ -1218,17 +1218,22 @@ const ResumeSetting = () => {
   const [editId, setEditId] = useState(null);
   const [isLoading, setLoding] = useState(false);
   const fileInputRef = useRef(null);
+  const userId = getCookie("loginUserInfo");
 
-  const fetchApplicant = async () => {
-    const res = await _get(`api/applicant/fetch`);
-    if (res.data.success) {
-      return res.data.applicants[0]._id;
+  const FetchApplicantOnTheBasisOfLoginUser = async () => {
+    try {
+      const response = await _get(`api/applicant/fetch?userId=${userId.id}`);
+      if (response.data.success) {
+        return response.data.applicants[0]._id;
+      }
+    } catch (e) {
+      console.log(e.message);
     }
   };
 
   const handleAddCV = async () => {
     setLoding(true);
-    let applicantId = await fetchApplicant();
+    let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
     try {
       const cvData = new FormData();
       cvData.append("applicantId", applicantId);
@@ -1248,9 +1253,12 @@ const ResumeSetting = () => {
   };
 
   const fetchResume = async () => {
+    let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
     try {
       if (!editId) {
-        const apiResponse = await _get("api/resume/fetch");
+        const apiResponse = await _get(
+          `api/resume/fetch?applicantId=${applicantId}`,
+        );
         if (apiResponse.data.success) {
           setData(apiResponse.data);
         }
