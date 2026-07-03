@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { _get, _post } from "../../lib/api";
 import useUI from "../../context/UIcontext";
 import { useParams } from "react-router-dom";
+import { getCookie } from "../../lib/cookies";
 
 export default function ResumeModal() {
   const [resume, setResume] = useState("");
@@ -11,8 +12,26 @@ export default function ResumeModal() {
   const { openModal, setOpenModal } = useUI();
   const [isLoading, setIsLoading] = useState("");
 
+  const userId = getCookie("loginUserInfo");
+
+  const FetchApplicantOnTheBasisOfLoginUser = async () => {
+    try {
+      const response = await _get(`api/applicant/fetch?userId=${userId.id}`);
+      if (response.data.success) {
+        return response.data.applicants[0]._id;
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
   const fetchResumes = async () => {
-    const apiResponse = await _get("api/resume/fetch");
+    let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
+    if (!applicantId) return;
+
+    const apiResponse = await _get(
+      `api/resume/fetch?applicantId=${applicantId}`,
+    );
     if (apiResponse.data.success) {
       setResume(apiResponse.data);
     }

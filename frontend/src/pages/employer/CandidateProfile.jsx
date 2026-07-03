@@ -6,6 +6,7 @@ import { date } from "../../lib/utils";
 const CandidateProfile = () => {
   const { candidateId } = useUI();
   const [data, setData] = useState("");
+  const [resume, setResume] = useState("");
 
   const candidate = {
     email: "esther.howard@gmail.com",
@@ -33,14 +34,57 @@ const CandidateProfile = () => {
     { name: "YouTube", icon: "youtube", url: "#", bgColor: "bg-red-600" },
   ];
 
-  const fetchCandiate = async () => {
-    if (candidateId) {
-      const response = await _get(`api/applicant/single/${candidateId}`);
-      setData(response.data.applicant);
+  const FetchApplicantOnTheBasisOfUserId = async (userId) => {
+    try {
+      const response = await _get(`api/applicant/fetch?userId=${userId}`);
+      if (response.data.success) {
+        return response.data.applicants[0]._id;
+      }
+    } catch (e) {
+      console.log(e.message);
     }
   };
+
+  const fetchResume = async (applicantId) => {
+    try {
+      const apiResponse = await _get(
+        `api/resume/fetch?applicantId=${applicantId}`,
+      );
+      if (apiResponse.data.success) {
+        return apiResponse.data;
+      }
+    } catch (e) {
+      console.log(e.messsage);
+    }
+  };
+
+  const fetchCandidate = async () => {
+    if (!candidateId) return;
+
+    try {
+      const response = await _get(`api/applicant/single/${candidateId}`);
+      const applicant = response?.data?.applicant;
+
+      if (!response?.data?.success || !applicant) return;
+
+      setData(applicant);
+
+      if (!applicant.userId) return;
+
+      const applicantId = await FetchApplicantOnTheBasisOfUserId(
+        applicant.userId,
+      );
+      if (!applicantId) return;
+
+      const resumeData = await fetchResume(applicantId);
+      setResume(resumeData);
+    } catch (error) {
+      console.error("Failed to fetch candidate:", error);
+    }
+  };
+
   useEffect(() => {
-    fetchCandiate();
+    fetchCandidate();
   }, [candidateId]);
 
   if (!data) return "loading...";
@@ -354,45 +398,61 @@ const CandidateProfile = () => {
 
             {/* Download Resume */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
-                Download My Resume
-              </h3>
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
-                <div className="flex items-center space-x-3">
-                  <svg
-                    className="w-10 h-10 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <div>
-                    <p className="text-sm text-gray-500">Esther Howard</p>
-                    <p className="font-semibold text-gray-900">PDF</p>
-                  </div>
-                </div>
-                <button className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                    />
-                  </svg>
-                </button>
-              </div>
+              {resume?.data?.length ? (
+                <>
+                  <h3 className="font-bold text-gray-900 mb-4">
+                    Download My Resume
+                  </h3>
+                  {resume.data.slice(0, 2).map((r, i) => (
+                    <div
+                      className="flex items-center  justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 mb-3"
+                      key={i}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <svg
+                          className="w-10 h-10 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                          />
+                        </svg>
+                        <div>
+                          <p className="text-sm text-gray-500">{r.title}</p>
+                          <p className="font-semibold text-gray-900">PDF</p>
+                        </div>
+                      </div>
+                      <a
+                        href={r.cv}
+                        download={r.title || "resume.pdf"}
+                        target="_blank"
+                        className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 inline-flex items-center justify-center"
+                      >
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                          />
+                        </svg>
+                      </a>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                <>No resume added</>
+              )}
             </div>
 
             {/* Contact Information */}
