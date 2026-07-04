@@ -49,8 +49,8 @@ const applicantSchema = new mongoose.Schema(
       number: String,
     },
     alertJob: {
-      role: String,
-      location: String,
+      jobTitle: [String],
+      alertLocation: [String],
     },
     profilePrivacy: {
       type: Boolean,
@@ -61,7 +61,7 @@ const applicantSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const Applicant = mongoose.model("Applicant", applicantSchema);

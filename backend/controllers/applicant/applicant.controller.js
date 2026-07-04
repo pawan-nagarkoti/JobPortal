@@ -43,8 +43,8 @@ export const addApplicant = async (req, res) => {
         number: data.number,
       },
       alertJob: {
-        role: data.role,
-        location: data.location,
+        jobTitle: JSON.parse(data.alertJob.jobTitle),
+        alertLocation: JSON.parse(data.alertJob.alertLocation),
       },
       profilePrivacy: data.profilePrivacy,
       resumePrivacy: data.resumePrivacy,

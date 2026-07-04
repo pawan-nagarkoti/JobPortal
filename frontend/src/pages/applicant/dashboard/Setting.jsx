@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../../lib/cookies";
 import { showError, showSuccess } from "../../../lib/toast";
 import { useNavigate } from "react-router-dom";
+import InputChip from "../../../components/form/inputChip";
 
 export default function Setting() {
   const [renderTab, setRenderTab] = useState(<PersonalSetting />);
@@ -761,6 +762,17 @@ const AccountSetting = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
+  const [alertJobRole, setAlertJobRole] = useState("");
+  const [alertJobLocation, setAlertJobLocation] = useState("");
+
+  const [hasAlertRole, setHasAlertRole] = useState("");
+  const [hasAlertLocation, setHasAlertLocation] = useState("");
+
+  useEffect(() => {
+    setHasAlertRole(alertJobRole);
+    setHasAlertLocation(alertJobLocation);
+  }, [alertJobRole, alertJobLocation]);
+
   const handleSaveChanges = async () => {
     // setApplicantSettingsTabData((prev) => ({
     //   ...prev,
@@ -785,7 +797,7 @@ const AccountSetting = () => {
     formData.append("maritalStatus", applicantSettingsTabData.maritalStatus);
     formData.append("biography", applicantSettingsTabData.bio);
 
-    applicantSettingsTabData.socialLinks.forEach((v, i) => {
+    applicantSettingsTabData?.socialLinks.forEach((v, i) => {
       formData.append(`socialLinks[${i}].name`, v.platform);
       formData.append(`socialLinks[${i}].url`, v.url);
     });
@@ -793,6 +805,9 @@ const AccountSetting = () => {
     formData.append("location", location);
     formData.append("countryCode", countryCode);
     formData.append("number", number);
+
+    formData.append("alertJob.jobTitle", JSON.stringify(hasAlertRole));
+    formData.append("alertJob.alertLocation", JSON.stringify(hasAlertLocation));
 
     setIsLoading(true);
     try {
@@ -876,7 +891,7 @@ const AccountSetting = () => {
           </div>
         </div>
 
-        <div className="flex gap-3">
+        {/* <div className="flex gap-3">
           <button
             className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
             onClick={() => handlePreviousBtn()}
@@ -889,7 +904,7 @@ const AccountSetting = () => {
           >
             {isLoading ? "loading..." : "Save Changes"}
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Notification Section */}
@@ -952,71 +967,36 @@ const AccountSetting = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Role
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="Your job roles"
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+            <InputChip
+              label="Job Title"
+              placeholderName="Job title"
+              getValues={setAlertJobRole}
+            />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Location
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg
-                  className="w-5 h-5 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                placeholder="City, state, country name"
-                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+            <InputChip
+              label="Location"
+              placeholderName="City, state, country name"
+              getValues={setAlertJobLocation}
+            />
           </div>
         </div>
 
-        <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
-          Save Changes
-        </button>
+        <div className="flex gap-3">
+          <button
+            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+            onClick={() => handlePreviousBtn()}
+          >
+            Previous
+          </button>
+          <button
+            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+            onClick={() => handleSaveChanges()}
+          >
+            {isLoading ? "loading..." : "Save Changes"}
+          </button>
+        </div>
       </div>
 
       {/* Profile and Resume Privacy */}
