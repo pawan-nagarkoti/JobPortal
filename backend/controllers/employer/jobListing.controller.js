@@ -104,12 +104,32 @@ export const fetchJobs = async (req, res) => {
     const remoteJob = req.query.remoteJob;
     const salary = req.query.salary;
     const isFeatured = req.query.isFeatured;
+    const location = req.query.location;
 
     let filter = {};
 
+    // filter.title = { $regex: title, $options: "i" };
     if (title) {
-      filter.title = { $regex: title, $options: "i" };
+      const titleArray = title
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+      filter.title = {
+        $in: titleArray.map((t) => new RegExp(t, "i")),
+      };
     }
+
+    if (location) {
+      const l = location
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean);
+      const regex = new RegExp(l.join("|"), "i");
+
+      filter.$or = [{ "location.country": regex }, { "location.city": regex }];
+    }
+
     if (country) {
       filter["location.country"] = { $regex: country, $options: "i" };
     }
