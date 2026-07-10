@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CandidateProfile from "../../pages/employer/CandidateProfile";
 import useUI from "../../context/UIcontext";
 import DiloagContainer from "../common/diloagContainer";
+import { getCookie } from "../../lib/cookies";
 
 const CandidateGrid = ({ candidate = "" }) => {
   const { setOpenModal, setCandidateId } = useUI();
+  const [isToggle, setIsToggle] = useState(false);
+  const loginUser = getCookie("loginUserInfo");
+
   if (!candidate) return <p>loading...</p>;
 
   return (
@@ -14,24 +18,14 @@ const CandidateGrid = ({ candidate = "" }) => {
           <div className="p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <img
-                  src={candidate.profilePicture}
-                  className="w-20 h-20 rounded-xl object-cover"
-                />
+                <img src={candidate.profilePicture} className="w-20 h-20 rounded-xl object-cover" />
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">
-                    {candidate.name}
-                  </h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{candidate.name}</h3>
                   <p className="text-gray-600">{candidate.title}</p>
 
                   <div className="flex items-center space-x-4 text-sm text-gray-500">
                     <div className="flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -48,12 +42,7 @@ const CandidateGrid = ({ candidate = "" }) => {
                       {candidate.location}
                     </div>
                     <div className="flex items-center">
-                      <svg
-                        className="w-4 h-4 mr-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -67,28 +56,28 @@ const CandidateGrid = ({ candidate = "" }) => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-3">
-                <button
-                  className={`p-2 rounded-lg border transition ${
-                    candidate.isBookmarked
-                      ? "bg-gray-900 text-white border-gray-900"
-                      : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  <svg
-                    className="w-5 h-5"
-                    fill={candidate.isBookmarked ? "currentColor" : "none"}
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+              <div className="flex items-center space-x-3 ">
+                {loginUser.role === "employer" && (
+                  <div
+                    className="cursor-pointer p-2 rounded-lg border transition"
+                    onClick={() => setIsToggle((prev) => !prev)}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                    />
-                  </svg>
-                </button>
+                    {isToggle ? (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 4.75A1.75 1.75 0 017.75 3h8.5A1.75 1.75 0 0118 4.75V21l-6-3-6 3V4.75z"
+                        />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7.75 3A1.75 1.75 0 006 4.75V21l6-3 6 3V4.75A1.75 1.75 0 0016.25 3h-8.5z" />
+                      </svg>
+                    )}
+                  </div>
+                )}
 
                 {/* View Profile Button */}
                 <button
@@ -100,18 +89,8 @@ const CandidateGrid = ({ candidate = "" }) => {
                   }}
                 >
                   View Profile
-                  <svg
-                    className="w-5 h-5 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </button>
               </div>

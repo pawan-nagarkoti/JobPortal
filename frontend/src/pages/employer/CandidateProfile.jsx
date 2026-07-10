@@ -47,9 +47,7 @@ const CandidateProfile = () => {
 
   const fetchResume = async (applicantId) => {
     try {
-      const apiResponse = await _get(
-        `api/resume/fetch?applicantId=${applicantId}`,
-      );
+      const apiResponse = await _get(`api/resume/fetch?applicantId=${applicantId}`);
       if (apiResponse.data.success) {
         return apiResponse.data;
       }
@@ -71,9 +69,7 @@ const CandidateProfile = () => {
 
       if (!applicant.userId) return;
 
-      const applicantId = await FetchApplicantOnTheBasisOfUserId(
-        applicant.userId,
-      );
+      const applicantId = await FetchApplicantOnTheBasisOfUserId(applicant.userId);
       if (!applicantId) return;
 
       const resumeData = await fetchResume(applicantId);
@@ -94,43 +90,18 @@ const CandidateProfile = () => {
         <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img
-                src={data.profilePicture}
-                className="w-20 h-20 rounded-full object-cover"
-              />
+              <img src={data.profilePicture} className="w-20 h-20 rounded-full object-cover" />
 
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {data.name}
-                </h1>
+                <h1 className="text-2xl font-bold text-gray-900">{data.name}</h1>
                 <p className="text-gray-600">{data.title}</p>
               </div>
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-3">
-              <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                <svg
-                  className="w-5 h-5 text-gray-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                  />
-                </svg>
-              </button>
               <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -149,19 +120,13 @@ const CandidateProfile = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Biography Section */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                BIOGRAPHY
-              </h2>
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {data.biography}
-              </p>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">BIOGRAPHY</h2>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{data.biography}</p>
             </div>
 
             {/* Cover Letter Section */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                COVER LETTER
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 mb-4">COVER LETTER</h2>
               <div className="space-y-4 text-gray-700">
                 {coverLetter.map((paragraph, index) => (
                   <p key={index} className="leading-relaxed">
@@ -173,9 +138,7 @@ const CandidateProfile = () => {
 
             {/* Social Media Section */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
-                Follow me Social Media
-              </h3>
+              <h3 className="font-bold text-gray-900 mb-4">Follow me Social Media</h3>
               <div className="flex space-x-3">
                 {socialLinks.map((social, index) => (
                   <a
@@ -184,56 +147,32 @@ const CandidateProfile = () => {
                     className={`${social.bgColor} w-10 h-10 rounded flex items-center justify-center text-white hover:opacity-90 transition`}
                   >
                     {social.icon === "facebook" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                       </svg>
                     )}
                     {social.icon === "twitter" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                       </svg>
                     )}
                     {social.icon === "linkedin" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                       </svg>
                     )}
                     {social.icon === "dribbble" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm7.88 6.595c1.396 1.71 2.245 3.887 2.28 6.27-.403-.086-4.408-.895-8.468-.387-.084-.206-.17-.412-.263-.618-.279-.654-.581-1.31-.895-1.943 4.268-1.747 6.21-4.27 6.346-4.322zM12 2.014c2.558 0 4.893 1 6.63 2.63-.105.14-1.854 2.45-5.95 3.916-1.81-3.326-3.817-6.048-4.11-6.45A9.95 9.95 0 0112 2.014zM6.14 3.152c.286.39 2.27 3.112 4.098 6.388-5.176 1.377-9.738 1.354-10.237 1.346A9.968 9.968 0 016.14 3.152zM2.007 12.012v-.298c.485.01 5.942.077 11.465-1.59.358.695.7 1.406 1.02 2.116-.144.04-.292.085-.435.13-5.73 1.85-8.77 6.906-9.012 7.346A9.957 9.957 0 012.007 12.012zm9.993 9.974c-2.34 0-4.49-.807-6.195-2.154.198-.42 2.398-4.817 8.724-6.956.022-.006.042-.014.064-.02 1.583 4.116 2.23 7.576 2.408 8.545a9.932 9.932 0 01-5.001 1.585zm6.988-2.39c-.13-.774-.732-3.99-2.193-7.995 3.826-.607 7.187.386 7.596.52a9.966 9.966 0 01-5.403 7.475z" />
                       </svg>
                     )}
                     {social.icon === "instagram" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                       </svg>
                     )}
                     {social.icon === "youtube" && (
-                      <svg
-                        className="w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                       </svg>
                     )}
@@ -251,12 +190,7 @@ const CandidateProfile = () => {
                 {/* Date of Birth */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -265,23 +199,14 @@ const CandidateProfile = () => {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Date of Birth
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {date(data.dob)}
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">Date of Birth</p>
+                  <p className="font-semibold text-gray-900">{date(data.dob)}</p>
                 </div>
 
                 {/* Nationality */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -290,23 +215,14 @@ const CandidateProfile = () => {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Notionality
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {data.nationality}
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">Notionality</p>
+                  <p className="font-semibold text-gray-900">{data.nationality}</p>
                 </div>
 
                 {/* Marital Status */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -315,23 +231,14 @@ const CandidateProfile = () => {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Marital Status
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {data.maritalStatus}
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">Marital Status</p>
+                  <p className="font-semibold text-gray-900">{data.maritalStatus}</p>
                 </div>
 
                 {/* Gender */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -347,12 +254,7 @@ const CandidateProfile = () => {
                 {/* Experience */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -361,23 +263,14 @@ const CandidateProfile = () => {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Experience
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {data.experience}
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">Experience</p>
+                  <p className="font-semibold text-gray-900">{data.experience}</p>
                 </div>
 
                 {/* Education */}
                 <div className="text-center">
                   <div className="flex justify-center mb-3">
-                    <svg
-                      className="w-8 h-8 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -386,12 +279,8 @@ const CandidateProfile = () => {
                       />
                     </svg>
                   </div>
-                  <p className="text-xs text-gray-500 uppercase mb-1">
-                    Educations
-                  </p>
-                  <p className="font-semibold text-gray-900">
-                    {data.education} Degree
-                  </p>
+                  <p className="text-xs text-gray-500 uppercase mb-1">Educations</p>
+                  <p className="font-semibold text-gray-900">{data.education} Degree</p>
                 </div>
               </div>
             </div>
@@ -400,21 +289,14 @@ const CandidateProfile = () => {
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               {resume?.data?.length ? (
                 <>
-                  <h3 className="font-bold text-gray-900 mb-4">
-                    Download My Resume
-                  </h3>
+                  <h3 className="font-bold text-gray-900 mb-4">Download My Resume</h3>
                   {resume.data.slice(0, 2).map((r, i) => (
                     <div
                       className="flex items-center  justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 mb-3"
                       key={i}
                     >
                       <div className="flex items-center space-x-3">
-                        <svg
-                          className="w-10 h-10 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
+                        <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -433,12 +315,7 @@ const CandidateProfile = () => {
                         target="_blank"
                         className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 inline-flex items-center justify-center"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -457,19 +334,12 @@ const CandidateProfile = () => {
 
             {/* Contact Information */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="font-bold text-gray-900 mb-4">
-                Contact Information
-              </h3>
+              <h3 className="font-bold text-gray-900 mb-4">Contact Information</h3>
               <div className="space-y-4">
                 {/* Website */}
                 <div className="flex items-start">
                   <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -479,13 +349,8 @@ const CandidateProfile = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase mb-1">
-                      Website
-                    </p>
-                    <a
-                      href={`https://${data.websiteUrl}`}
-                      className="text-gray-900 hover:text-blue-600 font-medium"
-                    >
+                    <p className="text-xs text-gray-500 uppercase mb-1">Website</p>
+                    <a href={`https://${data.websiteUrl}`} className="text-gray-900 hover:text-blue-600 font-medium">
                       {data.websiteUrl}
                     </a>
                   </div>
@@ -494,12 +359,7 @@ const CandidateProfile = () => {
                 {/* Location */}
                 <div className="flex items-start">
                   <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 shrink-0">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -515,25 +375,16 @@ const CandidateProfile = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase mb-1">
-                      Location
-                    </p>
+                    <p className="text-xs text-gray-500 uppercase mb-1">Location</p>
                     <p className="text-gray-900 font-medium">{data.location}</p>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {candidate.address}
-                    </p>
+                    <p className="text-sm text-gray-600 mt-1">{candidate.address}</p>
                   </div>
                 </div>
 
                 {/* Phone */}
                 <div className="flex items-start">
                   <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -543,9 +394,7 @@ const CandidateProfile = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase mb-1">
-                      Phone
-                    </p>
+                    <p className="text-xs text-gray-500 uppercase mb-1">Phone</p>
                     <p className="text-gray-900 font-medium">
                       +{data.phone.countryCode} &nbsp;
                       {data.phone.number}
@@ -556,12 +405,7 @@ const CandidateProfile = () => {
                 {/* Email */}
                 <div className="flex items-start">
                   <div className="flex items-center justify-center w-10 h-10 bg-blue-50 rounded-lg mr-3 flex-shrink-0">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -571,9 +415,7 @@ const CandidateProfile = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-xs text-gray-500 uppercase mb-1">
-                      Email Address
-                    </p>
+                    <p className="text-xs text-gray-500 uppercase mb-1">Email Address</p>
                     <a
                       href={`mailto:${candidate.email}`}
                       className="text-gray-900 hover:text-blue-600 font-medium break-all"
