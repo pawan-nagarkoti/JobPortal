@@ -1,11 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import CustomEditor from "../../components/form/customEditor";
 import { _post } from "../../lib/api";
-import {
-  industryTypes,
-  organizationTypes,
-  teamSizeList,
-} from "../../lib/constant";
+import { industryTypes, organizationTypes, teamSizeList } from "../../lib/constant";
 import useUI from "../../context/UIcontext";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +10,7 @@ import { showSuccess } from "../../lib/toast";
 export default function EmployerProfile() {
   const { employerTabController } = useUI();
   const [renderTab, setRenderTab] = useState(<CompanyInfo />);
-  const [tabName, setTabname] = useState(
-    employerTabController || "companyInfo",
-  );
+  const [tabName, setTabname] = useState(employerTabController || "companyInfo");
 
   useEffect(() => {
     handleTabname(employerTabController);
@@ -57,12 +51,7 @@ export default function EmployerProfile() {
           }`}
           onClick={() => handleTabname("companyInfo")}
         >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -80,12 +69,7 @@ export default function EmployerProfile() {
           }`}
           onClick={() => handleTabname("foundingInfo")}
         >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -103,12 +87,7 @@ export default function EmployerProfile() {
           }`}
           onClick={() => handleTabname("socialMedia")}
         >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -126,12 +105,7 @@ export default function EmployerProfile() {
           }`}
           onClick={() => handleTabname("contact")}
         >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -149,24 +123,19 @@ export default function EmployerProfile() {
 }
 
 const CompanyInfo = () => {
-  const { employerTabData, setEmployerTabData, setEmployerTabController } =
-    useUI();
+  const { employerTabData, setEmployerTabData, setEmployerTabController } = useUI();
 
   const [logoPreview, setLogoPreview] = useState(
-    (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) ||
-      null,
+    (employerTabData.logo && URL?.createObjectURL(employerTabData.logo)) || null,
   );
   const [bannerPreview, setBannerPreview] = useState(
-    (employerTabData.logo && URL?.createObjectURL(employerTabData.banner)) ||
-      null,
+    (employerTabData.logo && URL?.createObjectURL(employerTabData.banner)) || null,
   );
   const editorRef = useRef(employerTabData.description || null);
 
   const [logo, setLogo] = useState(employerTabData.logo || "");
   const [banner, setBanner] = useState(employerTabData.banner || "");
-  const [companyName, setCompanyName] = useState(
-    employerTabData.companyName || "",
-  );
+  const [companyName, setCompanyName] = useState(employerTabData.companyName || "");
 
   const handleCompanyInfo = async () => {
     let editorContent;
@@ -189,16 +158,12 @@ const CompanyInfo = () => {
     <>
       <div className="bg-white rounded-lg p-8">
         {/* Logo & Banner Image Section */}
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Logo & Banner Image
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Logo & Banner Image</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Upload Logo */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload Logo
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Upload Logo</label>
             <div className="space-y-4">
               <div>
                 <input
@@ -228,9 +193,7 @@ const CompanyInfo = () => {
 
           {/* Banner Image */}
           <div className="lg:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Banner Image
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Banner Image</label>
             <div>
               <input
                 type="file"
@@ -259,9 +222,7 @@ const CompanyInfo = () => {
 
         {/* Company Name */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Company name
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Company name</label>
           <input
             type="text"
             value={companyName}
@@ -272,9 +233,7 @@ const CompanyInfo = () => {
 
         {/* About Us */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            About Us
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">About Us</label>
           <div className="border border-gray-300 rounded-lg">
             <CustomEditor
               ref={editorRef}
@@ -297,18 +256,8 @@ const CompanyInfo = () => {
             onClick={handleCompanyInfo}
           >
             Save & Next
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
         </div>
@@ -318,25 +267,14 @@ const CompanyInfo = () => {
 };
 
 const FoundingInfo = () => {
-  const { employerTabData, setEmployerTabData, setEmployerTabController } =
-    useUI();
+  const { employerTabData, setEmployerTabData, setEmployerTabController } = useUI();
 
-  const [organisationType, setOrganisationType] = useState(
-    employerTabData.organisationType || "",
-  );
-  const [industryType, setIndustryType] = useState(
-    employerTabData.industryType || "",
-  );
+  const [organisationType, setOrganisationType] = useState(employerTabData.organisationType || "");
+  const [industryType, setIndustryType] = useState(employerTabData.industryType || "");
   const [teamSize, setTeamSize] = useState(employerTabData.teamSize || "");
-  const [establishmentYear, setEstablishmentYear] = useState(
-    employerTabData.establishmentYear || "",
-  );
-  const [companyUrl, setCompanyUrl] = useState(
-    employerTabData.companyUrl || "",
-  );
-  const editorRefVision = useRef(
-    employerTabData.companyVisionDescription || null,
-  );
+  const [establishmentYear, setEstablishmentYear] = useState(employerTabData.establishmentYear || "");
+  const [companyUrl, setCompanyUrl] = useState(employerTabData.companyUrl || "");
+  const editorRefVision = useRef(employerTabData.companyVisionDescription || null);
 
   const handleFundingFormData = () => {
     let editorContent;
@@ -362,9 +300,7 @@ const FoundingInfo = () => {
       {/* Row 1: Organization Type, Industry Types, Team Size */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Organization Type
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Organization Type</label>
           <div className="relative">
             <select
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
@@ -381,27 +317,15 @@ const FoundingInfo = () => {
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Industry Types
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Industry Types</label>
           <div className="relative">
             <select
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
@@ -418,27 +342,15 @@ const FoundingInfo = () => {
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Team Size
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Team Size</label>
           <div className="relative">
             <select
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
@@ -455,18 +367,8 @@ const FoundingInfo = () => {
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
@@ -476,9 +378,7 @@ const FoundingInfo = () => {
       {/* Row 2: Year of Establishment, Company Website */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Year of Establishment
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Year of Establishment</label>
           <div className="relative">
             <input
               type="date"
@@ -491,17 +391,10 @@ const FoundingInfo = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Company Website
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Company Website</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="w-5 h-5 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -523,9 +416,7 @@ const FoundingInfo = () => {
 
       {/* Company Vision */}
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
-          Company Vision
-        </label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">Company Vision</label>
         <div className="border border-gray-300 rounded-lg">
           <CustomEditor
             ref={editorRefVision}
@@ -554,18 +445,8 @@ const FoundingInfo = () => {
           onClick={handleFundingFormData}
         >
           Save & Next
-          <svg
-            className="w-5 h-5 ml-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
+          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </button>
       </div>
@@ -574,20 +455,14 @@ const FoundingInfo = () => {
 };
 
 const SocialMediaProfile = () => {
-  const { employerTabData, setEmployerTabData, setEmployerTabController } =
-    useUI();
+  const { employerTabData, setEmployerTabData, setEmployerTabController } = useUI();
 
   const [socialLinks, setSocialLinks] = useState(
-    (employerTabData.socialLinks && employerTabData.socialLinks) || [
-      { id: uuidv4(), platform: "", url: "" },
-    ],
+    (employerTabData.socialLinks && employerTabData.socialLinks) || [{ id: uuidv4(), platform: "", url: "" }],
   );
 
   const handleAddSocialLink = () => {
-    setSocialLinks((prev) => [
-      ...prev,
-      { id: uuidv4(), platform: "", url: "" },
-    ]);
+    setSocialLinks((prev) => [...prev, { id: uuidv4(), platform: "", url: "" }]);
   };
 
   const handleRemoveSocialLink = (deletedId) => {
@@ -595,9 +470,7 @@ const SocialMediaProfile = () => {
   };
 
   const handleInputChange = (id, field, value) => {
-    setSocialLinks((prev) =>
-      prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)),
-    );
+    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
   };
 
   const handleSocialMediaProfile = () => {
@@ -610,20 +483,13 @@ const SocialMediaProfile = () => {
       <div className="bg-white rounded-lg p-6 space-y-6">
         <div>
           {socialLinks.map((link, index) => (
-            <div
-              key={link.id}
-              className="mb-6 p-4 border border-gray-200 rounded-lg"
-            >
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Social Link {index + 1}
-              </label>
+            <div key={link.id} className="mb-6 p-4 border border-gray-200 rounded-lg">
+              <label className="block text-sm font-medium text-gray-900 mb-2">Social Link {index + 1}</label>
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0" style={{ width: "220px" }}>
                   <select
                     value={link.platform}
-                    onChange={(e) =>
-                      handleInputChange(link.id, "platform", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange(link.id, "platform", e.target.value)}
                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                   >
                     <option value="">Select Platform</option>
@@ -633,18 +499,8 @@ const SocialMediaProfile = () => {
                     <option value="Youtube">Youtube</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
                 </div>
@@ -652,9 +508,7 @@ const SocialMediaProfile = () => {
                   type="text"
                   placeholder="Profile link/url..."
                   value={link.url}
-                  onChange={(e) =>
-                    handleInputChange(link.id, "url", e.target.value)
-                  }
+                  onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
                   className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 {socialLinks.length > 1 && (
@@ -663,18 +517,8 @@ const SocialMediaProfile = () => {
                     className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
                     title="Remove"
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 )}
@@ -686,12 +530,7 @@ const SocialMediaProfile = () => {
             className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
             onClick={handleAddSocialLink}
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -716,18 +555,8 @@ const SocialMediaProfile = () => {
             onClick={handleSocialMediaProfile}
           >
             Save & Next
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
         </div>
@@ -789,15 +618,11 @@ const Contact = () => {
     <div className="max-w-4xl mx-auto p-6 space-y-8">
       {/* Contact Information Section */}
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Contact Information
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Information</h2>
 
         {/* Map Location */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Map Location
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Map Location</label>
           <input
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -807,9 +632,7 @@ const Contact = () => {
         </div>
 
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Country
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Country</label>
           <input
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -820,9 +643,7 @@ const Contact = () => {
 
         {/* Phone */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
           <div className="flex gap-2">
             {/* <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
               <option>🇧🇩 +880</option>
@@ -838,17 +659,10 @@ const Contact = () => {
 
         {/* Email */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email
-          </label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="w-5 h-5 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -876,15 +690,11 @@ const Contact = () => {
 
       {/* Change Password Section */}
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Change Password
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Change Password</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Current Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -892,12 +702,7 @@ const Contact = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -916,9 +721,7 @@ const Contact = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              New Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -926,12 +729,7 @@ const Contact = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -950,9 +748,7 @@ const Contact = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Confirm Password
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -960,12 +756,7 @@ const Contact = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -991,22 +782,14 @@ const Contact = () => {
 
       {/* Delete Your Company Section */}
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          Delete Your Company
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Delete Your Company</h2>
         <p className="text-sm text-gray-600 mb-4">
-          If you delete your Jobpilot account, you will no longer be able to get
-          information about the matched jobs, following employers, and job
-          alert, shortlisted jobs and more. You will be abandoned from all the
-          services of Jobpilot.com.
+          If you delete your Jobpilot account, you will no longer be able to get information about the matched jobs,
+          following employers, and job alert, shortlisted jobs and more. You will be abandoned from all the services of
+          Jobpilot.com.
         </p>
         <button className="flex items-center text-red-600 hover:text-red-700 font-medium">
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

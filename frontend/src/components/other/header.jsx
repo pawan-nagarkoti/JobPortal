@@ -32,44 +32,25 @@ export default function Header() {
           </div>
 
           <div className="ml-10 flex items-center space-x-8">
-            <Link
-              to="/"
-              className="text-gray-700 hover:text-primary transition"
-            >
+            <Link to="/" className="text-gray-700 hover:text-primary transition">
               Home
             </Link>
-            <Link
-              to="/find-job"
-              className="text-gray-700 hover:text-primary transition"
-            >
+            <Link to="/find-job" className="text-gray-700 hover:text-primary transition">
               Find Jobs
             </Link>
-            <Link
-              to="/find-employer"
-              className="text-gray-700 hover:text-primary transition"
-            >
+            <Link to="/find-employer" className="text-gray-700 hover:text-primary transition">
               Employers
             </Link>
-            <Link
-              to="find-candidate"
-              className="text-gray-700 hover:text-primary transition"
-            >
+            <Link to="find-candidate" className="text-gray-700 hover:text-primary transition">
               Candidates
             </Link>
-            <Link
-              to="/about-us"
-              className="text-gray-700 hover:text-primary transition"
-            >
+            <Link to="/about-us" className="text-gray-700 hover:text-primary transition">
               About
             </Link>
             {getCookie("accessToken") ? (
               <>
                 <Link
-                  to={
-                    getCookie("loginUserInfo")?.role === "applicant"
-                      ? "applicant-dashboard"
-                      : "employer-dashboard"
-                  }
+                  to={getCookie("loginUserInfo")?.role === "applicant" ? "applicant-dashboard" : "employer/profile"}
                   className="text-gray-700 hover:text-primary transition"
                 >
                   Dashboard
