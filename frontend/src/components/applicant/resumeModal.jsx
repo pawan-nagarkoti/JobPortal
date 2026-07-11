@@ -16,6 +16,7 @@ export default function ResumeModal() {
 
   const FetchApplicantOnTheBasisOfLoginUser = async () => {
     try {
+      if (!userId) return;
       const response = await _get(`api/applicant/fetch?userId=${userId.id}`);
       if (response.data.success) {
         return response.data.applicants[0]._id;
@@ -29,9 +30,7 @@ export default function ResumeModal() {
     let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
     if (!applicantId) return;
 
-    const apiResponse = await _get(
-      `api/resume/fetch?applicantId=${applicantId}`,
-    );
+    const apiResponse = await _get(`api/resume/fetch?applicantId=${applicantId}`);
     if (apiResponse.data.success) {
       setResume(apiResponse.data);
     }
@@ -42,9 +41,7 @@ export default function ResumeModal() {
 
   const handleApplyNow = async () => {
     setIsLoading(true);
-    const selectedResumeDetail = await _get(
-      `api/resume/single/${selectedResumeId}`,
-    );
+    const selectedResumeDetail = await _get(`api/resume/single/${selectedResumeId}`);
     const applyJobObj = {
       jobId: id,
       applicantId: selectedResumeDetail.data.data.applicantId,
@@ -73,9 +70,7 @@ export default function ResumeModal() {
         </div>
 
         <div className="space-y-3">
-          <label className="block text-[15px] font-medium text-slate-800">
-            Choose Resume
-          </label>
+          <label className="block text-[15px] font-medium text-slate-800">Choose Resume</label>
 
           <div className="">
             <select
@@ -96,9 +91,7 @@ export default function ResumeModal() {
         </div>
 
         <div className="space-y-3">
-          <label className="block text-[15px] font-medium text-slate-800">
-            Cover Letter
-          </label>
+          <label className="block text-[15px] font-medium text-slate-800">Cover Letter</label>
 
           <div className="overflow-hidden  border border-slate-200 bg-white">
             <textarea

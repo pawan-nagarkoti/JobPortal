@@ -1,17 +1,26 @@
-import { useState } from "react";
-import CandidateCard from "../../../components/applicant/CandidateCard";
+import { useEffect, useState } from "react";
+import { AppliedCandidate } from "../../../components/employer/appliedCandidate";
 import Sidebar from "./Sidebar";
+import { _get } from "../../../lib/api";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function AppliedCandidateList() {
-  const candidate = {
-    name: "Ronald Richards",
-    role: "UI/UX Designer",
-    avatar: "https://avatar.iran.liara.run/public/65",
-    experience: "7 Years Experience",
-    education: "Education: Master Degree",
-    appliedDate: "Applied: Jan 23, 2022",
-    cvUrl: "/path/to/cv.pdf",
+  const [candidate, setCandidate] = useState("");
+  const { id } = useParams();
+
+  const fetchJobList = async () => {
+    try {
+      const res = await _get(`api/job-application/fetch?jobId=${id}`);
+      if (res.data.success) {
+        setCandidate(res.data);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
   };
+  useEffect(() => {
+    fetchJobList();
+  }, []);
   return (
     <>
       <div className="flex min-h-screen bg-gray-50">
@@ -20,8 +29,10 @@ export default function AppliedCandidateList() {
           <div className="max-w-7xl mx-auto">
             <ApplicantsHeader />
             <div className="grid grid-cols-4 gap-4 mt-4">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <CandidateCard candidate={candidate} name="pawan" />
+              {candidate?.data?.map((c, i) => (
+                <div key={i}>
+                  <AppliedCandidate candidate={c} />
+                </div>
               ))}
             </div>
           </div>

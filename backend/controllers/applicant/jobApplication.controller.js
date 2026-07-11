@@ -5,16 +5,7 @@ import { Resume } from "../../models/resume.modal.js";
 
 export const addJob = async (req, res) => {
   try {
-    const {
-      jobId,
-      applicantId,
-      coverLetter,
-      status,
-      resumeId,
-      bookmarked,
-      appliedAt,
-      statusUpdateAt,
-    } = req.body;
+    const { jobId, applicantId, coverLetter, status, resumeId, bookmarked, appliedAt, statusUpdateAt } = req.body;
 
     const isJobValidId = await JobListing.exists({ _id: jobId });
     const isApplicantValidId = await Applicant.exists({ _id: applicantId });
@@ -55,16 +46,7 @@ export const addJob = async (req, res) => {
 export const updateJob = async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      jobId,
-      applicantId,
-      coverLetter,
-      status,
-      resumeId,
-      bookmarked,
-      appliedAt,
-      statusUpdateAt,
-    } = req.body;
+    const { jobId, applicantId, coverLetter, status, resumeId, bookmarked, appliedAt, statusUpdateAt } = req.body;
 
     const isJobValidId = await JobListing.exists({ _id: jobId });
     const isApplicantValidId = await Applicant.exists({ _id: applicantId });
@@ -110,18 +92,25 @@ export const updateJob = async (req, res) => {
 
 export const fetchAllJobs = async (req, res) => {
   try {
+    const jobId = req.query.jobId;
+
+    let filter = {};
+    if (jobId) {
+      filter.jobId = jobId;
+    }
+
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     const totalItems = await JobApplication.countDocuments();
     const totalPages = Math.max(1, Math.ceil(totalItems / limit));
 
-    const getAllJobs = await JobApplication.find()
+    const getAllJobs = await JobApplication.find(filter)
       .populate(
         "jobId",
-        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expirationDate",
+        "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expirationDate ",
       )
-      .populate("applicantId", "profilePicture")
+      .populate("applicantId", "profilePicture experience education")
       .skip(skip)
       .limit(limit);
     return res.status(200).json({

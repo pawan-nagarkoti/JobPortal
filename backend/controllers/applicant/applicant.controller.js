@@ -19,9 +19,7 @@ export const addApplicant = async (req, res) => {
       });
     }
 
-    const profileImage = await uploadOnCloudinary(
-      req.files.profilePicture[0].path,
-    );
+    const profileImage = await uploadOnCloudinary(req.files.profilePicture[0].path);
 
     const applicantObj = {
       name: data.name,
@@ -227,11 +225,7 @@ export const updateApplicant = async (req, res) => {
       resumePrivacy: data.resumePrivacy,
     };
 
-    const updatedApplicant = await Applicant.findByIdAndUpdate(
-      { _id: id },
-      applicantObj,
-      { new: true },
-    );
+    const updatedApplicant = await Applicant.findByIdAndUpdate({ _id: id }, applicantObj, { new: true });
 
     return res.status(200).json({
       success: true,

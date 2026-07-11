@@ -59,7 +59,7 @@ function App() {
           <Route path="employer/profile" element={<ProfileForEmployer />} />
           <Route path="employer-job-post" element={<PostJobForm />} />
           <Route path="employer-setting" element={<EmployerSetting />} />
-          <Route path="employer/jobname/applicant-list" element={<AppliedCandidateList />} />
+          <Route path="employer/jobname/applicant-list/:id" element={<AppliedCandidateList />} />
           <Route path="employer/job-list" element={<JobTable />} />
           <Route path="employer/bookmark-candidate" element={<BookmarkCandidate />} />
 
