@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { EDUCATION, GENDER, MARITAL_STATUS } from "../constant.js";
 import { User } from "./user.modal.js";
+import { Employer } from "./employer.modal.js";
 
 const applicantSchema = new mongoose.Schema(
   {
@@ -60,6 +61,19 @@ const applicantSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    bookmarkCandidate: [
+      {
+        employerId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: Employer,
+          index: true,
+        },
+        bookmark: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
   },
   { timestamps: true },
 );

@@ -192,10 +192,57 @@ export const updateApplicant = async (req, res) => {
     let profileImage;
 
     if (req.files.profilePicture) {
-      const image = uploadOnCloudinary(req.files.profilePicture[0].path);
+      const image = await uploadOnCloudinary(req.files.profilePicture[0].path);
       profileImage = image?.secure_url;
     } else {
       profileImage = data.profilePicture;
+    }
+
+    if (data.bookmarkCandidate) {
+      const employerId = data.bookmarkCandidate.employerId;
+      const bookmark = data.bookmarkCandidate.bookmark;
+
+      const existing = await Applicant.findOne({
+        _id: id,
+        "bookmarkCandidate.employerId": employerId,
+      });
+
+      if (existing) {
+        const updated = await Applicant.findOneAndUpdate(
+          { _id: id, "bookmarkCandidate.employerId": employerId },
+          {
+            $set: {
+              "bookmarkCandidate.$.bookmark": bookmark,
+            },
+          },
+          { new: true },
+        );
+
+        // return res.status(200).json({
+        //   success: true,
+        //   message: "Bookmark updated",
+        //   data: updated,
+        // });
+      } else {
+        const updated = await Applicant.findByIdAndUpdate(
+          id,
+          {
+            $push: {
+              bookmarkCandidate: {
+                employerId,
+                bookmark,
+              },
+            },
+          },
+          { new: true },
+        );
+
+        // return res.status(200).json({
+        //   success: true,
+        //   message: "Bookmark added",
+        //   data: updated,
+        // });
+      }
     }
 
     const applicantObj = {
