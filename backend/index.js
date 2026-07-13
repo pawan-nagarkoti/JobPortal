@@ -39,7 +39,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/employer", employerRoutes);
 app.use("/api/jobList", jobListingRoutes);
 
-app.use("/api/applicant", auth, applicantRoutes);
+app.use("/api/applicant", applicantRoutes);
 app.use("/api/resume", auth, resumeRoutes);
 app.use("/api/bookmark-job", bookmarkJobs);
 app.use("/api/job-application", auth, jobApplicationsRoute);
@@ -59,9 +59,7 @@ app.delete("/api/delete-all", async (req, res) => {
 
     for (const collection of collections) {
       if (!collection.name.startsWith("system.")) {
-        const deleteResult = await db
-          .collection(collection.name)
-          .deleteMany({});
+        const deleteResult = await db.collection(collection.name).deleteMany({});
 
         result.push({
           collection: collection.name,

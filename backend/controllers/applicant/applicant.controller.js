@@ -218,11 +218,11 @@ export const updateApplicant = async (req, res) => {
           { new: true },
         );
 
-        // return res.status(200).json({
-        //   success: true,
-        //   message: "Bookmark updated",
-        //   data: updated,
-        // });
+        return res.status(200).json({
+          success: true,
+          message: "Bookmark updated",
+          data: updated,
+        });
       } else {
         const updated = await Applicant.findByIdAndUpdate(
           id,
@@ -237,11 +237,11 @@ export const updateApplicant = async (req, res) => {
           { new: true },
         );
 
-        // return res.status(200).json({
-        //   success: true,
-        //   message: "Bookmark added",
-        //   data: updated,
-        // });
+        return res.status(200).json({
+          success: true,
+          message: "Bookmark added",
+          data: updated,
+        });
       }
     }
 

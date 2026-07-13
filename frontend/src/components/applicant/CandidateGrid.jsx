@@ -1,104 +1,108 @@
 import React, { useEffect, useState } from "react";
-import CandidateProfile from "../../pages/employer/CandidateProfile";
 import useUI from "../../context/UIcontext";
-import DiloagContainer from "../common/diloagContainer";
 import { getCookie } from "../../lib/cookies";
+import { _put } from "../../lib/api";
+import { showSuccess } from "../../lib/toast";
 
-const CandidateGrid = ({ candidate = "" }) => {
+const CandidateGrid = ({ candidate }) => {
   const { setOpenModal, setCandidateId } = useUI();
   const [isToggle, setIsToggle] = useState(false);
   const loginUser = getCookie("loginUserInfo");
 
+  useEffect(() => {
+    if (!candidate?._id || !loginUser?.id) return;
+
+    const bookmarkedData = candidate?.bookmarkCandidate?.find((item) => item.employerId === loginUser.id);
+
+    setIsToggle(bookmarkedData?.bookmark || false);
+  }, [candidate, loginUser?.id]);
+
   if (!candidate) return <p>loading...</p>;
 
-  return (
-    <>
-      <div className="space-y-4">
-        <div className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-          <div className="p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <img src={candidate.profilePicture} className="w-20 h-20 rounded-xl object-cover" />
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-1">{candidate.name}</h3>
-                  <p className="text-gray-600">{candidate.title}</p>
+  const handleBookmark = async () => {
+    try {
+      if (!candidate?._id || !loginUser?.id) return;
 
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
-                      {candidate.location}
-                    </div>
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                        />
-                      </svg>
-                      {candidate.experience}
-                    </div>
-                  </div>
+      const nextToggle = !isToggle;
+      setIsToggle(nextToggle);
+
+      const data = new FormData();
+      data.append("bookmarkCandidate[employerId]", loginUser.id);
+      data.append("bookmarkCandidate[bookmark]", nextToggle);
+
+      const res = await _put(`api/applicant/update/${candidate._id}`, data);
+
+      if (res?.data?.success) {
+        showSuccess(res.data.message);
+      } else {
+        setIsToggle(!nextToggle);
+      }
+    } catch (e) {
+      console.log(e.message);
+      setIsToggle((prev) => !prev);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+        <div className="p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img src={candidate.profilePicture} alt={candidate.name} className="w-20 h-20 rounded-xl object-cover" />
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-1">{candidate.name}</h3>
+                <p className="text-gray-600">{candidate.title}</p>
+
+                <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <div className="flex items-center">{candidate.location}</div>
+                  <div className="flex items-center">{candidate.experience}</div>
                 </div>
               </div>
+            </div>
 
-              <div className="flex items-center space-x-3 ">
-                {loginUser.role === "employer" && (
-                  <div
-                    className="cursor-pointer p-2 rounded-lg border transition"
-                    onClick={() => setIsToggle((prev) => !prev)}
-                  >
-                    {isToggle ? (
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 4.75A1.75 1.75 0 017.75 3h8.5A1.75 1.75 0 0118 4.75V21l-6-3-6 3V4.75z"
-                        />
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M7.75 3A1.75 1.75 0 006 4.75V21l6-3 6 3V4.75A1.75 1.75 0 0016.25 3h-8.5z" />
-                      </svg>
-                    )}
-                  </div>
-                )}
-
-                {/* View Profile Button */}
+            <div className="flex items-center space-x-3">
+              {loginUser?.role === "employer" && (
                 <button
                   type="button"
-                  className="px-6 py-2.5 bg-blue-50 text-blue-600 font-semibold rounded-lg hover:bg-blue-100 transition flex items-center"
-                  onClick={(e) => {
-                    setCandidateId(candidate._id);
-                    setOpenModal(true);
-                  }}
+                  className="cursor-pointer p-2 rounded-lg border transition"
+                  onClick={handleBookmark}
                 >
-                  View Profile
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                  {isToggle ? (
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M7.75 3A1.75 1.75 0 006 4.75V21l6-3 6 3V4.75A1.75 1.75 0 0016.25 3h-8.5z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 4.75A1.75 1.75 0 017.75 3h8.5A1.75 1.75 0 0118 4.75V21l-6-3-6 3V4.75z"
+                      />
+                    </svg>
+                  )}
                 </button>
-              </div>
+              )}
+
+              <button
+                type="button"
+                className="px-6 py-2.5 bg-blue-50 text-blue-600 font-semibold rounded-lg hover:bg-blue-100 transition flex items-center"
+                onClick={() => {
+                  setCandidateId(candidate._id);
+                  setOpenModal(true);
+                }}
+              >
+                View Profile
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
