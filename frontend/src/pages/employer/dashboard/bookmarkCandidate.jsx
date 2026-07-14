@@ -1,8 +1,13 @@
-import React from "react";
 import Sidebar from "./Sidebar";
-import BookmarkCandidateList from "../../../components/employer/bookmarkCandidateList";
+import { _get } from "../../../lib/api";
+import { getCookie } from "../../../lib/cookies";
+import CandidatesList from "../CandidateList";
 
 export default function BookmarkCandidate() {
+  const userId = getCookie("loginUserInfo");
+  if (!userId) {
+    alert("Employer Id is not found");
+  }
   return (
     <>
       <div className="flex min-h-screen bg-gray-50">
@@ -10,7 +15,7 @@ export default function BookmarkCandidate() {
 
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
-            <BookmarkCandidateList />
+            <CandidatesList hideLocation={true} applicantId={userId?.id} />
           </div>
         </main>
       </div>

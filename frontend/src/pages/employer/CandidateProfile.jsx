@@ -140,7 +140,7 @@ const CandidateProfile = () => {
             <div className="bg-white rounded-lg border border-gray-200 p-6">
               <h3 className="font-bold text-gray-900 mb-4">Follow me Social Media</h3>
               <div className="flex space-x-3">
-                {socialLinks.map((social, index) => (
+                {socialLinks?.map((social, index) => (
                   <a
                     key={index}
                     href={social.url}
@@ -396,8 +396,8 @@ const CandidateProfile = () => {
                   <div>
                     <p className="text-xs text-gray-500 uppercase mb-1">Phone</p>
                     <p className="text-gray-900 font-medium">
-                      +{data.phone.countryCode} &nbsp;
-                      {data.phone.number}
+                      +{data?.phone?.countryCode} &nbsp;
+                      {data?.phone?.number}
                     </p>
                   </div>
                 </div>

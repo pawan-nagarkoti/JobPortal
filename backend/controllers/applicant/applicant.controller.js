@@ -84,6 +84,7 @@ export const fetchApplicant = async (req, res) => {
     const location = req.query.location;
     const gender = req.query.gender;
     const userId = req.query.userId;
+    const employerId = req.query.employerId;
 
     const filter = {};
 
@@ -101,6 +102,10 @@ export const fetchApplicant = async (req, res) => {
 
     if (userId) {
       filter.userId = userId;
+    }
+
+    if (employerId) {
+      filter["bookmarkCandidate.employerId"] = employerId;
     }
 
     const page = Number(req.query.page) || 1;
