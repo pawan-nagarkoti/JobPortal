@@ -15,7 +15,7 @@ export default function BookmarkCandidate() {
 
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
-            <CandidatesList hideLocation={true} applicantId={userId?.id} />
+            <CandidatesList hideLocation={true} employerId={userId?.id} />
           </div>
         </main>
       </div>

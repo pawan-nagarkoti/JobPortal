@@ -6,7 +6,7 @@ import { jobsObj } from "../../lib/constant";
 export default function JobPage() {
   return (
     <>
-      <BreadcrumbSection />
+      {/* <BreadcrumbSection />
       <div className="container mx-auto">
         <div className="mt-5 mb-4">
           <SearchBar />
@@ -17,7 +17,7 @@ export default function JobPage() {
             <JobCard key={index} job={job} />
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

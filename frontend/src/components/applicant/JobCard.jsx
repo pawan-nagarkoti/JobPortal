@@ -4,10 +4,7 @@ import { days } from "../../lib/utils";
 const JobCard = ({ job }) => {
   return (
     <>
-      <Link
-        to={`/job-detail/${job._id}`}
-        className="text-gray-700 hover:text-primary transition"
-      >
+      <Link to={`/job-detail/${job._id}`} className="text-gray-700 hover:text-primary transition">
         <div className="job-card bg-white rounded-lg border border-gray-200 p-6 transition-all duration-300 cursor-pointer">
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-start space-x-4">
@@ -15,9 +12,7 @@ const JobCard = ({ job }) => {
                 <img src={job?.employerId?.logo} alt="" className="rounded" />
               </div>
               <div>
-                <h3 className="font-semibold text-lg text-gray-900 mb-1">
-                  {job.title}
-                </h3>
+                <h3 className="font-semibold text-lg text-gray-900 mb-1">{job.title}</h3>
                 <p className="text-gray-600 text-sm">{job?.employerId?.name}</p>
               </div>
             </div>
@@ -32,8 +27,7 @@ const JobCard = ({ job }) => {
               {job.jobType}
             </span>
             <span className="inline-flex items-center px-3 py-1 bg-yellow-50 text-yellow-700 text-xs rounded-full">
-              <i className="fas fa-dollar-sign mr-1"></i> {job.salary.maxSalary}{" "}
-              {job.salary.period}
+              <i className="fas fa-dollar-sign mr-1"></i> {job.salary.maxSalary} {job.salary.period}
             </span>
           </div>
 
@@ -44,9 +38,7 @@ const JobCard = ({ job }) => {
 
           <div className="flex items-center justify-between pt-4 border-t border-gray-100">
             <span className="text-xs text-gray-500">
-              {days(job.createdAt) === 0
-                ? "Today"
-                : `${days(job.createdAt)} days`}
+              {days(job.createdAt) === 0 ? "Today" : `${days(job.createdAt)} days`}
             </span>
 
             <button className="text-primary hover:text-blue-700 font-medium text-sm transition">

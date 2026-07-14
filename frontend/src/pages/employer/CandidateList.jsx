@@ -5,7 +5,7 @@ import DiloagContainer from "../../components/common/diloagContainer";
 import CandidateProfile from "./CandidateProfile";
 import useUI from "../../context/UIcontext";
 
-const CandidatesList = ({ hideLocation = false, applicantId = "" }) => {
+const CandidatesList = ({ hideLocation = false, employerId = "" }) => {
   const [candidateList, setCandidateList] = useState("");
   const { openModal, setOpenModal } = useUI();
   const [gender, setGender] = useState("all");
@@ -13,7 +13,7 @@ const CandidatesList = ({ hideLocation = false, applicantId = "" }) => {
   const fetchCandidateList = async () => {
     try {
       let g = gender === "all" ? "" : `?gender=${gender}`;
-      let aId = applicantId ? `?applicantId=${applicantId}` : "";
+      let aId = employerId ? `?employerId=${employerId}` : "";
 
       const response = await _get(`api/applicant/fetch${g}${aId}`);
       if (response.data.success) {
