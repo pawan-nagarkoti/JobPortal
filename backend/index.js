@@ -81,6 +81,8 @@ app.delete("/api/delete-all", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`server is now running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`server is now running on port ${PORT}`);
+// });
+
+export default app;
