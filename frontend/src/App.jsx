@@ -11,7 +11,7 @@ import JobPage from "./pages/applicant/JobPage";
 import JobDetailPage from "./pages/applicant/JobDetailPage";
 import EmployerDetailPage from "./pages/applicant/EmployerDetailPage";
 import CandidatesList from "./pages/employer/CandidateList";
-import Dashboard from "./pages/applicant/dashboard/dashboard";
+import Dashboard from "./pages/applicant/dashboard/Dashboard";
 import Setting from "./pages/applicant/dashboard/Setting";
 import EmployerProfile from "./pages/employer/EmployerProfile";
 import PostJobForm from "./pages/employer/dashboard/PostJobForm";
