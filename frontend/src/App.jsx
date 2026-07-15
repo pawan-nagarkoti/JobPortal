@@ -17,7 +17,7 @@ import EmployerProfile from "./pages/employer/EmployerProfile";
 import PostJobForm from "./pages/employer/dashboard/PostJobForm";
 import EmployerSetting from "./pages/employer/dashboard/setting";
 import AppliedCandidateList from "./pages/employer/dashboard/AppliedCandidateList";
-import BlogPage from "./pages/blog/blogPage";
+import BlogPage from "./pages/blog/BlogPage";
 import BlogDetailPage from "./pages/blog/BlogDetailPage";
 import AboutUs from "./pages/Aboutus";
 import CTApage from "./pages/CTApage";
@@ -26,12 +26,12 @@ import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
 import ScrollToTop from "./components/other/ScrollToTop";
-import BookmarkJob from "./pages/applicant/dashboard/bookmarkJob";
-import AppliedJob from "./pages/applicant/dashboard/appliedJob";
-import JobAlert from "./pages/applicant/dashboard/jobAlert";
-import JobTable from "./pages/employer/dashboard/jobTable";
-import BookmarkCandidate from "./pages/employer/dashboard/bookmarkCandidate";
-import { ProfileForEmployer } from "./pages/employer/dashboard/profileForEmployer";
+import BookmarkJob from "./pages/applicant/dashboard/BookmarkJob";
+import AppliedJob from "./pages/applicant/dashboard/AppliedJob";
+import JobAlert from "./pages/applicant/dashboard/JobAlert";
+import JobTable from "./pages/employer/dashboard/JobTable";
+import BookmarkCandidate from "./pages/employer/dashboard/BookmarkCandidate";
+import { ProfileForEmployer } from "./pages/employer/dashboard/ProfileForEmployer";
 
 function App() {
   return (
