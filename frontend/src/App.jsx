@@ -26,12 +26,12 @@ import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
 import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
 import ScrollToTop from "./components/other/ScrollToTop";
-import BookmarkJob from "./pages/applicant/dashboard/BookmarkJob";
 import AppliedJob from "./pages/applicant/dashboard/AppliedJob";
 import JobAlert from "./pages/applicant/dashboard/JobAlert";
 import JobTable from "./pages/employer/dashboard/JobTable";
 import BookmarkCandidate from "./pages/employer/dashboard/BookmarkCandidate";
 import { ProfileForEmployer } from "./pages/employer/dashboard/ProfileForEmployer";
+import BookmarkJob from "./pages/applicant/dashboard/BookmarkJob";
 
 function App() {
   return (

@@ -1,5 +1,5 @@
 import JobGrid from "../../../components/grids/JobGrid";
-import AppliedJob from "./appliedJob";
+import AppliedJob from "./AppliedJob";
 import LeftSidebar from "./leftSidebar";
 
 export default function Dashboard() {
@@ -20,12 +20,8 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">
-              Hello, Esther Howard
-            </h1>
-            <p className="text-gray-600">
-              Here is your daily activities and job alerts
-            </p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">Hello, Esther Howard</h1>
+            <p className="text-gray-600">Here is your daily activities and job alerts</p>
           </div>
 
           {/* Stats Cards */}
@@ -34,18 +30,11 @@ export default function Dashboard() {
             <div className="bg-blue-50 rounded-lg p-6 border border-blue-100">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">
-                    {stats.appliedJobs}
-                  </p>
+                  <p className="text-3xl font-bold text-gray-900 mb-1">{stats.appliedJobs}</p>
                   <p className="text-gray-600">Applied jobs</p>
                 </div>
                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-blue-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -61,18 +50,11 @@ export default function Dashboard() {
             <div className="bg-yellow-50 rounded-lg p-6 border border-yellow-100">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">
-                    {stats.favoriteJobs}
-                  </p>
+                  <p className="text-3xl font-bold text-gray-900 mb-1">{stats.favoriteJobs}</p>
                   <p className="text-gray-600">Favorite jobs</p>
                 </div>
                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-yellow-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -88,18 +70,11 @@ export default function Dashboard() {
             <div className="bg-green-50 rounded-lg p-6 border border-green-100">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-3xl font-bold text-gray-900 mb-1">
-                    {stats.jobAlerts}
-                  </p>
+                  <p className="text-3xl font-bold text-gray-900 mb-1">{stats.jobAlerts}</p>
                   <p className="text-gray-600">Job Alerts</p>
                 </div>
                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-green-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -121,28 +96,14 @@ export default function Dashboard() {
                 className="w-16 h-16 rounded-full border-2 border-white"
               />
               <div className="text-white">
-                <h3 className="text-lg font-semibold mb-1">
-                  Your profile editing is not completed.
-                </h3>
-                <p className="text-red-100">
-                  Complete your profile editing & build your custom Resume
-                </p>
+                <h3 className="text-lg font-semibold mb-1">Your profile editing is not completed.</h3>
+                <p className="text-red-100">Complete your profile editing & build your custom Resume</p>
               </div>
             </div>
             <button className="px-6 py-2.5 bg-white text-red-600 font-semibold rounded-lg hover:bg-gray-100 flex items-center">
               Edit Profile
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </button>
           </div>
@@ -151,26 +112,11 @@ export default function Dashboard() {
           <div className="bg-white rounded-lg border border-gray-200">
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-lg font-bold text-gray-900">
-                Recently Applied
-              </h2>
-              <a
-                href="#"
-                className="text-blue-600 hover:text-blue-700 font-medium flex items-center"
-              >
+              <h2 className="text-lg font-bold text-gray-900">Recently Applied</h2>
+              <a href="#" className="text-blue-600 hover:text-blue-700 font-medium flex items-center">
                 View all
-                <svg
-                  className="w-5 h-5 ml-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
+                <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
             </div>
