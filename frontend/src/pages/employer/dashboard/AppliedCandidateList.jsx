@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AppliedCandidate } from "../../../components/employer/appliedCandidate";
+import { AppliedCandidate } from "../../../components/employer/AppliedCandidate";
 import Sidebar from "./Sidebar";
 import { _get } from "../../../lib/api";
 import { useLocation, useParams } from "react-router-dom";

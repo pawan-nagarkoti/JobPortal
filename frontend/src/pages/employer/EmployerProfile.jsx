@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import CustomEditor from "../../components/form/customEditor";
+import CustomEditor from "../../components/form/CustomEditor";
 import { _post } from "../../lib/api";
 import { industryTypes, organizationTypes, teamSizeList } from "../../lib/constant";
 import useUI from "../../context/UIcontext";

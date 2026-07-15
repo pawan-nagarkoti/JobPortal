@@ -7,17 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../../lib/cookies";
 import { showError, showSuccess } from "../../../lib/toast";
 import { useNavigate } from "react-router-dom";
-import InputChip from "../../../components/form/inputChip";
+import InputChip from "../../../components/form/InputChip";
 
 export default function Setting() {
   const [renderTab, setRenderTab] = useState(<PersonalSetting />);
   const [tabName, setTabName] = useState("personal");
-  const {
-    applicantTabController,
-    setApplicantTabController,
-    applicantSettingsTabData,
-    setApplicantSettingsTabData,
-  } = useUI("personal");
+  const { applicantTabController, setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } =
+    useUI("personal");
 
   const handleTabname = (name) => {
     switch (true) {
@@ -71,12 +67,7 @@ export default function Setting() {
                    ${tabName === "personal" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
                 onClick={() => handleTabname("personal")}
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -91,12 +82,7 @@ export default function Setting() {
                    ${tabName === "profile" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
                 onClick={() => handleTabname("profile")}
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -111,12 +97,7 @@ export default function Setting() {
                    ${tabName === "socialLinks" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
                 onClick={() => handleTabname("socialLinks")}
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -131,12 +112,7 @@ export default function Setting() {
                    ${tabName === "account" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
                 onClick={() => handleTabname("account")}
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -157,12 +133,7 @@ export default function Setting() {
                    ${tabName === "resume" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
                 onClick={() => handleTabname("resume")}
               >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -189,34 +160,22 @@ export default function Setting() {
 }
 
 const PersonalSetting = () => {
-  const {
-    setApplicantTabController,
-    applicantSettingsTabData,
-    setApplicantSettingsTabData,
-  } = useUI();
+  const { setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } = useUI();
 
   useEffect(() => {
     console.log(applicantSettingsTabData);
   }, [applicantSettingsTabData]);
   const [profilePic, setProfilePic] = useState(
-    applicantSettingsTabData?.profilePic
-      ? applicantSettingsTabData?.profilePic
-      : null,
+    applicantSettingsTabData?.profilePic ? applicantSettingsTabData?.profilePic : null,
   );
   const [previewImg, setPreviewImg] = useState(
-    applicantSettingsTabData?.profilePic
-      ? URL?.createObjectURL(applicantSettingsTabData.profilePic)
-      : null,
+    applicantSettingsTabData?.profilePic ? URL?.createObjectURL(applicantSettingsTabData.profilePic) : null,
   );
 
   const [name, setName] = useState(applicantSettingsTabData.name || "");
   const [title, setTitle] = useState(applicantSettingsTabData.title || "");
-  const [experience, setExperience] = useState(
-    applicantSettingsTabData.experience || "",
-  );
-  const [education, setEducation] = useState(
-    applicantSettingsTabData.education || "",
-  );
+  const [experience, setExperience] = useState(applicantSettingsTabData.experience || "");
+  const [education, setEducation] = useState(applicantSettingsTabData.education || "");
   const [url, setUrl] = useState(applicantSettingsTabData.url || "");
 
   const handleBasicInfo = async () => {
@@ -235,9 +194,7 @@ const PersonalSetting = () => {
     <>
       {/* Basic Information Section */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Basic Information
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Basic Information</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Picture Upload */}
@@ -256,8 +213,7 @@ const PersonalSetting = () => {
 
             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition">
               <p className="text-sm text-gray-600">
-                <span className="text-blue-600 font-medium">Browse photo</span>{" "}
-                or drag here
+                <span className="text-blue-600 font-medium">Browse photo</span> or drag here
               </p>
               <p className="text-xs text-gray-500 mt-1">
                 A photo larger than 400 pixels works best. Max photo size 5 MB.
@@ -284,9 +240,7 @@ const PersonalSetting = () => {
             <div className="grid grid-cols-2 gap-4">
               {/* Full Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Full name
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Full name</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -298,9 +252,7 @@ const PersonalSetting = () => {
 
               {/* Title/Headline */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Tittle/headline
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Tittle/headline</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -314,9 +266,7 @@ const PersonalSetting = () => {
             <div className="grid grid-cols-2 gap-4">
               {/* Experience */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Experience
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Experience</label>
                 <input
                   type="text"
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -328,9 +278,7 @@ const PersonalSetting = () => {
 
               {/* Educations */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Educations
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Educations</label>
                 <select
                   className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                   value={education}
@@ -350,17 +298,10 @@ const PersonalSetting = () => {
 
             {/* Personal Website */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Personal Website
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Personal Website</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg
-                    className="w-5 h-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -396,19 +337,11 @@ const PersonalSetting = () => {
 };
 
 const ProfileSetting = () => {
-  const {
-    setApplicantTabController,
-    applicantSettingsTabData,
-    setApplicantSettingsTabData,
-  } = useUI();
-  const [nationality, setNationality] = useState(
-    applicantSettingsTabData.nationality || "",
-  );
+  const { setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } = useUI();
+  const [nationality, setNationality] = useState(applicantSettingsTabData.nationality || "");
   const [dob, setDob] = useState(applicantSettingsTabData.dob || "");
   const [gender, setGender] = useState(applicantSettingsTabData.gender || "");
-  const [maritalStatus, setMaritalStatus] = useState(
-    applicantSettingsTabData.maritalStatus || "",
-  );
+  const [maritalStatus, setMaritalStatus] = useState(applicantSettingsTabData.maritalStatus || "");
   const [bio, setBio] = useState(applicantSettingsTabData.bio || "");
 
   const handleSaveChanges = () => {
@@ -431,9 +364,7 @@ const ProfileSetting = () => {
         {/* Row 1: Nationality and Date of Birth */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Nationality
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Nationality</label>
             <input
               type="text"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -443,9 +374,7 @@ const ProfileSetting = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Date of Birth
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Date of Birth</label>
             <input
               type="date"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -458,9 +387,7 @@ const ProfileSetting = () => {
         {/* Row 2: Gender and Marital Status */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Gender
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Gender</label>
             <div className="relative">
               <select
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
@@ -477,27 +404,15 @@ const ProfileSetting = () => {
                 ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Marital Status
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Marital Status</label>
             <div className="relative">
               <select
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none "
@@ -514,18 +429,8 @@ const ProfileSetting = () => {
                 ))}
               </select>
               <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
@@ -534,9 +439,7 @@ const ProfileSetting = () => {
 
         {/* Biography Section */}
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Biography
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Biography</label>
           <div className="border border-gray-300 rounded-lg">
             {/* Text Area */}
             <textarea
@@ -569,25 +472,17 @@ const ProfileSetting = () => {
 };
 
 const SocialLinksSetting = () => {
-  const {
-    applicantTabController,
-    setApplicantTabController,
-    applicantSettingsTabData,
-    setApplicantSettingsTabData,
-  } = useUI();
+  const { applicantTabController, setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } =
+    useUI();
 
   const [socialLinks, setSocialLinks] = useState(
-    (applicantTabController.socialLinks &&
-      applicantTabController.socialLinks) || [
+    (applicantTabController.socialLinks && applicantTabController.socialLinks) || [
       { id: uuidv4(), platform: "", url: "" },
     ],
   );
 
   const handleAddSocialLink = () => {
-    setSocialLinks((prev) => [
-      ...prev,
-      { id: uuidv4(), platform: "", url: "" },
-    ]);
+    setSocialLinks((prev) => [...prev, { id: uuidv4(), platform: "", url: "" }]);
   };
 
   const handleRemoveSocialLink = (deletedId) => {
@@ -595,9 +490,7 @@ const SocialLinksSetting = () => {
   };
 
   const handleInputChange = (id, field, value) => {
-    setSocialLinks((prev) =>
-      prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)),
-    );
+    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
   };
 
   const handleSocialMediaProfile = () => {
@@ -610,20 +503,13 @@ const SocialLinksSetting = () => {
       <div className="bg-white rounded-lg p-6 space-y-6">
         <div>
           {socialLinks.map((link, index) => (
-            <div
-              key={link.id}
-              className="mb-6 p-4 border border-gray-200 rounded-lg"
-            >
-              <label className="block text-sm font-medium text-gray-900 mb-2">
-                Social Link {index + 1}
-              </label>
+            <div key={link.id} className="mb-6 p-4 border border-gray-200 rounded-lg">
+              <label className="block text-sm font-medium text-gray-900 mb-2">Social Link {index + 1}</label>
               <div className="flex items-center gap-3">
                 <div className="relative shrink-0" style={{ width: "220px" }}>
                   <select
                     value={link.platform}
-                    onChange={(e) =>
-                      handleInputChange(link.id, "platform", e.target.value)
-                    }
+                    onChange={(e) => handleInputChange(link.id, "platform", e.target.value)}
                     className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                   >
                     <option value="">Select Platform</option>
@@ -633,18 +519,8 @@ const SocialLinksSetting = () => {
                     <option value="Youtube">Youtube</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
+                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
                 </div>
@@ -652,9 +528,7 @@ const SocialLinksSetting = () => {
                   type="text"
                   placeholder="Profile link/url..."
                   value={link.url}
-                  onChange={(e) =>
-                    handleInputChange(link.id, "url", e.target.value)
-                  }
+                  onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
                   className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 {socialLinks.length > 1 && (
@@ -663,18 +537,8 @@ const SocialLinksSetting = () => {
                     className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
                     title="Remove"
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 )}
@@ -686,12 +550,7 @@ const SocialLinksSetting = () => {
             className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
             onClick={handleAddSocialLink}
           >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -716,18 +575,8 @@ const SocialLinksSetting = () => {
             onClick={handleSocialMediaProfile}
           >
             Save & Next
-            <svg
-              className="w-5 h-5 ml-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
         </div>
@@ -737,11 +586,7 @@ const SocialLinksSetting = () => {
 };
 
 const AccountSetting = () => {
-  const {
-    setApplicantTabController,
-    applicantSettingsTabData,
-    setApplicantSettingsTabData,
-  } = useUI();
+  const { setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } = useUI();
   const handlePreviousBtn = () => {
     setApplicantTabController("socialLinks");
   };
@@ -833,9 +678,7 @@ const AccountSetting = () => {
 
         {/* Map Location */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Map Location
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Map Location</label>
           <input
             type="text"
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -845,9 +688,7 @@ const AccountSetting = () => {
 
         {/* Phone */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Phone
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Phone</label>
           <div className="flex gap-2">
             <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
               <option>+91</option>
@@ -863,17 +704,10 @@ const AccountSetting = () => {
 
         {/* Email */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">
-            Email
-          </label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="w-5 h-5 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -913,50 +747,28 @@ const AccountSetting = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <label className="flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="w-4 h-4 text-blue-600 rounded"
-            />
-            <span className="ml-2 text-sm text-gray-700">
-              Notify me when employers shortlisted me
-            </span>
+            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+            <span className="ml-2 text-sm text-gray-700">Notify me when employers shortlisted me</span>
           </label>
 
           <label className="flex items-center cursor-pointer">
             <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">
-              Notify me when employers saved my profile
-            </span>
+            <span className="ml-2 text-sm text-gray-700">Notify me when employers saved my profile</span>
           </label>
 
           <label className="flex items-center cursor-pointer">
             <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">
-              Notify me when my applied jobs are expire
-            </span>
+            <span className="ml-2 text-sm text-gray-700">Notify me when my applied jobs are expire</span>
           </label>
 
           <label className="flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="w-4 h-4 text-blue-600 rounded"
-            />
-            <span className="ml-2 text-sm text-gray-700">
-              Notify me when employers rejected me
-            </span>
+            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+            <span className="ml-2 text-sm text-gray-700">Notify me when employers rejected me</span>
           </label>
 
           <label className="flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              defaultChecked
-              className="w-4 h-4 text-blue-600 rounded"
-            />
-            <span className="ml-2 text-sm text-gray-700">
-              Notify me when I have up to 5 job alerts
-            </span>
+            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+            <span className="ml-2 text-sm text-gray-700">Notify me when I have up to 5 job alerts</span>
           </label>
         </div>
       </div>
@@ -967,19 +779,11 @@ const AccountSetting = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div>
-            <InputChip
-              label="Job Title"
-              placeholderName="Job title"
-              getValues={setAlertJobRole}
-            />
+            <InputChip label="Job Title" placeholderName="Job title" getValues={setAlertJobRole} />
           </div>
 
           <div>
-            <InputChip
-              label="Location"
-              placeholderName="City, state, country name"
-              getValues={setAlertJobLocation}
-            />
+            <InputChip label="Location" placeholderName="City, state, country name" getValues={setAlertJobLocation} />
           </div>
         </div>
 
@@ -1003,32 +807,22 @@ const AccountSetting = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Profile Privacy */}
         <div className="bg-white rounded-lg p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            Profile Privacy
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Profile Privacy</h2>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative inline-block w-12 h-6">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="sr-only peer"
-                />
+                <input type="checkbox" defaultChecked className="sr-only peer" />
                 <div className="w-12 h-6 bg-blue-600 peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
               </div>
               <span className="text-sm font-medium text-blue-600">YES</span>
             </div>
-            <span className="text-sm text-gray-600">
-              Your profile is public now
-            </span>
+            <span className="text-sm text-gray-600">Your profile is public now</span>
           </div>
         </div>
 
         {/* Resume Privacy */}
         <div className="bg-white rounded-lg p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
-            Resume Privacy
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Resume Privacy</h2>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative inline-block w-12 h-6">
@@ -1037,24 +831,18 @@ const AccountSetting = () => {
               </div>
               <span className="text-sm font-medium text-gray-600">NO</span>
             </div>
-            <span className="text-sm text-gray-600">
-              Your resume is private now
-            </span>
+            <span className="text-sm text-gray-600">Your resume is private now</span>
           </div>
         </div>
       </div>
 
       {/* Change Password Section */}
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          Change Password
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Change Password</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Current Password
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Current Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -1062,12 +850,7 @@ const AccountSetting = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -1086,9 +869,7 @@ const AccountSetting = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              New Password
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">New Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -1096,12 +877,7 @@ const AccountSetting = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -1120,9 +896,7 @@ const AccountSetting = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">
-              Confirm Password
-            </label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Confirm Password</label>
             <div className="relative">
               <input
                 type="password"
@@ -1130,12 +904,7 @@ const AccountSetting = () => {
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
               />
               <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -1161,22 +930,14 @@ const AccountSetting = () => {
 
       {/* Delete Account Section */}
       <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">
-          Delete Your Account
-        </h2>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Delete Your Account</h2>
         <p className="text-sm text-gray-600 mb-4">
-          If you delete your Jobpilot account, you will no longer be able to get
-          information about the matched jobs, following employers, and job
-          alert, shortlisted jobs and more. You will be abandoned from all the
-          services of Jobpilot.com.
+          If you delete your Jobpilot account, you will no longer be able to get information about the matched jobs,
+          following employers, and job alert, shortlisted jobs and more. You will be abandoned from all the services of
+          Jobpilot.com.
         </p>
         <button className="flex items-center text-red-600 hover:text-red-700 font-medium">
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -1236,9 +997,7 @@ const ResumeSetting = () => {
     let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
     try {
       if (!editId) {
-        const apiResponse = await _get(
-          `api/resume/fetch?applicantId=${applicantId}`,
-        );
+        const apiResponse = await _get(`api/resume/fetch?applicantId=${applicantId}`);
         if (apiResponse.data.success) {
           setData(apiResponse.data);
         }
@@ -1289,12 +1048,7 @@ const ResumeSetting = () => {
               <div className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3">
-                    <svg
-                      className="w-5 h-5 text-blue-600"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -1341,28 +1095,14 @@ const ResumeSetting = () => {
               />
 
               <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
-                  />
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
               </div>
 
               <div>
-                <p className="text-base font-semibold text-gray-900">
-                  Add CV/Resume
-                </p>
-                <p className="text-sm text-gray-500">
-                  Click to upload PDF, DOC, or DOCX
-                </p>
+                <p className="text-base font-semibold text-gray-900">Add CV/Resume</p>
+                <p className="text-sm text-gray-500">Click to upload PDF, DOC, or DOCX</p>
               </div>
 
               <input

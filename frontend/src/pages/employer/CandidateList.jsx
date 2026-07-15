@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CandidateGrid from "../../components/applicant/CandidateGrid";
 import { _get } from "../../lib/api";
-import DiloagContainer from "../../components/common/diloagContainer";
+import DiloagContainer from "../../components/common/DiloagContainer";
 import CandidateProfile from "./CandidateProfile";
 import useUI from "../../context/UIcontext";
 

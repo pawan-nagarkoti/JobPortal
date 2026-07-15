@@ -13,7 +13,7 @@ import {
   WORK_TYPE,
   EDUCATION,
 } from "../../../lib/constant";
-import CustomEditor from "../../../components/form/customEditor";
+import CustomEditor from "../../../components/form/CustomEditor";
 import { _get, _post } from "../../../lib/api";
 import { showSuccess } from "../../../lib/toast";
 import { getCookie } from "../../../lib/cookies";

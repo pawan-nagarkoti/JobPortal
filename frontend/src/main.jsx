@@ -8,12 +8,12 @@ import { Toaster } from "@/components/ui/sonner";
 import { UIprovider } from "./context/UIcontext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <BrowserRouter>
-    <UIprovider>
-      <App />
-      <Toaster position="bottom-right" richColors />
-    </UIprovider>
-  </BrowserRouter>
-  // </StrictMode>,
+  <StrictMode>
+    <BrowserRouter>
+      <UIprovider>
+        <App />
+        <Toaster position="bottom-right" richColors />
+      </UIprovider>
+    </BrowserRouter>
+  </StrictMode>,
 );

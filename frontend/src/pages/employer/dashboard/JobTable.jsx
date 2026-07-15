@@ -1,4 +1,4 @@
-import JobList from "../../../components/employer/jobList";
+import JobList from "../../../components/employer/JobList";
 import { _get } from "../../../lib/api";
 import { getCookie } from "../../../lib/cookies";
 import Sidebar from "./Sidebar";
