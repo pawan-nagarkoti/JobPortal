@@ -22,6 +22,17 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
+// await connectToDB();
+app.use(async (req, res, next) => {
+  try {
+    await connectToDB();
+    next();
+  } catch (err) {
+    console.error("DB connection failed:", err.message);
+    res.status(500).json({ message: "Database connection failed" });
+  }
+});
+
 import { auth } from "./middleware/auth.middleware.js"; // middleware
 import authRoutes from "./routes/auth/auth.route.js";
 import employerRoutes from "./routes/employer/employer.route.js";
@@ -46,8 +57,6 @@ app.use("/api/job-application", auth, jobApplicationsRoute);
 app.use("/api/blog", blogRoutes);
 app.use("/api/contact", getInTouch);
 app.use("/api/global", globalSearchRoute);
-
-await connectToDB();
 
 // app.delete("/api/delete-all", async (req, res) => {
 //   try {
