@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  MapPin,
-  DollarSign,
-  CircleX,
-  CalendarDays,
-  Bookmark,
-  ArrowRight,
-} from "lucide-react";
-import LeftSidebar from "./leftSidebar";
+import { MapPin, DollarSign, CircleX, CalendarDays, Bookmark, ArrowRight } from "lucide-react";
+import LeftSidebar from "./LeftSidebar";
 import { _get } from "../../../lib/api";
 import { date } from "../../../lib/utils";
 import { Link } from "react-router-dom";
@@ -36,18 +29,10 @@ export default function AppliedJob({ isHide = false }) {
             <table className="min-w-full border-collapse">
               <thead className="border-b border-gray-200 bg-gray-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Jobs
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Date Applied
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">
-                    Action
-                  </th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Jobs</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Date Applied</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Status</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Action</th>
                 </tr>
               </thead>
 
@@ -67,9 +52,7 @@ export default function AppliedJob({ isHide = false }) {
 
                           <div>
                             <div className="flex flex-wrap items-center gap-3">
-                              <h3 className="text-lg font-semibold text-gray-900">
-                                {j.jobId.title}
-                              </h3>
+                              <h3 className="text-lg font-semibold text-gray-900">{j.jobId.title}</h3>
                               <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
                                 {j.jobId.workType}
                               </span>
@@ -79,16 +62,14 @@ export default function AppliedJob({ isHide = false }) {
                               <div className="flex items-center gap-2">
                                 <MapPin className="h-4 w-4 text-gray-300" />
                                 <span>
-                                  {j.jobId.location.country},
-                                  {j.jobId.location.city}
+                                  {j.jobId.location.country},{j.jobId.location.city}
                                 </span>
                               </div>
 
                               <div className="flex items-center gap-2">
                                 <DollarSign className="h-4 w-4 text-gray-300" />
                                 <span>
-                                  ${j.jobId.salary.minSalary}- $
-                                  {j.jobId.salary.maxSalary}
+                                  ${j.jobId.salary.minSalary}- ${j.jobId.salary.maxSalary}
                                 </span>
                               </div>
                             </div>
@@ -96,9 +77,7 @@ export default function AppliedJob({ isHide = false }) {
                         </div>
                       </td>
 
-                      <td className="px-6 py-5 text-sm text-gray-600 whitespace-nowrap">
-                        {date(j.createdAt)}
-                      </td>
+                      <td className="px-6 py-5 text-sm text-gray-600 whitespace-nowrap">{date(j.createdAt)}</td>
 
                       <td className="px-6 py-5">
                         {j.jobId.isActive ? (

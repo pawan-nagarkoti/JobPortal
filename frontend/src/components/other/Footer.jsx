@@ -10,32 +10,18 @@ const Footer = () => {
               <i className="fas fa-briefcase text-primary text-2xl mr-2"></i>
               <span className="font-bold text-xl text-white">JobPilot</span>
             </div>
-            <p className="text-sm mb-4">
-              Find your dream job and build your career with the best companies.
-            </p>
+            <p className="text-sm mb-4">Find your dream job and build your career with the best companies.</p>
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-primary transition"
-              >
+              <a href="#" className="text-gray-400 hover:text-primary transition">
                 <i className="fab fa-facebook text-xl"></i>
               </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-primary transition"
-              >
+              <a href="#" className="text-gray-400 hover:text-primary transition">
                 <i className="fab fa-twitter text-xl"></i>
               </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-primary transition"
-              >
+              <a href="#" className="text-gray-400 hover:text-primary transition">
                 <i className="fab fa-linkedin text-xl"></i>
               </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-primary transition"
-              >
+              <a href="#" className="text-gray-400 hover:text-primary transition">
                 <i className="fab fa-instagram text-xl"></i>
               </a>
             </div>

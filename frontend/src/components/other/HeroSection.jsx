@@ -17,8 +17,7 @@ const HeroSection = ({ onSearch }) => {
             Find Your <span className="text-primary">Dream Job</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover thousands of job opportunities with all the information you
-            need. Its your future.
+            Discover thousands of job opportunities with all the information you need. Its your future.
           </p>
         </div>
 
@@ -60,16 +59,14 @@ const HeroSection = ({ onSearch }) => {
         <div className="mt-8 text-center">
           <p className="text-gray-600 mb-4">Trending searches:</p>
           <div className="flex flex-wrap justify-center gap-2">
-            {["Designer", "Developer", "Marketing", "Sales", "Manager"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition cursor-pointer"
-                >
-                  {tag}
-                </span>
-              )
-            )}
+            {["Designer", "Developer", "Marketing", "Sales", "Manager"].map((tag) => (
+              <span
+                key={tag}
+                className="bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition cursor-pointer"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
       </div>

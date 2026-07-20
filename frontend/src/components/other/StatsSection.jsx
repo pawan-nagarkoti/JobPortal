@@ -17,9 +17,7 @@ const StatsSection = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
                 <i className={`fas ${stat.icon} text-primary text-2xl`}></i>
               </div>
-              <h3 className="text-3xl font-bold text-gray-900 mb-2">
-                {stat.number}
-              </h3>
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">{stat.number}</h3>
               <p className="text-gray-600">{stat.label}</p>
             </div>
           ))}

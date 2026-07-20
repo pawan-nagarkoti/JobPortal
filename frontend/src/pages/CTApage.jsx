@@ -27,16 +27,11 @@ const CTApage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Left Side - Content */}
           <div>
-            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">
-              Who we are
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              We care about customer services
-            </h2>
+            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">Who we are</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">We care about customer services</h2>
             <p className="text-gray-600 leading-relaxed mb-8">
-              Want to chat? We'd love to hear from you! Get in touch with our
-              Customer Success Team to inquire about speaking events,
-              advertising rates, or just say hello.
+              Want to chat? We'd love to hear from you! Get in touch with our Customer Success Team to inquire about
+              speaking events, advertising rates, or just say hello.
             </p>
             <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
               Email Support
@@ -45,9 +40,7 @@ const CTApage = () => {
 
           {/* Right Side - Form */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6">
-              Get in Touch
-            </h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-6">Get in Touch</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input
@@ -92,12 +85,7 @@ const CTApage = () => {
                 className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
               >
                 Send Message
-                <svg
-                  className="w-5 h-5 ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

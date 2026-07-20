@@ -56,9 +56,7 @@ const CategoriesSection = () => {
     <div className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Popular Categories
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Popular Categories</h2>
           <p className="text-gray-600">Explore jobs by category</p>
         </div>
 
@@ -68,17 +66,11 @@ const CategoriesSection = () => {
               key={index}
               className="border border-gray-200 rounded-lg p-6 hover:border-primary hover:shadow-lg transition cursor-pointer text-center"
             >
-              <div
-                className={`inline-flex items-center justify-center w-16 h-16 ${category.color} rounded-full mb-4`}
-              >
+              <div className={`inline-flex items-center justify-center w-16 h-16 ${category.color} rounded-full mb-4`}>
                 <i className={`fas ${category.icon} text-2xl`}></i>
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">
-                {category.name}
-              </h3>
-              <p className="text-sm text-gray-500">
-                {category.jobs} jobs available
-              </p>
+              <h3 className="font-semibold text-gray-900 mb-2">{category.name}</h3>
+              <p className="text-sm text-gray-500">{category.jobs} jobs available</p>
             </div>
           ))}
         </div>

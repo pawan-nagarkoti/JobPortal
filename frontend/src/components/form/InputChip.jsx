@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { X, Tag } from "lucide-react";
 
-export default function InputChip(
-  { label = "", placeholderName = "", getValues },
-  ref,
-) {
+export default function InputChip({ label = "", placeholderName = "", getValues }, ref) {
   const [input, setInput] = useState("");
   const [tags, setTags] = useState([]);
 

@@ -1,6 +1,6 @@
 import JobGrid from "../../../components/grids/JobGrid";
 import AppliedJob from "./AppliedJob";
-import LeftSidebar from "./leftSidebar";
+import LeftSidebar from "./LeftSidebar";
 
 export default function Dashboard() {
   // Dummy data

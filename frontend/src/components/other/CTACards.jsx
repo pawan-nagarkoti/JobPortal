@@ -20,12 +20,9 @@ const CTACards = () => {
 
             {/* Content */}
             <div className="relative p-8 md:p-12 min-h-[320px] flex flex-col justify-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Become a Candidate
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Become a Candidate</h2>
               <p className="text-gray-600 mb-8 max-w-md leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                cursus a dolor convallis efficitur.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras cursus a dolor convallis efficitur.
               </p>
               <div>
                 <button className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 shadow-md hover:shadow-lg group">
@@ -36,12 +33,7 @@ const CTACards = () => {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </button>
               </div>
@@ -63,12 +55,10 @@ const CTACards = () => {
 
             {/* Content */}
             <div className="relative p-8 md:p-12 min-h-[320px] flex flex-col justify-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Become a Employers
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Become a Employers</h2>
               <p className="text-blue-100 mb-8 max-w-md leading-relaxed">
-                Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi
-                sed efficitur dolor. Pelque augue risus, aliqu.
+                Cras in massa pellentesque, mollis ligula non, luctus dui. Morbi sed efficitur dolor. Pelque augue
+                risus, aliqu.
               </p>
               <div>
                 <button className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-100 transition-all duration-300 shadow-md hover:shadow-lg group">
@@ -79,12 +69,7 @@ const CTACards = () => {
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                   </svg>
                 </button>
               </div>

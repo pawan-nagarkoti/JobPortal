@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  MapPin,
-  DollarSign,
-  CircleX,
-  CalendarDays,
-  Bookmark,
-  ArrowRight,
-} from "lucide-react";
-import LeftSidebar from "./leftSidebar";
+import { MapPin, DollarSign, CircleX, CalendarDays, Bookmark, ArrowRight } from "lucide-react";
+import LeftSidebar from "./LeftSidebar";
 import { _get } from "../../../lib/api";
 import { getCookie } from "../../../lib/cookies";
 import { date } from "../../../lib/utils";
@@ -34,9 +27,7 @@ export default function JobAlert() {
     let title = alertJob.jobTitle.join("");
     let location = alertJob.alertLocation.join(",");
 
-    const response = await _get(
-      `api/jobList/fetch?title=${title}&location=${location}`,
-    );
+    const response = await _get(`api/jobList/fetch?title=${title}&location=${location}`);
 
     if (response.data.success) {
       setJobAlertData(response.data);
@@ -57,26 +48,17 @@ export default function JobAlert() {
         <div className="mx-auto max-w-7xl px-6 py-8">
           {jobAlertData.data.length ? (
             jobAlertData.data.map((v, i) => (
-              <div
-                className="rounded-lg bg-white px-4 py-4 sm:px-6 lg:px-8"
-                key={i}
-              >
+              <div className="rounded-lg bg-white px-4 py-4 sm:px-6 lg:px-8" key={i}>
                 <div className="border-t border-gray-200 py-6">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-start gap-4">
                       <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl">
-                        <img
-                          src={v.employerId.logo}
-                          alt="YouTube logo"
-                          className="h-9 w-9 object-contain"
-                        />
+                        <img src={v.employerId.logo} alt="YouTube logo" className="h-9 w-9 object-contain" />
                       </div>
 
                       <div>
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">
-                            {v.title}
-                          </h3>
+                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">{v.title}</h3>
                           <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
                             {v.jobType}
                           </span>

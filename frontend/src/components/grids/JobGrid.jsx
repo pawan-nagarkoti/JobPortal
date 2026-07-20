@@ -14,12 +14,8 @@ export default function JobGrid() {
           >
             {/* Job Info */}
             <div className="col-span-5 flex items-center space-x-4">
-              <div
-                className={`w-14 h-14 ${job.logo} rounded-lg flex items-center justify-center flex-shrink-0`}
-              >
-                <span className="text-white text-xl font-bold">
-                  {job.company}
-                </span>
+              <div className={`w-14 h-14 ${job.logo} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                <span className="text-white text-xl font-bold">{job.company}</span>
               </div>
               <div>
                 <div className="flex items-center space-x-2 mb-1">
@@ -40,12 +36,7 @@ export default function JobGrid() {
                 </div>
                 <div className="flex items-center text-sm text-gray-600 space-x-3">
                   <span className="flex items-center">
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -62,12 +53,7 @@ export default function JobGrid() {
                     {job.location}
                   </span>
                   <span className="flex items-center">
-                    <svg
-                      className="w-4 h-4 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -82,25 +68,13 @@ export default function JobGrid() {
             </div>
 
             {/* Date Applied */}
-            <div className="col-span-3 text-sm text-gray-700">
-              {job.dateApplied}
-            </div>
+            <div className="col-span-3 text-sm text-gray-700">{job.dateApplied}</div>
 
             {/* Status */}
             <div className="col-span-2">
               <span className="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
-                <svg
-                  className="w-4 h-4 mr-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 {job.status}
               </span>

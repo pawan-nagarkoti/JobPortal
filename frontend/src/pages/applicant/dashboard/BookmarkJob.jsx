@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  MapPin,
-  DollarSign,
-  CircleX,
-  CalendarDays,
-  Bookmark,
-  ArrowRight,
-} from "lucide-react";
-import LeftSidebar from "./leftSidebar";
+import { MapPin, DollarSign, CircleX, CalendarDays, Bookmark, ArrowRight } from "lucide-react";
+import LeftSidebar from "./LeftSidebar";
 import { _get } from "../../../lib/api";
 import { remainingDate } from "../../../lib/utils";
 import { Link } from "react-router-dom";
@@ -47,9 +40,7 @@ export default function BookmarkJob() {
 
                       <div>
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">
-                            {b.jobId.title}
-                          </h3>
+                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">{b.jobId.title}</h3>
                           <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
                             {b.jobId.workType}
                           </span>
@@ -59,25 +50,20 @@ export default function BookmarkJob() {
                           <div className="flex items-center gap-2">
                             <MapPin className="h-4 w-4 text-gray-300" />
                             <span>
-                              {b.jobId.location.country},{" "}
-                              {b.jobId.location.city}
+                              {b.jobId.location.country}, {b.jobId.location.city}
                             </span>
                           </div>
 
                           <div className="flex items-center gap-2">
                             <DollarSign className="h-4 w-4 text-gray-300" />
                             <span>
-                              ${b.jobId.salary.minSalary}- $
-                              {b.jobId.salary.maxSalary}
+                              ${b.jobId.salary.minSalary}- ${b.jobId.salary.maxSalary}
                             </span>
                           </div>
 
                           <div className="flex items-center gap-2">
                             <CalendarDays className="h-4 w-4 text-gray-300" />
-                            <span>
-                              {remainingDate(b.jobId.expirationDate)} Days
-                              Remaining
-                            </span>
+                            <span>{remainingDate(b.jobId.expirationDate)} Days Remaining</span>
                           </div>
                         </div>
                       </div>

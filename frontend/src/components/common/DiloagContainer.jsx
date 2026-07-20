@@ -9,12 +9,7 @@ import {
 
 import React from "react";
 
-export default function DiloagContainer({
-  open,
-  setOpen,
-  children,
-  showClass = false,
-}) {
+export default function DiloagContainer({ open, setOpen, children, showClass = false }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger></DialogTrigger>

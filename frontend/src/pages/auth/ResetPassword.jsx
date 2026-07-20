@@ -18,13 +18,10 @@ const ResetPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const isResetPasswordResponse = await _post(
-        `api/auth/reset-password?token=${token}`,
-        {
-          newPassword,
-          confirmPassword,
-        }
-      );
+      const isResetPasswordResponse = await _post(`api/auth/reset-password?token=${token}`, {
+        newPassword,
+        confirmPassword,
+      });
       if (isResetPasswordResponse.data.success) {
         showSuccess(isResetPasswordResponse.data.message);
         navigate("/");
@@ -39,18 +36,10 @@ const ResetPassword = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center px-4 py-12">
       {/* Logo */}
-      <div
-        className="p-4 cursor-pointer max-w-min "
-        onClick={() => navigate("/")}
-      >
+      <div className="p-4 cursor-pointer max-w-min " onClick={() => navigate("/")}>
         <div className="flex items-center justify-center space-x-2">
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-            <svg
-              className="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -66,12 +55,9 @@ const ResetPassword = () => {
       {/* Reset Password Form Container */}
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Reset Password
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Reset Password</h1>
           <p className="text-gray-600 leading-relaxed max-w-sm mx-auto">
-            Please enter your new password below to regain access to your
-            account.
+            Please enter your new password below to regain access to your account.
           </p>
         </div>
 
@@ -90,12 +76,7 @@ const ResetPassword = () => {
               onClick={() => setIsToggleNewPass((t) => !t)}
             >
               {isToggleNewPass ? (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -142,12 +123,7 @@ const ResetPassword = () => {
               onClick={() => setIsToggleConfirmPass((t) => !t)}
             >
               {isToggleConfirmPass ? (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"

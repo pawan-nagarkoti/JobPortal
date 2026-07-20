@@ -55,23 +55,14 @@ const GlobalSearchBar = () => {
                 className="flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors"
               >
                 <span className="text-2xl">{selectedCountry.flag}</span>
-                <span className="text-sm font-medium text-gray-700">
-                  {selectedCountry.name}
-                </span>
+                <span className="text-sm font-medium text-gray-700">{selectedCountry.name}</span>
                 <svg
-                  className={`w-4 h-4 text-gray-500 transition-transform ${
-                    isCountryDropdownOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-500 transition-transform ${isCountryDropdownOpen ? "rotate-180" : ""}`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
@@ -83,21 +74,13 @@ const GlobalSearchBar = () => {
                       key={country.code}
                       onClick={() => handleCountrySelect(country)}
                       className={`w-full flex items-center space-x-3 px-4 py-2 hover:bg-gray-50 transition-colors ${
-                        selectedCountry.code === country.code
-                          ? "bg-blue-50"
-                          : ""
+                        selectedCountry.code === country.code ? "bg-blue-50" : ""
                       }`}
                     >
                       <span className="text-2xl">{country.flag}</span>
-                      <span className="text-sm font-medium text-gray-700">
-                        {country.name}
-                      </span>
+                      <span className="text-sm font-medium text-gray-700">{country.name}</span>
                       {selectedCountry.code === country.code && (
-                        <svg
-                          className="w-4 h-4 text-blue-600 ml-auto"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
+                        <svg className="w-4 h-4 text-blue-600 ml-auto" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fillRule="evenodd"
                             d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -116,12 +99,7 @@ const GlobalSearchBar = () => {
           <div className="hidden md:flex flex-1 max-w-2xl mx-8">
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <svg
-                  className="h-5 w-5 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -142,11 +120,7 @@ const GlobalSearchBar = () => {
           {getCookie("accessToken") ? (
             <div className="flex gap-5 items-center">
               <BellRing />
-              <img
-                src="https://avatar.iran.liara.run/public/40"
-                alt=""
-                className="w-10 h-10"
-              />
+              <img src="https://avatar.iran.liara.run/public/40" alt="" className="w-10 h-10" />
             </div>
           ) : (
             <div className="hidden md:flex items-center space-x-4">
@@ -168,26 +142,11 @@ const GlobalSearchBar = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 rounded-md text-gray-600 hover:bg-gray-100"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
               </svg>
             </button>
@@ -201,12 +160,7 @@ const GlobalSearchBar = () => {
             <div className="mb-4">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg
-                    className="h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -231,22 +185,10 @@ const GlobalSearchBar = () => {
               >
                 <div className="flex items-center space-x-2">
                   <span className="text-2xl">{selectedCountry.flag}</span>
-                  <span className="text-sm font-medium">
-                    {selectedCountry.name}
-                  </span>
+                  <span className="text-sm font-medium">{selectedCountry.name}</span>
                 </div>
-                <svg
-                  className="w-4 h-4 text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
+                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
             </div>

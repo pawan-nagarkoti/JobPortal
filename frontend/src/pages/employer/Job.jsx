@@ -1,7 +1,7 @@
-import JobCard from "../../components/applicant/jobCard";
-import { BreadcrumbSection } from "../../components/other/Breadcrumb";
-import SearchBar from "../../components/other/searchBar";
-import { jobsObj } from "../../lib/constant";
+// import JobCard from "../../components/applicant/jobCard";
+// import { BreadcrumbSection } from "../../components/other/Breadcrumb";
+// import SearchBar from "../../components/other/SearchBar";
+// import { jobsObj } from "../../lib/constant";
 
 export default function JobPage() {
   return (

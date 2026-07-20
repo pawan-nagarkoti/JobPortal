@@ -51,19 +51,14 @@ export default function FilterJob() {
       <aside className="w-full max-w-sm rounded-2xl border border-gray-200 bg-white p-6 shadow-sm mt-3">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-800">Filter Jobs</h2>
-          <button
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
-            onClick={handleClearAll}
-          >
+          <button className="text-sm font-medium text-blue-600 hover:text-blue-700" onClick={handleClearAll}>
             Clear all
           </button>
         </div>
 
         <div className="space-y-6">
           <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Job Type
-            </label>
+            <label className="mb-2 block text-sm font-semibold text-gray-700">Job Type</label>
             <select
               className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               value={isJobType}
@@ -77,9 +72,7 @@ export default function FilterJob() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Work Type
-            </label>
+            <label className="mb-2 block text-sm font-semibold text-gray-700">Work Type</label>
             <select
               className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
               value={isWorkType}
@@ -93,16 +86,8 @@ export default function FilterJob() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Salary Range
-            </label>
-            <Slider
-              value={isSalary}
-              onValueChange={setIsSalary}
-              min={0}
-              max={50000}
-              step={1}
-            />
+            <label className="mb-2 block text-sm font-semibold text-gray-700">Salary Range</label>
+            <Slider value={isSalary} onValueChange={setIsSalary} min={0} max={50000} step={1} />
             <div className="mt-2 flex justify-between text-sm text-gray-500">
               <span>${isSalary[0]}</span>
               <span>${isSalary[1]}</span>
@@ -111,9 +96,7 @@ export default function FilterJob() {
 
           <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
             <div>
-              <p className="text-sm font-semibold text-gray-800">
-                Featured Job
-              </p>
+              <p className="text-sm font-semibold text-gray-800">Featured Job</p>
               <p className="text-xs text-gray-500">Show only Featured jobs</p>
             </div>
 

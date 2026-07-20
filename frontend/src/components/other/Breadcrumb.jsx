@@ -8,10 +8,7 @@ export const BreadcrumbSection = () => {
 
           {/* Breadcrumb Navigation */}
           <nav className="flex items-center text-sm">
-            <a
-              href="#"
-              className="text-gray-500 hover:text-gray-700 transition-colors"
-            >
+            <a href="#" className="text-gray-500 hover:text-gray-700 transition-colors">
               Home
             </a>
             <span className="mx-2 text-gray-400">/</span>

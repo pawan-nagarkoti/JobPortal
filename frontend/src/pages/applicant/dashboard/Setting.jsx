@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import LeftSidebar from "./leftSidebar";
+import LeftSidebar from "./LeftSidebar";
 import { EDUCATION, GENDER, MARITAL_STATUS } from "../../../lib/constant";
 import { _delete, _get, _post, _put } from "../../../lib/api";
 import useUI from "../../../context/UIcontext";

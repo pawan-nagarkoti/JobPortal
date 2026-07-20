@@ -6,12 +6,7 @@ const AboutUs = () => {
     {
       id: 1,
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -26,12 +21,7 @@ const AboutUs = () => {
     {
       id: 2,
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -46,12 +36,7 @@ const AboutUs = () => {
     {
       id: 3,
       icon: (
-        <svg
-          className="w-8 h-8 text-blue-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -74,32 +59,22 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
           {/* Left Content */}
           <div>
-            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">
-              Who we are
-            </p>
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              We're highly skilled and professionals team.
-            </h2>
+            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">Who we are</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">We're highly skilled and professionals team.</h2>
             <p className="text-gray-600 leading-relaxed">
-              Praesent non sem facilisis, hendrerit nisi vitae, volutpat quam.
-              Aliquam metus mauris, semper eu eros vitae, blandit tristique
-              metus. Vestibulum maximus nec justo sed maximus.
+              Praesent non sem facilisis, hendrerit nisi vitae, volutpat quam. Aliquam metus mauris, semper eu eros
+              vitae, blandit tristique metus. Vestibulum maximus nec justo sed maximus.
             </p>
           </div>
 
           {/* Right Stats */}
           <div className="space-y-4">
             {stats.map((stat) => (
-              <div
-                key={stat.id}
-                className="bg-blue-50 rounded-lg p-6 flex items-center justify-between"
-              >
+              <div key={stat.id} className="bg-blue-50 rounded-lg p-6 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="bg-white p-3 rounded-lg">{stat.icon}</div>
                   <div>
-                    <p className="text-3xl font-bold text-gray-900">
-                      {stat.number}
-                    </p>
+                    <p className="text-3xl font-bold text-gray-900">{stat.number}</p>
                     <p className="text-gray-600">{stat.label}</p>
                   </div>
                 </div>
@@ -112,10 +87,7 @@ const AboutUs = () => {
         <div className="mb-20">
           <div className="flex flex-wrap justify-center items-center gap-12">
             {companyLogos.map((company, index) => (
-              <div
-                key={index}
-                className="text-gray-400 text-2xl font-bold opacity-60"
-              >
+              <div key={index} className="text-gray-400 text-2xl font-bold opacity-60">
                 {company}
               </div>
             ))}
@@ -160,16 +132,13 @@ const AboutUs = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div>
-            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">
-              Our Mission
-            </p>
+            <p className="text-blue-600 text-sm font-semibold uppercase mb-3">Our Mission</p>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Our mission is help people to find the perfect job.
             </h2>
             <p className="text-gray-600 leading-relaxed">
-              Praesent non sem facilisis, hendrerit nisi vitae, volutpat quam.
-              Aliquam metus mauris, semper eu eros vitae, blandit tristique
-              metus. Vestibulum maximus nec justo sed maximus.
+              Praesent non sem facilisis, hendrerit nisi vitae, volutpat quam. Aliquam metus mauris, semper eu eros
+              vitae, blandit tristique metus. Vestibulum maximus nec justo sed maximus.
             </p>
           </div>
 
