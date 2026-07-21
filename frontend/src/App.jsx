@@ -11,7 +11,6 @@ import JobPage from "./pages/applicant/JobPage";
 import JobDetailPage from "./pages/applicant/JobDetailPage";
 import EmployerDetailPage from "./pages/applicant/EmployerDetailPage";
 import CandidatesList from "./pages/employer/CandidateList";
-import Dashboard from "./pages/applicant/dashboard/Dashboard";
 import Setting from "./pages/applicant/dashboard/Setting";
 import EmployerProfile from "./pages/employer/EmployerProfile";
 import PostJobForm from "./pages/employer/dashboard/PostJobForm";
@@ -31,6 +30,7 @@ import JobTable from "./pages/employer/dashboard/JobTable";
 import BookmarkCandidate from "./pages/employer/dashboard/BookmarkCandidate";
 import { ProfileForEmployer } from "./pages/employer/dashboard/ProfileForEmployer";
 import BookmarkJob from "./pages/applicant/dashboard/BookmarkJob";
+import { ApplicantProfile } from "./pages/applicant/dashboard/ApplicantProfile";
 
 function App() {
   return (
@@ -47,7 +47,7 @@ function App() {
 
           <Route path="find-candidate" element={<CandidatesList />} />
 
-          <Route path="applicant-dashboard" element={<Dashboard />} />
+          <Route path="applicant-dashboard" element={<ApplicantProfile />} />
           <Route path="applicant-dashboard/setting" element={<Setting />} />
           <Route path="applicant-dashboard/bookmark-job" element={<BookmarkJob />} />
           <Route path="applicant-dashboard/applied-job" element={<AppliedJob />} />
