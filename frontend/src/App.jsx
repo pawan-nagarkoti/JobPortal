@@ -24,7 +24,6 @@ import CTApage from "./pages/CTApage";
 import NotFoundPage from "./pages/NotFoundpage";
 import UnderConstructionPage from "./pages/UnderConstructionPage";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
-import ProfileCompleteUI from "./pages/employer/ProfileCompleteUI";
 import ScrollToTop from "./components/other/ScrollToTop";
 import AppliedJob from "./pages/applicant/dashboard/AppliedJob";
 import JobAlert from "./pages/applicant/dashboard/JobAlert";
@@ -55,7 +54,6 @@ function App() {
           <Route path="applicant-dashboard/job-alert" element={<JobAlert />} />
 
           <Route path="/create/employer-profile" element={<EmployerProfile />} />
-          <Route path="/profile-completed" element={<ProfileCompleteUI />} />
           <Route path="employer/profile" element={<ProfileForEmployer />} />
           <Route path="employer-job-post" element={<PostJobForm />} />
           <Route path="employer-setting" element={<EmployerSetting />} />

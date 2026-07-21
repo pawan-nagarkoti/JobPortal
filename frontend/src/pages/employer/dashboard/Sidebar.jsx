@@ -7,7 +7,6 @@ const Sidebar = () => {
     { id: "post", label: "Post a Job", icon: "plus-circle", url: "/employer-job-post" },
     { id: "jobs", label: "My Jobs", icon: "briefcase", url: "/employer/job-list" },
     { id: "saved", label: "Saved Candidate", icon: "bookmark", url: "/employer/bookmark-candidate" },
-    { id: "settings", label: "Settings", icon: "settings", url: "/employer-setting" },
   ];
 
   const getIcon = (iconName) => {

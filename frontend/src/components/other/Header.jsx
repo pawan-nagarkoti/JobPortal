@@ -47,6 +47,9 @@ export default function Header() {
             <Link to="/about-us" className="text-gray-700 hover:text-primary transition">
               About
             </Link>
+            <Link to="/blog" className="text-gray-700 hover:text-primary transition">
+              Blog
+            </Link>
             {getCookie("accessToken") ? (
               <>
                 <Link

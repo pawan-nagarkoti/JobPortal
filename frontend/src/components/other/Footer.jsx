@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -88,26 +89,21 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link to="/privacy" className="hover:text-primary transition">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary transition">
-                  Terms &amp; Conditions
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
+                <Link to="/contact-us" className="hover:text-primary transition">
                   Contact Us
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm">
-          <p>&copy; 2025 JobPilot. All rights reserved.</p>
+          <p>&copy; 2026 JobPilot. All rights reserved.</p>
         </div>
       </div>
     </footer>

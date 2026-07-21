@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { _post } from "../../lib/api";
 import { showError, showSuccess } from "../../lib/toast";
 import Loader from "../../components/other/Loader";
@@ -8,7 +8,9 @@ import { addCookie } from "../../lib/cookies";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
-  const [accountType, setAccountType] = useState("applicant");
+  const location = useLocation();
+
+  const [accountType, setAccountType] = useState(location?.state?.tabName || "applicant");
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

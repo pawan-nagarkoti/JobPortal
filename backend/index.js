@@ -90,8 +90,8 @@ app.use("/api/global", globalSearchRoute);
 //   }
 // });
 
-// app.listen(PORT, () => {
-//   console.log(`server is now running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`server is now running on port ${PORT}`);
+});
 
-export default app;
+// export default app;
