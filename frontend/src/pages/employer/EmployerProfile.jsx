@@ -604,7 +604,7 @@ const Contact = () => {
       const apiResponse = await await _post("api/employer/add", formData);
       if (apiResponse.data.success) {
         showSuccess(apiResponse.data.message);
-        navigate("/applicant-dashboard");
+        navigate("/employer/profile");
       } else {
         showError(apiResponse.data.message);
       }

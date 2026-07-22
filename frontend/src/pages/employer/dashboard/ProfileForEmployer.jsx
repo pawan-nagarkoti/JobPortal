@@ -1,11 +1,84 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "./Sidebar";
+import { _get } from "../../../lib/api";
+import { cookies, getCookie } from "../../../lib/cookies";
+import { industryTypes, organizationTypes, teamSizeList } from "../../../lib/constant";
+import CustomEditor from "../../../components/form/CustomEditor";
+import { HtmlSanitizer } from "../../../components/other/HtmlSanitizer";
+import { v4 as uuidv4 } from "uuid";
 
 export const ProfileForEmployer = () => {
+  const userId = getCookie("loginUserInfo");
+  const [employerData, setEmployerData] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [teamSize, setTeamSize] = useState("");
+  const [date, setDate] = useState("");
+  const [url, setUrl] = useState("");
+  const [logo, setLogo] = useState("");
+  const [banner, setBanner] = useState("");
+  const [vision, setVision] = useState("");
+  const [description, setDescription] = useState("");
+
+  const refForDescription = useRef(null);
+  const refForVision = useRef(null);
+
+  const [country, setCountry] = useState("");
+  const [location, setLocation] = useState("");
+  const [countryCode, setCountryCode] = useState("");
+  const [number, setNumber] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [socialLinks, setSocialLinks] = useState([{ id: uuidv4(), name: "", url: "" }]);
+
+  const handleAddSocialLink = () => {
+    setSocialLinks((prev) => [...prev, { id: uuidv4(), name: "", url: "" }]);
+  };
+
+  const handleRemoveSocialLink = (deletedId) => {
+    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+  };
+
+  const handleInputChange = (id, field, value) => {
+    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
+  };
+
   const stats = {
     openJobs: 589,
-    savedCandidates: 2517,
+    savedCandidates: 2517212,
   };
+
+  const fetchEmployer = async () => {
+    if (!userId) return;
+    const res = await _get(`api/employer/fetch?loginUserId=${userId.id}`);
+    if (res.data.success) {
+      let e = res.data.data[0];
+      setCompanyName(e.name);
+      setOrganization(e.organization);
+      setIndustry(e.industry);
+      setTeamSize(e.teamSize);
+      setDate(e.establishmentYear?.split("T")[0] || "");
+      setUrl(e.url);
+      setLogo(e.logo);
+      setBanner(e.banner);
+      setVision(e.companyVision);
+      setDescription(e.description);
+      setEmployerData(res.data.data[0]);
+      setCountry(e.country);
+      setLocation(e.map);
+      setCountryCode(e.contact.phone.countryCode);
+      setNumber(e.contact.phone.number);
+      setEmail(e.contact.email);
+      setSocialLinks(e.socialLinks);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployer();
+  }, []);
+
+  if (!employerData) return "loding...";
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -37,34 +110,63 @@ export const ProfileForEmployer = () => {
                       type="text"
                       placeholder="Enter company name"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={companyName}
+                      onChange={(e) => setEmployerData(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Organization</label>
-                    <input
-                      type="text"
-                      placeholder="Enter organization"
+                    <select
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
+                      defaultValue={organization}
+                      onChange={(e) => setOrganization(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Choose Organisation Type
+                      </option>
+                      {organizationTypes?.map((v, i) => (
+                        <option value={v.name} key={i}>
+                          {v.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Industry</label>
-                    <input
-                      type="text"
-                      placeholder="Enter industry"
+                    <select
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
+                      defaultValue={industry}
+                      onChange={(e) => setIndustry(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Choose Industry Type
+                      </option>
+                      {industryTypes?.map((v, i) => (
+                        <option value={v.name} key={i}>
+                          {v.name}
+                        </option>
+                      ))}{" "}
+                    </select>
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Team Size</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. 10-50"
+                    <select
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
+                      defaultValue={teamSize}
+                      onChange={(e) => setTeamSize(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Choose Team Size
+                      </option>
+                      {teamSizeList?.map((v, i) => (
+                        <option value={v.name} key={i}>
+                          {v.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
@@ -72,6 +174,8 @@ export const ProfileForEmployer = () => {
                     <input
                       type="date"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
                     />
                   </div>
 
@@ -81,6 +185,8 @@ export const ProfileForEmployer = () => {
                       type="url"
                       placeholder="https://example.com"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={url}
+                      onChange={(e) => setUrl(e.target.value)}
                     />
                   </div>
                 </div>
@@ -94,38 +200,197 @@ export const ProfileForEmployer = () => {
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Logo URL</label>
                     <input
-                      type="text"
+                      type="file"
                       placeholder="Paste logo URL"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      onChange={(e) => setUrl(e.target.files[0])}
                     />
+
+                    {/* preview */}
+                    <div className="w-52 mt-2">
+                      <div className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500">
+                        <img src={logo} alt="Company logo" className="h-32 w-full rounded-lg object-cover" />
+
+                        <div className="mt-3 flex gap-2">
+                          <button
+                            type="button"
+                            className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            type="button"
+                            className="flex-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Banner URL</label>
                     <input
-                      type="text"
+                      type="file"
                       placeholder="Paste banner URL"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      onChange={(e) => setUrl(e.target.files[0])}
                     />
+
+                    {/* preview */}
+                    <div className="w-52 mt-2">
+                      <div className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500">
+                        <img src={banner} alt="Company logo" className="h-32 w-full rounded-lg object-cover" />
+
+                        <div className="mt-3 flex gap-2">
+                          <button
+                            type="button"
+                            className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                          >
+                            Edit
+                          </button>
+
+                          <button
+                            type="button"
+                            className="flex-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <div className="mt-5">
                   <label className="mb-2 block text-sm font-medium text-gray-700">Description</label>
-                  <textarea
-                    rows="5"
-                    placeholder="Write company description"
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                  ></textarea>
+                  <CustomEditor
+                    ref={refForDescription}
+                    value={description || ""}
+                    // onEditorChange={(newContent) =>
+                    //   setDescription((prev) => ({
+                    //     ...prev,
+                    //     description: newContent,
+                    //   }))
+                    // }
+                  />
                 </div>
 
                 <div className="mt-5">
                   <label className="mb-2 block text-sm font-medium text-gray-700">Company Vision</label>
-                  <textarea
-                    rows="4"
-                    placeholder="Write company vision"
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                  ></textarea>
+                  <CustomEditor
+                    ref={refForVision}
+                    value={vision || ""}
+                    // onEditorChange={(newContent) =>
+                    //   setDescription((prev) => ({
+                    //     ...prev,
+                    //     description: newContent,
+                    //   }))
+                    // }
+                  />
+                </div>
+              </div>
+
+              {/* Social Links */}
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 mb-3">Social Links</h2>
+                  {socialLinks.map((link, index) => (
+                    <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg">
+                      <label className="block text-sm font-medium text-gray-900 mb-2">Social Link {index + 1}</label>
+                      <div className="flex items-center gap-3">
+                        <div className="relative shrink-0" style={{ width: "220px" }}>
+                          <select
+                            value={link.name}
+                            onChange={(e) => handleInputChange(link.id, "name", e.target.value)}
+                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                          >
+                            <option value="">Select Platform</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Twitter">Twitter</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Youtube">Youtube</option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                            <svg
+                              className="w-4 h-4 text-gray-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Profile link/url..."
+                          value={link.url}
+                          onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
+                          className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                        {socialLinks.length > 1 && (
+                          <button
+                            onClick={() => handleRemoveSocialLink(link.id)}
+                            className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
+                            title="Remove"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
+                    onClick={handleAddSocialLink}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    Add New Social Link
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Right */}
+            <div className="col-span-12 lg:col-span-4 space-y-6">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900">Profile Preview</h2>
+
+                <div className="mt-5">
+                  <div className="h-32 rounded-2xl bg-gray-100 overflow-hidden border">
+                    <img src={banner} alt="" />
+                  </div>
+                  <div className="-mt-10  ml-4 flex h-20 w-20 items-center justify-center rounded-2xl">
+                    <img src={logo} alt="" />
+                  </div>
+
+                  <div className="mt-4">
+                    <h3 className="text-lg font-semibold text-gray-900">{companyName}</h3>
+                    <p className="text-sm text-gray-500">
+                      {industry} • {teamSize}
+                    </p>
+                    <div className="mt-3 text-sm leading-6 text-gray-600">
+                      {HtmlSanitizer(description.slice(0, 50))}...
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -140,6 +405,8 @@ export const ProfileForEmployer = () => {
                       type="text"
                       placeholder="Enter country"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={country}
+                      onChange={(e) => e.target.value}
                     />
                   </div>
 
@@ -149,6 +416,8 @@ export const ProfileForEmployer = () => {
                       type="text"
                       placeholder="Enter location"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={location}
+                      onChange={(e) => e.target.value}
                     />
                   </div>
 
@@ -158,6 +427,8 @@ export const ProfileForEmployer = () => {
                       type="text"
                       placeholder="+91"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={countryCode}
+                      onChange={(e) => e.target.value}
                     />
                   </div>
 
@@ -167,6 +438,8 @@ export const ProfileForEmployer = () => {
                       type="text"
                       placeholder="Enter phone number"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={number}
+                      onChange={(e) => e.target.value}
                     />
                   </div>
 
@@ -176,67 +449,9 @@ export const ProfileForEmployer = () => {
                       type="email"
                       placeholder="Enter email"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={email}
+                      onChange={(e) => e.target.value}
                     />
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">Social Links</h2>
-                  <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                    Add Link
-                  </button>
-                </div>
-
-                <div className="mt-5 space-y-4">
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Platform name"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Profile URL"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Platform name"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Profile URL"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right */}
-            <div className="col-span-12 lg:col-span-4 space-y-6">
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="text-lg font-semibold text-gray-900">Profile Preview</h2>
-
-                <div className="mt-5">
-                  <div className="h-32 rounded-2xl bg-gray-100"></div>
-                  <div className="-mt-10 ml-4 flex h-20 w-20 items-center justify-center rounded-2xl border-4 border-white bg-gray-200 text-sm text-gray-500">
-                    Logo
-                  </div>
-
-                  <div className="mt-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Company Name</h3>
-                    <p className="text-sm text-gray-500">Industry • Team Size</p>
-                    <p className="mt-3 text-sm leading-6 text-gray-600">
-                      Your company description preview will appear here.
-                    </p>
                   </div>
                 </div>
               </div>
