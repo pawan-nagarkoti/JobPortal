@@ -145,7 +145,7 @@ export const ProfileForEmployer = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      {/* <Sidebar /> */}
+      <Sidebar />
 
       <main className="flex-1 p-8">
         <div className="mx-auto max-w-6xl space-y-6">

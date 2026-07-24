@@ -1,65 +1,89 @@
-import { Link } from "react-router-dom";
-import { getSocialUrl } from "../../lib/utils";
+import { useNavigate } from "react-router-dom";
+import { MapPin, Users, Globe, ArrowUpRight } from "lucide-react";
 
-// Company Card Component
 export default function CompanyCard({ company }) {
+  console.log(company);
+  const navigate = useNavigate();
+
+  if (!company) return "loading...";
+
   return (
-    <>
-      <div className="bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-        <Link to={`/employer-detail/${company._id}`} className="block text-gray-700 hover:text-primary transition">
-          {/* Card Content */}
-          <div className="p-6">
-            {/* Top Section - Logo, Name, Badge */}
-            <div className="flex items-start justify-between mb-4">
-              {/* Logo and Name */}
-              <div className="flex items-center space-x-3">
-                <div className="w-12 overflow-hidden h-auto max-h-12 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
-                  <img src={company?.logo} alt={company?.name || "Company logo"} />
-                </div>
+    <div
+      onClick={() => navigate(`/employer-detail/${company._id}`)}
+      className="group relative w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+    >
+      {/* Banner */}
+      <div className="relative h-28 w-full  bg-linear-to-br from-slate-100 to-slate-200">
+        <img
+          src={company.banner || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=200&fit=crop"}
+          alt=""
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
 
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">{company.name}</h3>
-                  <div className="flex items-center text-sm text-gray-500 mt-1">
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    {company?.country}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Link>
-
-        {/* Social Links Footer */}
-        <div className="bg-blue-50 px-6 py-3 border-t border-gray-100">
-          <div className="flex items-center justify-center gap-4">
-            {company.socialLinks?.map((s, i) => (
-              <a
-                key={i}
-                href={getSocialUrl(s.url)}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.name}
-                className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors"
-              >
-                {s.name}
-              </a>
-            ))}
-          </div>
+        {/* Logo overlapping the banner */}
+        <div className="absolute -bottom-6 left-5 h-16 w-16 overflow-hidden rounded-full border-4 border-white bg-white shadow-md">
+          <img
+            src={company.logo || "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop"}
+            alt="Company logo"
+            className="h-full w-full object-contain p-1"
+          />
         </div>
       </div>
-    </>
+
+      {/* Body */}
+      <div className="px-5 pb-5 pt-9">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="truncate text-base font-semibold text-gray-900">{company.name}</h3>
+          <ArrowUpRight
+            size={18}
+            className="mt-0.5 shrink-0 text-gray-300 transition-colors group-hover:text-indigo-500"
+          />
+        </div>
+
+        <p className="mt-0.5 text-sm font-medium text-indigo-500">{company.organization}</p>
+
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">
+          We build cloud infrastructure tools that help engineering teams ship faster with confidence.
+        </p>
+
+        {/* Meta row */}
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
+          <span className="inline-flex items-center gap-1">
+            <MapPin size={14} className="text-gray-400" />
+            Bengaluru, {company.country}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Users size={14} className="text-gray-400" />
+            {company.teamSize}
+          </span>
+        </div>
+
+        {/* Footer: socials */}
+        <div className="mt-4 flex items-center gap-3 border-t border-gray-100 pt-3">
+          <Globe size={14} className="text-gray-400" />
+          <a
+            href="#"
+            onClick={(e) => e.stopPropagation()}
+            className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+          >
+            LinkedIn
+          </a>
+          <a
+            href="#"
+            onClick={(e) => e.stopPropagation()}
+            className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+          >
+            Twitter
+          </a>
+          <a
+            href="#"
+            onClick={(e) => e.stopPropagation()}
+            className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+          >
+            Website
+          </a>
+        </div>
+      </div>
+    </div>
   );
 }
