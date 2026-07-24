@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { MapPin, Users, Globe, ArrowUpRight } from "lucide-react";
 
 export default function CompanyCard({ company }) {
-  console.log(company);
   const navigate = useNavigate();
 
   if (!company) return "loading...";
@@ -10,7 +9,7 @@ export default function CompanyCard({ company }) {
   return (
     <div
       onClick={() => navigate(`/employer-detail/${company._id}`)}
-      className="group relative w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className="group relative w-full cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Banner */}
       <div className="relative h-28 w-full  bg-linear-to-br from-slate-100 to-slate-200">

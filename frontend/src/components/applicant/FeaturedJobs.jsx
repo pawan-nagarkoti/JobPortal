@@ -19,12 +19,6 @@ const FeaturedJobs = ({ jobs = "" }) => {
                 <JobCard key={index} job={job} />
               ))}
             </div>
-
-            <div className="text-center mt-12">
-              <button className="bg-primary text-white px-8 py-3 rounded-md hover:bg-blue-700 transition font-medium">
-                Load More Jobs
-              </button>
-            </div>
           </>
         ) : (
           <p className="text-center">No job found</p>

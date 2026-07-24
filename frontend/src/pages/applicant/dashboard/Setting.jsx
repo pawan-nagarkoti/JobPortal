@@ -349,112 +349,110 @@ const ProfileSetting = () => {
   };
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white">
-      <div className="space-y-6">
-        {/* Row 1: Nationality and Date of Birth */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Nationality</label>
-            <input
-              type="text"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              value={nationality}
-              onChange={(e) => setNationality(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Date of Birth</label>
-            <input
-              type="date"
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Row 2: Gender and Marital Status */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Gender</label>
-            <div className="relative">
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Gender
-                </option>
-                {GENDER?.map((v, index) => (
-                  <option key={index} value={v.value}>
-                    {v.name}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Marital Status</label>
-            <div className="relative">
-              <select
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none "
-                value={maritalStatus}
-                onChange={(e) => setMaritalStatus(e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Marital Status
-                </option>
-                {MARITAL_STATUS?.map((v, index) => (
-                  <option key={index} value={v.value}>
-                    {v.name}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Biography Section */}
+      {/* Row 1: Nationality and Date of Birth */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Biography</label>
-          <div className="border border-gray-300 rounded-lg">
-            {/* Text Area */}
-            <textarea
-              className="w-full px-4 py-3 border-0 focus:ring-0 resize-none"
-              rows="8"
-              placeholder="Write down your biography here. Let the employers know who you are..."
-              onChange={(e) => setBio(e.target.value)}
-            />
+          <label className="block text-sm font-medium text-gray-900 mb-2">Nationality</label>
+          <input
+            type="text"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={nationality}
+            onChange={(e) => setNationality(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Date of Birth</label>
+          <input
+            type="date"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Row 2: Gender and Marital Status */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Gender</label>
+          <div className="relative">
+            <select
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Gender
+              </option>
+              {GENDER?.map((v, index) => (
+                <option key={index} value={v.value}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
         </div>
 
-        {/* Save Changes Button */}
-        <div className="flex gap-3">
-          <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handlePreviousBtn()}
-          >
-            Previous
-          </button>
-          <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handleSaveChanges()}
-          >
-            Save Changes
-          </button>
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-2">Marital Status</label>
+          <div className="relative">
+            <select
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none "
+              value={maritalStatus}
+              onChange={(e) => setMaritalStatus(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Marital Status
+              </option>
+              {MARITAL_STATUS?.map((v, index) => (
+                <option key={index} value={v.value}>
+                  {v.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Biography Section */}
+      <div>
+        <label className="block text-sm font-medium text-gray-900 mb-2">Biography</label>
+        <div className="border border-gray-300 rounded-lg">
+          {/* Text Area */}
+          <textarea
+            className="w-full px-4 py-3 border-0 focus:ring-0 resize-none"
+            rows="8"
+            placeholder="Write down your biography here. Let the employers know who you are..."
+            onChange={(e) => setBio(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* Save Changes Button */}
+      <div className="flex gap-3">
+        <button
+          className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+          onClick={() => handlePreviousBtn()}
+        >
+          Previous
+        </button>
+        <button
+          className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+          onClick={() => handleSaveChanges()}
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );

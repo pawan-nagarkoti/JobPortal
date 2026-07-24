@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { AppliedCandidate } from "../../../components/employer/AppliedCandidate";
+// import { AppliedCandidate } from "../../../components/employer/AppliedCandidate";
 import Sidebar from "./Sidebar";
 import { _get } from "../../../lib/api";
 import { useLocation, useParams } from "react-router-dom";
+import AppliedCandidate from "../../../components/employer/AppliedCandidate";
 
 export default function AppliedCandidateList() {
   const [candidate, setCandidate] = useState("");
@@ -28,7 +29,7 @@ export default function AppliedCandidateList() {
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
             <ApplicantsHeader />
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-3 gap-4 mt-4">
               {candidate?.data?.map((c, i) => (
                 <div key={i}>
                   <AppliedCandidate candidate={c} />

@@ -1,59 +1,84 @@
-import React from "react";
-import { date } from "../../lib/utils";
+import { MapPin, Briefcase, GraduationCap, Globe, ArrowUpRight } from "lucide-react";
 
-export const AppliedCandidate = ({ candidate = {} }) => {
-  if (!candidate) return <p>loading...</p>;
+export default function AppliedCandidate() {
   return (
-    <>
-      <div className="max-w-sm bg-white rounded-lg border border-gray-200 p-6">
-        {/* Profile Section */}
-        <div className="flex items-start space-x-4 mb-6">
-          <img src={candidate.applicantId.profilePicture} className="w-20 h-20 rounded-full object-cover" />
-          <div className="flex-1">
-            <h3 className="text-lg font-bold text-gray-900">{candidate.jobId.title}</h3>
-            <p className="text-gray-600">{candidate.jobId.workType}</p>
-          </div>
+    <div className="group relative w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      {/* Header */}
+      <div className="flex items-start gap-4">
+        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gray-100">
+          <img
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop"
+            alt="Profile picture"
+            className="h-full w-full object-cover"
+          />
         </div>
 
-        {/* Details List */}
-        <ul className="space-y-3 mb-6">
-          <li className="flex items-center text-gray-700">
-            <svg className="w-4 h-4 mr-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <circle cx="10" cy="10" r="2" />
-            </svg>
-            <span className="text-sm">{candidate.applicantId.experience}</span>
-          </li>
-          <li className="flex items-center text-gray-700">
-            <svg className="w-4 h-4 mr-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <circle cx="10" cy="10" r="2" />
-            </svg>
-            <span className="text-sm">{candidate.applicantId.education}</span>
-          </li>
-          <li className="flex items-center text-gray-700">
-            <svg className="w-4 h-4 mr-3 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <circle cx="10" cy="10" r="2" />
-            </svg>
-            <span className="text-sm">{date(candidate.createdAt)}</span>
-          </li>
-        </ul>
-
-        {/* Download CV Button */}
-        <a
-          href={candidate.cvUrl}
-          download
-          className="flex items-center justify-center w-full px-4 py-2.5 text-blue-600 font-medium text-sm rounded-lg border border-blue-600 hover:bg-blue-50 transition"
-        >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="truncate text-base font-semibold text-gray-900">Ayesha Khan</h3>
+            <ArrowUpRight
+              size={18}
+              className="mt-0.5 shrink-0 text-gray-300 transition-colors group-hover:text-indigo-500"
             />
-          </svg>
-          Download Cv
+          </div>
+          <p className="mt-0.5 truncate text-sm font-medium text-indigo-500">Senior Product Designer</p>
+        </div>
+      </div>
+
+      {/* Bio */}
+      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-gray-500">
+        Product designer with a background in fintech, focused on turning complex workflows into simple, intuitive
+        interfaces.
+      </p>
+
+      {/* Meta row */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
+        <span className="inline-flex items-center gap-1">
+          <MapPin size={14} className="text-gray-400" />
+          Bengaluru, India
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <Briefcase size={14} className="text-gray-400" />
+          5+ years experience
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <GraduationCap size={14} className="text-gray-400" />
+          Bachelor's Degree
+        </span>
+      </div>
+
+      {/* Tags */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">UI/UX Design</span>
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">Figma</span>
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">Design Systems</span>
+      </div>
+
+      {/* Footer: socials */}
+      <div className="mt-4 flex items-center gap-3 border-t border-gray-100 pt-3">
+        <Globe size={14} className="text-gray-400" />
+        <a
+          href="#"
+          onClick={(e) => e.stopPropagation()}
+          className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="#"
+          onClick={(e) => e.stopPropagation()}
+          className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+        >
+          Portfolio
+        </a>
+        <a
+          href="#"
+          onClick={(e) => e.stopPropagation()}
+          className="truncate text-xs font-medium text-gray-500 hover:text-indigo-500"
+        >
+          Resume
         </a>
       </div>
-    </>
+    </div>
   );
-};
+}

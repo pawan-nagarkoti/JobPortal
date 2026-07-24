@@ -3,6 +3,7 @@ import { _get } from "../../lib/api";
 import { useParams } from "react-router-dom";
 import { date } from "../../lib/utils";
 import { HtmlSanitizer } from "../../components/other/HtmlSanitizer";
+import { ArrowRight } from "lucide-react";
 
 export default function EmployerDetailPage() {
   const { id } = useParams();
@@ -28,43 +29,42 @@ export default function EmployerDetailPage() {
   if (!data) return "Loding...";
   return (
     <div className="bg-gray-50">
-      {/* Hero Banner with Company Info */}
-      <div className="relative w-full h-64">
-        <img src={data?.banner} alt="Company banner" class="w-full h-[inherit] object-cover" />
+      <div className="relative w-full">
+        {/* Banner */}
+        <div className="relative h-64 w-full overflow-hidden bg-linear-to-br from-slate-200 to-slate-300">
+          <img src={data?.banner} alt="Company banner" className="h-full w-full object-cover" />
+          {/* Gradient for text/logo legibility */}
+          <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
 
-        {/* Company Logo and Info Overlay */}
-        <div className="absolute -bottom-16 left-0 right-0 ">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-[#cfb4b4]">
-            <div className="flex items-end space-x-6">
-              {/* Company Logo */}
-              <div
-                className={`w-32 h-32  rounded-2xl flex items-center justify-center border-4 border-white shadow-lg shrink-0`}
-              >
-                <img src={data.logo} alt="" />
+          {/* Company Info Overlay — sits on top of the banner */}
+          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-start gap-4 pb-6 sm:flex-row sm:items-end sm:gap-6">
+              {/* Logo */}
+              <div className="h-28 w-28 shrink-0 overflow-hidden rounded-2xl border-4 border-white bg-white shadow-lg sm:h-32 sm:w-32">
+                <img
+                  src={data?.logo}
+                  alt={`${data?.name || "Company"} logo`}
+                  className="h-full w-full object-contain p-2"
+                />
               </div>
 
-              {/* Company Name and Info */}
-              <div className="pb-4 flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h1 className="text-3xl font-bold text-white">{data.name}</h1>
-                </div>
-                <p className="text-blue-100">{data.industry}</p>
+              {/* Name & Industry */}
+              <div className="min-w-0 flex-1 pb-1">
+                <h1 className="truncate text-2xl font-bold text-white sm:text-3xl">{data?.name}</h1>
+                <p className="mt-1 text-sm font-medium text-gray-200 sm:text-base">{data?.industry}</p>
               </div>
 
-              {/* View Open Position Button */}
-              <div className="pb-4">
-                <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 flex items-center">
-                  View Open Position
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+              {/* CTA */}
+              <div className="pb-1">
+                <button className="inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-6 py-2.5 font-semibold text-white transition-colors hover:bg-indigo-700">
+                  View Open Positions
+                  <ArrowRight size={18} />
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -73,7 +73,7 @@ export default function EmployerDetailPage() {
             {/* Description */}
             <div className="bg-white rounded-lg p-6">
               <h2 className="text-xl font-bold mb-4">Description</h2>
-              <p className="text-gray-700 leading-relaxed">{HtmlSanitizer(data.companyVision)}</p>
+              <div className="text-gray-700 leading-relaxed">{HtmlSanitizer(data.companyVision)}</div>
             </div>
 
             {/* Share Profile */}
