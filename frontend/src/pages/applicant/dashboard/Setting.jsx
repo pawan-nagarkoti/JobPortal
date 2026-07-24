@@ -50,11 +50,11 @@ export default function Setting() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <div className="bg-white rounded-lg border border-gray-200 mb-6">
-          <div className="flex border-b border-gray-200">
+          <div className="flex">
             <button
-              className={`flex items-center px-6 py-4 border-b-2
+              className={`flex items-center px-6 py-4 
                    ${tabName === "personal" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
               onClick={() => handleTabname("personal")}
             >
@@ -183,8 +183,6 @@ const PersonalSetting = () => {
     <>
       {/* Basic Information Section */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Basic Information</h2>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Picture Upload */}
           <label htmlFor="profileImage" className="cursor-pointer block">
@@ -348,7 +346,7 @@ const ProfileSetting = () => {
     setApplicantTabController("personal");
   };
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white">
+    <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 space-x-1 space-y-2">
       {/* Row 1: Nationality and Date of Birth */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -486,8 +484,8 @@ const SocialLinksSetting = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="bg-white rounded-lg p-6 space-y-6">
+    <div className="mx-auto w-full">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 space-x-1 space-y-2">
         <div>
           {socialLinks.map((link, index) => (
             <div key={link.id} className="mb-6 p-4 border border-gray-200 rounded-lg">
@@ -658,61 +656,62 @@ const AccountSetting = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      {/* Contact Info Section */}
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Info</h2>
+    <div className="mx-auto w-full">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6 space-x-1 space-y-2">
+        {/* Contact Info Section */}
+        <div className="bg-white rounded-lg p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Contact Info</h2>
 
-        {/* Map Location */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">Map Location</label>
-          <input
-            type="text"
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </div>
-
-        {/* Phone */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">Phone</label>
-          <div className="flex gap-2">
-            <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-              <option>+91</option>
-            </select>
+          {/* Map Location */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-900 mb-2">Map Location</label>
             <input
-              type="tel"
-              placeholder="Phone number.."
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              onChange={(e) => setNumber(e.target.value)}
+              type="text"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onChange={(e) => setLocation(e.target.value)}
             />
           </div>
-        </div>
 
-        {/* Email */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
+          {/* Phone */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-900 mb-2">Phone</label>
+            <div className="flex gap-2">
+              <select className="w-32 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
+                <option>+91</option>
+              </select>
+              <input
+                type="tel"
+                placeholder="Phone number.."
+                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(e) => setNumber(e.target.value)}
+              />
             </div>
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              onChange={(e) => setEmail(e.target.value)}
-            />
           </div>
-        </div>
 
-        {/* <div className="flex gap-3">
+          {/* Email */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="email"
+                placeholder="Email address"
+                className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* <div className="flex gap-3">
           <button
             className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
             onClick={() => handlePreviousBtn()}
@@ -726,214 +725,69 @@ const AccountSetting = () => {
             {isLoading ? "loading..." : "Save Changes"}
           </button>
         </div> */}
-      </div>
-
-      {/* Notification Section */}
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Notification</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <label className="flex items-center cursor-pointer">
-            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">Notify me when employers shortlisted me</span>
-          </label>
-
-          <label className="flex items-center cursor-pointer">
-            <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">Notify me when employers saved my profile</span>
-          </label>
-
-          <label className="flex items-center cursor-pointer">
-            <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">Notify me when my applied jobs are expire</span>
-          </label>
-
-          <label className="flex items-center cursor-pointer">
-            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">Notify me when employers rejected me</span>
-          </label>
-
-          <label className="flex items-center cursor-pointer">
-            <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
-            <span className="ml-2 text-sm text-gray-700">Notify me when I have up to 5 job alerts</span>
-          </label>
-        </div>
-      </div>
-
-      {/* Job Alerts Section */}
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Job Alerts</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <InputChip label="Job Title" placeholderName="Job title" getValues={setAlertJobRole} />
-          </div>
-
-          <div>
-            <InputChip label="Location" placeholderName="City, state, country name" getValues={setAlertJobLocation} />
-          </div>
         </div>
 
-        <div className="flex gap-3">
-          <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handlePreviousBtn()}
-          >
-            Previous
-          </button>
-          <button
-            className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
-            onClick={() => handleSaveChanges()}
-          >
-            {isLoading ? "loading..." : "Save Changes"}
-          </button>
-        </div>
-      </div>
-
-      {/* Profile and Resume Privacy */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Profile Privacy */}
+        {/* Notification Section */}
         <div className="bg-white rounded-lg p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Profile Privacy</h2>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="relative inline-block w-12 h-6">
-                <input type="checkbox" defaultChecked className="sr-only peer" />
-                <div className="w-12 h-6 bg-blue-600 peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
-              </div>
-              <span className="text-sm font-medium text-blue-600">YES</span>
-            </div>
-            <span className="text-sm text-gray-600">Your profile is public now</span>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Notification</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+              <span className="ml-2 text-sm text-gray-700">Notify me when employers shortlisted me</span>
+            </label>
+
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+              <span className="ml-2 text-sm text-gray-700">Notify me when employers saved my profile</span>
+            </label>
+
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
+              <span className="ml-2 text-sm text-gray-700">Notify me when my applied jobs are expire</span>
+            </label>
+
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+              <span className="ml-2 text-sm text-gray-700">Notify me when employers rejected me</span>
+            </label>
+
+            <label className="flex items-center cursor-pointer">
+              <input type="checkbox" defaultChecked className="w-4 h-4 text-blue-600 rounded" />
+              <span className="ml-2 text-sm text-gray-700">Notify me when I have up to 5 job alerts</span>
+            </label>
           </div>
         </div>
 
-        {/* Resume Privacy */}
+        {/* Job Alerts Section */}
         <div className="bg-white rounded-lg p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Resume Privacy</h2>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="relative inline-block w-12 h-6">
-                <input type="checkbox" className="sr-only peer" />
-                <div className="w-12 h-6 bg-gray-300 peer-focus:ring-2 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
-              </div>
-              <span className="text-sm font-medium text-gray-600">NO</span>
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Job Alerts</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <InputChip label="Job Title" placeholderName="Job title" getValues={setAlertJobRole} />
             </div>
-            <span className="text-sm text-gray-600">Your resume is private now</span>
+
+            <div>
+              <InputChip label="Location" placeholderName="City, state, country name" getValues={setAlertJobLocation} />
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+              onClick={() => handlePreviousBtn()}
+            >
+              Previous
+            </button>
+            <button
+              className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+              onClick={() => handleSaveChanges()}
+            >
+              {isLoading ? "loading..." : "Save Changes"}
+            </button>
           </div>
         </div>
-      </div>
-
-      {/* Change Password Section */}
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Change Password</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Current Password</label>
-            <div className="relative">
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-              />
-              <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">New Password</label>
-            <div className="relative">
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-              />
-              <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Confirm Password</label>
-            <div className="relative">
-              <input
-                type="password"
-                placeholder="Password"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent pr-10"
-              />
-              <button className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
-          Save Changes
-        </button>
-      </div>
-
-      {/* Delete Account Section */}
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Delete Your Account</h2>
-        <p className="text-sm text-gray-600 mb-4">
-          If you delete your Jobpilot account, you will no longer be able to get information about the matched jobs,
-          following employers, and job alert, shortlisted jobs and more. You will be abandoned from all the services of
-          Jobpilot.com.
-        </p>
-        <button className="flex items-center text-red-600 hover:text-red-700 font-medium">
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          Close Account
-        </button>
       </div>
     </div>
   );
