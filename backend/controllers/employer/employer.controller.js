@@ -123,8 +123,7 @@ export const updateEmployer = async (req, res) => {
   try {
     const { id } = req.params;
     const data = qs.parse(req.body, { allowDots: true });
-    if (!data)
-      return res.status(400).json({ success: true, message: "no data" });
+    if (!data) return res.status(400).json({ success: true, message: "no data" });
 
     // common function for detect image url or file
     async function detectsImages(existingUrl = "", newFilePath = "") {
@@ -135,14 +134,8 @@ export const updateEmployer = async (req, res) => {
       return existingUrl || "";
     }
 
-    const bannerImage = await detectsImages(
-      data?.banner || "",
-      req?.files?.banner?.[0]?.path || "",
-    );
-    const logoImage = await detectsImages(
-      data?.logo || "",
-      req?.files?.logo?.[0]?.path || "",
-    );
+    const bannerImage = await detectsImages(data?.banner || "", req?.files?.banner?.[0]?.path || "");
+    const logoImage = await detectsImages(data?.logo || "", req?.files?.logo?.[0]?.path || "");
 
     // let bannerImage, logoImage;
     // if (data.banner) {
@@ -158,7 +151,6 @@ export const updateEmployer = async (req, res) => {
     //   let image = await uploadOnCloudinary(req.files.logo[0].path);
     //   logoImage = image?.secure_url;
     // }
-
     const employerObj = {
       name: data.name,
       description: data.description,
@@ -168,11 +160,13 @@ export const updateEmployer = async (req, res) => {
       establishmentYear: data.establishmentYear,
       url: data.url,
       companyVision: data.companyVision,
+      country: data.country,
       contact: {
-        location: {
-          country: data.country,
-          city: data.city,
-        },
+        // location: {
+        //   country: data.country,
+        //   city: data.city,
+        // },
+        location: data.location,
         phone: {
           countryCode: data.countryCode,
           number: data.number,
