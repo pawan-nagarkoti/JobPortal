@@ -33,11 +33,7 @@ export default function Setting() {
       case name === "account":
         setRenderTab(<AccountSetting />);
         setTabName("account");
-
         break;
-      case name === "resume":
-        setRenderTab(<ResumeSetting />);
-        setTabName("resume");
 
       default:
         break;
@@ -119,27 +115,6 @@ export default function Setting() {
               </svg>
               Account Setting
             </button>
-            <button
-              className={`flex items-center px-6 py-4
-                   ${tabName === "resume" ? `border-blue-600 text-blue-600 font-medium` : ""}`}
-              onClick={() => handleTabname("resume")}
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-              Resume
-            </button>
           </div>
         </div>
         <div>{renderTab}</div>
@@ -151,9 +126,6 @@ export default function Setting() {
 const PersonalSetting = () => {
   const { setApplicantTabController, applicantSettingsTabData, setApplicantSettingsTabData } = useUI();
 
-  useEffect(() => {
-    console.log(applicantSettingsTabData);
-  }, [applicantSettingsTabData]);
   const [profilePic, setProfilePic] = useState(
     applicantSettingsTabData?.profilePic ? applicantSettingsTabData?.profilePic : null,
   );
@@ -790,179 +762,5 @@ const AccountSetting = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-const ResumeSetting = () => {
-  const [title, setTitle] = useState("");
-  const [cv, setCv] = useState("");
-  const [data, setData] = useState("");
-  const [editId, setEditId] = useState(null);
-  const [isLoading, setLoding] = useState(false);
-  const fileInputRef = useRef(null);
-  const userId = getCookie("loginUserInfo");
-
-  const FetchApplicantOnTheBasisOfLoginUser = async () => {
-    try {
-      const response = await _get(`api/applicant/fetch?userId=${userId.id}`);
-      if (response.data.success) {
-        return response.data.applicants[0]._id;
-      }
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
-  const handleAddCV = async () => {
-    setLoding(true);
-    let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
-    try {
-      const cvData = new FormData();
-      cvData.append("applicantId", applicantId);
-      cvData.append("title", title);
-      cvData.append("cv", cv);
-      const apiResponse = await _post("api/resume/add", cvData);
-      if (apiResponse.data.success) {
-        fetchResume();
-        setTitle("");
-        clearFile();
-      }
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-      setLoding(false);
-    }
-  };
-
-  const fetchResume = async () => {
-    let applicantId = await FetchApplicantOnTheBasisOfLoginUser();
-    try {
-      if (!editId) {
-        const apiResponse = await _get(`api/resume/fetch?applicantId=${applicantId}`);
-        if (apiResponse.data.success) {
-          setData(apiResponse.data);
-        }
-      } else {
-        const cvData = new FormData();
-        cvData.append("applicantId", "6996e48c469802e83cff3a37");
-        cvData.append("title", title);
-        cvData.append("cv", cv);
-        const apiResponse = await _put(`resume/update/${editId}`, cvData);
-        if (apiResponse.data.success) {
-          setData(apiResponse.data);
-        }
-      }
-    } catch (e) {
-      console.log(e.messsage);
-    }
-  };
-
-  const handleEditBtn = async (id) => {
-    setEditId(id);
-  };
-
-  const handleDeleteBtn = async (deletedId) => {
-    await _delete(`api/resume/delete/${deletedId}`);
-    fetchResume();
-  };
-
-  useEffect(() => {
-    fetchResume();
-  }, []);
-
-  const clearFile = () => {
-    setCv(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-  return (
-    <>
-      {/* Your CV/Resume Section */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">Your Cv/Resume</h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Existing Resumes */}
-          {data?.data?.map((r, i) => (
-            <div key={i} className="relative">
-              <div className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center space-x-3">
-                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <div>
-                      <p className="font-semibold text-gray-900">{r.title}</p>
-                    </div>
-                  </div>
-                  <div className="inline-flex rounded-md shadow-sm">
-                    <button
-                      className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50"
-                      onClick={() => handleEditBtn(r._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="px-4 py-2 text-sm font-medium text-red-600 bg-white border-t border-b border-r border-gray-300 rounded-r-md hover:bg-red-50"
-                      onClick={() => handleDeleteBtn(r._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Add CV/Resume Card */}
-          <div>
-            <label className="border-2 border-dashed border-gray-300 rounded-xl p-6 hover:border-blue-400 hover:bg-blue-50/40 transition cursor-pointer flex flex-col items-center justify-center text-center gap-4">
-              <input
-                type="file"
-                accept=".pdf,.doc,.docx"
-                ref={fileInputRef}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    setCv(file);
-                  }
-                }}
-              />
-
-              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-              </div>
-
-              <div>
-                <p className="text-base font-semibold text-gray-900">Add CV/Resume</p>
-                <p className="text-sm text-gray-500">Click to upload PDF, DOC, or DOCX</p>
-              </div>
-
-              <input
-                type="text"
-                placeholder="Optional title or note"
-                className="w-full max-w-sm rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                value={title || ""}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </label>
-            <button
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition mt-2"
-              onClick={handleAddCV}
-            >
-              {isLoading ? "loading..." : "Add"}
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
   );
 };

@@ -1,12 +1,109 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LeftSidebar from "./LeftSidebar";
+import { _get } from "../../../lib/api";
+import { getCookie } from "../../../lib/cookies";
+import { EDUCATION, GENDER, MARITAL_STATUS } from "../../../lib/constant";
+import CustomEditor from "../../../components/form/CustomEditor";
+import InputChip from "../../../components/form/InputChip";
+import { v4 as uuidv4 } from "uuid";
+import UploadResume from "../../../components/applicant/UploadResume";
 
 export const ApplicantProfile = () => {
+  let userId = getCookie("loginUserInfo");
+  const [data, setData] = useState("");
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [dob, setDob] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [gender, setGender] = useState("");
+  const [maritalStatus, setMaritalStatus] = useState("");
+
+  const [exprience, setExprience] = useState("");
+  const [education, setEducation] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [pic, setPic] = useState("");
+  const [profilePreview, setProfilePreview] = useState("");
+  const [bio, setBio] = useState("");
+  const refForBio = useRef();
+
+  const [location, setLocation] = useState("");
+  const [countrycode, setCountryCode] = useState("");
+  const [number, setNumber] = useState("");
+
+  const [titleAlert, setTitleAlert] = useState("");
+  const [locationAlert, setLocationAlert] = useState("");
+  const [alertJobRole, setAlertJobRole] = useState("");
+  const [alertJobLocation, setAlertJobLocation] = useState("");
+
+  // const [hasAlertRole, setHasAlertRole] = useState("");
+  // const [hasAlertLocation, setHasAlertLocation] = useState("");
+
+  // useEffect(() => {
+  // setHasAlertRole(alertJobRole);
+  // setHasAlertLocation(alertJobLocation);
+  // }, [alertJobRole, alertJobLocation]);
+
+  const [socialLinks, setSocialLinks] = useState([{ id: uuidv4(), platform: "", url: "" }]);
+
+  const handleAddSocialLink = () => {
+    setSocialLinks((prev) => [...prev, { id: uuidv4(), platform: "", url: "" }]);
+  };
+
+  const handleRemoveSocialLink = (deletedId) => {
+    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+  };
+
+  const handleInputChange = (id, field, value) => {
+    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
+  };
+
+  const handleSocialMediaProfile = () => {
+    setApplicantSettingsTabData((prev) => ({ ...prev, socialLinks }));
+    setApplicantTabController("account");
+  };
+
   const stats = {
     appliedJobs: 24,
     savedJobs: 12,
   };
 
+  const fetchApplicantDetail = async () => {
+    if (!userId) return;
+    try {
+      const res = await _get(`api/applicant/fetch?userId=${userId.id}`);
+      if (res.data.success) {
+        let a = res.data.applicants[0];
+        setData(a);
+        setName(a.name);
+        setTitle(a.title);
+        setDob(a.dob?.split("T")[0] || "");
+        setNationality(a.nationality);
+        setGender(a.gender);
+        setMaritalStatus(a.maritalStatus);
+
+        setExprience(a.experience);
+        setEducation(a.education);
+        setWebsiteUrl(a.websiteUrl);
+        setProfilePreview(a.profilePicture);
+        setBio(a.biography);
+
+        setLocation(a.location);
+        setNumber(a.phone.number);
+        setCountryCode(a.phone.countryCode);
+
+        setTitleAlert(a.alertJob.jobTitle);
+        setLocationAlert(a.alertJob.alertLocation);
+        setSocialLinks(a.socialLinks);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+  useEffect(() => {
+    fetchApplicantDetail();
+  }, []);
+
+  if (!data) return "loading...";
   return (
     <div className="flex min-h-screen bg-gray-50">
       <LeftSidebar />
@@ -97,6 +194,8 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="Enter full name"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
 
@@ -104,8 +203,10 @@ export const ApplicantProfile = () => {
                     <label className="mb-2 block text-sm font-medium text-gray-700">Professional Title</label>
                     <input
                       type="text"
-                      placeholder="e.g. Frontend Developer"
+                      placeholder="Frontend Developer"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
 
@@ -114,6 +215,8 @@ export const ApplicantProfile = () => {
                     <input
                       type="date"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={dob}
+                      onChange={(e) => setDob(e.target.value)}
                     />
                   </div>
 
@@ -123,25 +226,44 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="Enter nationality"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={nationality}
+                      onChange={(e) => setNationality(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Gender</label>
-                    <select className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500">
-                      <option>Select gender</option>
-                      <option>Male</option>
-                      <option>Female</option>
-                      <option>Other</option>
+                    <select
+                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select Gender
+                      </option>
+                      {GENDER?.map((v, index) => (
+                        <option key={index} value={v.value}>
+                          {v.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Marital Status</label>
-                    <select className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500">
-                      <option>Select marital status</option>
-                      <option>Single</option>
-                      <option>Married</option>
+                    <select
+                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={maritalStatus}
+                      onChange={(e) => setMaritalStatus(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select Marital Status
+                      </option>
+                      {MARITAL_STATUS?.map((v, index) => (
+                        <option key={index} value={v.value}>
+                          {v.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -158,16 +280,27 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="e.g. 2 years"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={exprience}
+                      onChange={(e) => setExprience(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Education</label>
-                    <input
-                      type="text"
-                      placeholder="Enter education"
+                    <select
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
+                      value={education}
+                      onChange={(e) => setEducation(e.target.value)}
+                    >
+                      <option disabled value="">
+                        select education
+                      </option>
+                      {EDUCATION?.map((e, i) => (
+                        <option key={i} value={e.value}>
+                          {e.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
@@ -176,26 +309,71 @@ export const ApplicantProfile = () => {
                       type="url"
                       placeholder="https://example.com"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={websiteUrl}
+                      onChange={(e) => setWebsiteUrl(e.target.value)}
                     />
                   </div>
 
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Profile Picture URL</label>
                     <input
-                      type="text"
+                      type="file"
                       placeholder="Paste profile image URL"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      onChange={(e) => {
+                        let file = e.target.files[0];
+                        if (file) {
+                          setProfilePreview(URL.createObjectURL(file));
+                          setPic(file);
+                        }
+                      }}
                     />
+
+                    {/* preview */}
+                    {profilePreview ? (
+                      <div className="w-52 mt-2">
+                        <div className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500">
+                          <img
+                            src={profilePreview || null}
+                            alt="Company logo"
+                            className="h-32 w-full rounded-lg object-cover"
+                          />
+
+                          <div className="mt-3 flex gap-2">
+                            <button
+                              type="button"
+                              className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                            >
+                              Edit
+                            </button>
+
+                            <button
+                              type="button"
+                              className="flex-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
 
                 <div className="mt-5">
                   <label className="mb-2 block text-sm font-medium text-gray-700">Biography</label>
-                  <textarea
-                    rows="5"
-                    placeholder="Write something about yourself"
-                    className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                  ></textarea>
+                  <CustomEditor
+                    ref={refForBio}
+                    value={bio || ""}
+                    onEditorChange={(newContent) =>
+                      setBio((prev) => ({
+                        ...prev,
+                        description: newContent,
+                      }))
+                    }
+                  />
                 </div>
               </div>
 
@@ -210,6 +388,8 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="Enter location"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
                     />
                   </div>
 
@@ -219,6 +399,8 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="+91"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={countrycode}
+                      onChange={(e) => setCountryCode(e.target.value)}
                     />
                   </div>
 
@@ -228,6 +410,8 @@ export const ApplicantProfile = () => {
                       type="text"
                       placeholder="Enter phone number"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
+                      value={number}
+                      onChange={(e) => setNumber(e.target.value)}
                     />
                   </div>
                 </div>
@@ -237,128 +421,78 @@ export const ApplicantProfile = () => {
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-gray-900">Social Links</h2>
-                  <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                    Add Link
-                  </button>
                 </div>
 
-                <div className="mt-5 space-y-4">
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Platform name"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Profile URL"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
+                <div className="mt-5">
+                  {socialLinks.map((link, index) => (
+                    <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg">
+                      <label className="block text-sm font-medium text-gray-900 mb-2">Social Link {index + 1}</label>
+                      <div className="flex items-center gap-3">
+                        <div className="relative shrink-0" style={{ width: "220px" }}>
+                          <select
+                            value={link.platform}
+                            onChange={(e) => handleInputChange(link.id, "platform", e.target.value)}
+                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
+                          >
+                            <option value="">Select Platform</option>
+                            <option value="Facebook">Facebook</option>
+                            <option value="Twitter">Twitter</option>
+                            <option value="Instagram">Instagram</option>
+                            <option value="Youtube">Youtube</option>
+                          </select>
+                          <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                            <svg
+                              className="w-4 h-4 text-gray-400"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Profile link/url..."
+                          value={link.url}
+                          onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
+                          className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                        {socialLinks.length > 1 && (
+                          <button
+                            onClick={() => handleRemoveSocialLink(link.id || "")}
+                            className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
+                            title="Remove"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
 
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <input
-                      type="text"
-                      placeholder="Platform name"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                    <input
-                      type="url"
-                      placeholder="Profile URL"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Job Alerts */}
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="text-lg font-semibold text-gray-900">Job Alerts</h2>
-
-                <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">Preferred Job Title</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. React Developer"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">Preferred Location</label>
-                    <input
-                      type="text"
-                      placeholder="e.g. Delhi, Remote"
-                      className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Resume Section */}
-              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">Resume</h2>
-                  <button className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                    Replace Resume
-                  </button>
-                </div>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  Upload and manage your latest resume for employers to review.
-                </p>
-
-                <div className="mt-5 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm">
-                    <svg className="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <button
+                    className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-lg transition flex items-center justify-center gap-2"
+                    onClick={handleAddSocialLink}
+                    type="button"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                  </div>
-
-                  <h3 className="mt-4 text-sm font-semibold text-gray-900">Upload Resume</h3>
-                  <p className="mt-1 text-sm text-gray-500">PDF or DOC/DOCX, max 5 MB</p>
-
-                  <div className="mt-4">
-                    <input type="file" className="hidden" id="resumeUpload" />
-                    <label
-                      htmlFor="resumeUpload"
-                      className="inline-flex cursor-pointer rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700"
-                    >
-                      Choose File
-                    </label>
-                  </div>
-                </div>
-
-                <div className="mt-5 rounded-xl border border-gray-200 p-4">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-red-50">
-                        <svg className="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M7 7h10M7 11h10M7 15h6M6 3h9l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z"
-                          />
-                        </svg>
-                      </div>
-
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">resume-pawan.pdf</p>
-                        <p className="text-xs text-gray-500">PDF • 2.4 MB • Uploaded 2 days ago</p>
-                      </div>
-                    </div>
-
-                    <button className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                      View
-                    </button>
-                  </div>
+                    Add New Social Link
+                  </button>
                 </div>
               </div>
             </div>
@@ -371,12 +505,12 @@ export const ApplicantProfile = () => {
                 <div className="mt-5">
                   <div className="flex items-center gap-4">
                     <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-200 text-sm text-gray-500">
-                      Photo
+                      <img src={profilePreview || null} alt="" />
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">Candidate Name</h3>
-                      <p className="text-sm text-gray-500">Professional Title</p>
+                      <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+                      <p className="text-sm text-gray-500">{title}</p>
                     </div>
                   </div>
 
@@ -386,12 +520,44 @@ export const ApplicantProfile = () => {
                     </p>
 
                     <div className="mt-4 space-y-2 text-sm text-gray-500">
-                      <p>Experience: 2 Years</p>
-                      <p>Education: Bachelor Degree</p>
-                      <p>Location: India</p>
+                      <p>Experience: {exprience}</p>
+                      <p>Education: {education}</p>
+                      <p>Location: {nationality}</p>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Job Alerts */}
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <h2 className="text-lg font-semibold text-gray-900">Job Alerts</h2>
+
+                <div>
+                  <InputChip
+                    label="Job Title"
+                    placeholderName="Job title"
+                    getValues={setAlertJobRole}
+                    preSelectedTags={titleAlert}
+                  />
+                </div>
+
+                <div className="mt-3">
+                  <InputChip
+                    label="Location"
+                    placeholderName="City, state, country name"
+                    getValues={setAlertJobLocation}
+                    preSelectedTags={locationAlert}
+                  />
+                </div>
+              </div>
+
+              {/* Resume Section */}
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-900">Resume</h2>
+                </div>
+
+                <UploadResume />
               </div>
 
               <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">

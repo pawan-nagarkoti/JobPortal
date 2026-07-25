@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { X, Tag } from "lucide-react";
 
-export default function InputChip({ label = "", placeholderName = "", getValues }, ref) {
+export default function InputChip({ label = "", placeholderName = "", getValues, preSelectedTags = [] }, ref) {
   const [input, setInput] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(preSelectedTags || []);
 
   const handleKeyDown = (e) => {
     if ((e.key === "Enter" || e.key === ",") && input.trim()) {
