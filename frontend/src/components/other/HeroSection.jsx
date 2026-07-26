@@ -17,7 +17,8 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="bg-linear-to-r from-blue-50 to-indigo-50 pt-24 pb-16">
+    <div className="bg-linear-to-r from-blue-50 to-indigo-50 py-10 h-[50vh] flex flex-col justify-center items-center">
+      {" "}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
@@ -62,20 +63,6 @@ const HeroSection = () => {
             </button>
           </div>
         </form>
-
-        <div className="mt-8 text-center">
-          <p className="text-gray-600 mb-4">Trending searches:</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {["Designer", "Developer", "Marketing", "Sales", "Manager"].map((tag) => (
-              <span
-                key={tag}
-                className="bg-white px-4 py-2 rounded-full text-sm text-gray-700 hover:bg-primary hover:text-white transition cursor-pointer"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

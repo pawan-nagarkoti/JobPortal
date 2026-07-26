@@ -66,18 +66,18 @@ function App() {
           <Route path="about-us" element={<AboutUs />} />
           <Route path="contact-us" element={<CTApage />} />
           <Route path="privacy" element={<TermsAndConditionsPage />} />
-        </Route>
 
-        <Route path="/auth">
-          <Route path="sign-in" element={<SignIn />} />
-          <Route path="create-account" element={<CreateAccount />} />
-          <Route path="verify-email" element={<EmailVerification />} />
-          <Route path="forget-password" element={<ForgetPassword />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-        </Route>
+          <Route path="/auth">
+            <Route path="sign-in" element={<SignIn />} />
+            <Route path="create-account" element={<CreateAccount />} />
+            <Route path="verify-email" element={<EmailVerification />} />
+            <Route path="forget-password" element={<ForgetPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+          </Route>
 
-        <Route path="no-found" element={<NotFoundPage />} />
-        <Route path="under-construction" element={<UnderConstructionPage />} />
+          <Route path="under-construction" element={<UnderConstructionPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </>
   );

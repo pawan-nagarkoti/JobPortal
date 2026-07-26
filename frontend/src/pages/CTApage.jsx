@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { _post } from "../lib/api";
+import { showSuccess } from "../lib/toast";
 
 const CTApage = () => {
+  const [isLoading, setIsLoading] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,9 +18,30 @@ const CTApage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setIsLoading(true);
+    try {
+      const res = await _post(`api/contact/add`, {
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      if (res.data.success) {
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        showSuccess("Message sent! We'll be in touch soon.");
+      }
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,7 +108,7 @@ const CTApage = () => {
                 type="submit"
                 className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition flex items-center justify-center"
               >
-                Send Message
+                {isLoading ? "loading..." : "Send Message"}
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"

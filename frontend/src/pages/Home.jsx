@@ -3,7 +3,7 @@ import HeroSection from "../components/other/HeroSection";
 import StatsSection from "../components/other/StatsSection";
 import FeaturedJobs from "../components/applicant/FeaturedJobs";
 import TopCompanies from "../components/applicant/TopCompanies";
-import CategoriesSection from "../components/applicant/CategoriesSection";
+// import CategoriesSection from "../components/applicant/CategoriesSection";
 import CTACards from "../components/other/CTACards";
 import { _get } from "../lib/api";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,7 @@ export default function Home() {
       <StatsSection />
       <FeaturedJobs jobs={jobList} />
       <TopCompanies companies={companies} />
-      <CategoriesSection />
+      {/* <CategoriesSection /> */}
       <CTACards />
     </>
   );
