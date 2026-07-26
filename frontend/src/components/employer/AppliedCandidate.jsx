@@ -1,13 +1,17 @@
 import { MapPin, Briefcase, GraduationCap, Globe, ArrowUpRight } from "lucide-react";
 
-export default function AppliedCandidate() {
+export default function AppliedCandidate({ candidate }) {
+  if (!candidate) return "loading..";
   return (
     <div className="group relative w-full max-w-sm cursor-pointer overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Header */}
       <div className="flex items-start gap-4">
         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-md ring-1 ring-gray-100">
           <img
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop"
+            src={
+              candidate.applicantId.profilePicture ||
+              "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop"
+            }
             alt="Profile picture"
             className="h-full w-full object-cover"
           />
@@ -21,7 +25,7 @@ export default function AppliedCandidate() {
               className="mt-0.5 shrink-0 text-gray-300 transition-colors group-hover:text-indigo-500"
             />
           </div>
-          <p className="mt-0.5 truncate text-sm font-medium text-indigo-500">Senior Product Designer</p>
+          <p className="mt-0.5 truncate text-sm font-medium text-indigo-500">{candidate.jobId.title}</p>
         </div>
       </div>
 
@@ -35,23 +39,16 @@ export default function AppliedCandidate() {
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
         <span className="inline-flex items-center gap-1">
           <MapPin size={14} className="text-gray-400" />
-          Bengaluru, India
+          {candidate.jobId.location.city}, {candidate.jobId.location.country}
         </span>
         <span className="inline-flex items-center gap-1">
           <Briefcase size={14} className="text-gray-400" />
-          5+ years experience
+          {candidate.applicantId.experience}
         </span>
         <span className="inline-flex items-center gap-1">
           <GraduationCap size={14} className="text-gray-400" />
-          Bachelor's Degree
+          {candidate.applicantId.education}
         </span>
-      </div>
-
-      {/* Tags */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">UI/UX Design</span>
-        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">Figma</span>
-        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600">Design Systems</span>
       </div>
 
       {/* Footer: socials */}

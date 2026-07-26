@@ -29,7 +29,7 @@ export default function AppliedCandidateList() {
         <main className="flex-1 p-8">
           <div className="max-w-7xl mx-auto">
             <ApplicantsHeader />
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-3 sm:grid-cols-1 gap-4 mt-4">
               {candidate?.data?.map((c, i) => (
                 <div key={i}>
                   <AppliedCandidate candidate={c} />
