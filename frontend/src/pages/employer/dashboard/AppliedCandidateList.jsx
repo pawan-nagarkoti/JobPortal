@@ -30,11 +30,15 @@ export default function AppliedCandidateList() {
           <div className="max-w-7xl mx-auto">
             <ApplicantsHeader />
             <div className="grid grid-cols-3 sm:grid-cols-1 gap-4 mt-4">
-              {candidate?.data?.map((c, i) => (
-                <div key={i}>
-                  <AppliedCandidate candidate={c} />
-                </div>
-              ))}
+              {candidate?.data?.length > 0 ? (
+                candidate?.data?.map((c, i) => (
+                  <div key={i}>
+                    <AppliedCandidate candidate={c} />
+                  </div>
+                ))
+              ) : (
+                <p>Not applied by any candidate yet.</p>
+              )}
             </div>
           </div>
         </main>

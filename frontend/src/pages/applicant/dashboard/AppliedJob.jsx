@@ -19,6 +19,7 @@ export default function AppliedJob({ isHide = false }) {
   }, []);
 
   if (!appliedJob) return <p>Loading...</p>;
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       {!isHide && <LeftSidebar />}
@@ -27,7 +28,7 @@ export default function AppliedJob({ isHide = false }) {
         <div className="mx-auto max-w-7xl px-6 py-8">
           <div className="overflow-x-auto rounded-xl bg-white shadow-sm">
             <table className="min-w-full border-collapse">
-              <thead className="border-b border-gray-200 bg-gray-50">
+              <thead className="border-b border-gray-200 ">
                 <tr>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Jobs</th>
                   <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Date Applied</th>
@@ -39,7 +40,7 @@ export default function AppliedJob({ isHide = false }) {
               <tbody>
                 {appliedJob.data.data.length ? (
                   appliedJob.data.data.map((j, index) => (
-                    <tr className="border-b border-gray-200">
+                    <tr className="border-b ">
                       <td className="px-6 py-5">
                         <div className="flex items-start gap-4">
                           <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl">
@@ -95,8 +96,11 @@ export default function AppliedJob({ isHide = false }) {
                         <div className="flex items-center justify-between gap-4">
                           {j.jobId.isActive ? (
                             <Link to={`/job-detail/${j.jobId._id}`}>
-                              <button className="inline-flex items-center gap-2 rounded-md bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-100 md:text-base">
-                                Apply Now
+                              <button
+                                className="cursor-pointer inline-flex items-center gap-2 rounded-md bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-100 md:text-base"
+                                type="button"
+                              >
+                                Know more
                                 <ArrowRight className="h-4 w-4" />
                               </button>
                             </Link>

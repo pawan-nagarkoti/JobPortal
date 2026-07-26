@@ -4,6 +4,7 @@ import { connectToDB } from "./db/index.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -22,16 +23,16 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
-// await connectToDB();
-app.use(async (req, res, next) => {
-  try {
-    await connectToDB();
-    next();
-  } catch (err) {
-    console.error("DB connection failed:", err.message);
-    res.status(500).json({ message: "Database connection failed" });
-  }
-});
+await connectToDB();
+// app.use(async (req, res, next) => {
+//   try {
+//     await connectToDB();
+//     next();
+//   } catch (err) {
+//     console.error("DB connection failed:", err.message);
+//     res.status(500).json({ message: "Database connection failed" });
+//   }
+// });
 
 import { auth } from "./middleware/auth.middleware.js"; // middleware
 import authRoutes from "./routes/auth/auth.route.js";
@@ -45,8 +46,6 @@ import blogRoutes from "./routes/blog/blog.route.js";
 import getInTouch from "./routes/other/getInTouch.route.js";
 import globalSearchRoute from "./routes/other/globalSearch.route.js";
 import totalCountRoute from "./routes/other/totalCount.route.js";
-
-import mongoose from "mongoose";
 
 app.use("/api/auth", authRoutes);
 app.use("/api/employer", employerRoutes);

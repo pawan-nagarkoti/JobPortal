@@ -110,7 +110,7 @@ export const fetchAllJobs = async (req, res) => {
         "jobId",
         "title workType location.country location.city salary.minSalary salary.maxSalary isExpired isActive expirationDate ",
       )
-      .populate("applicantId", "profilePicture experience education")
+      .populate("applicantId", "profilePicture experience education name")
       .skip(skip)
       .limit(limit);
     return res.status(200).json({

@@ -51,7 +51,7 @@ const CandidateGrid = ({ candidate }) => {
             <div className="flex items-center space-x-4">
               <img src={candidate.profilePicture} alt={candidate.name} className="w-20 h-20 rounded-xl object-cover" />
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-1">{candidate.name}</h3>
+                <h3 className=" font-bold text-gray-900 mb-1">{candidate.name}</h3>
                 <p className="text-gray-600">{candidate.title}</p>
 
                 <div className="flex items-center space-x-4 text-sm text-gray-500">

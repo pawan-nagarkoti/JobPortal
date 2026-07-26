@@ -27,7 +27,7 @@ export default function BookmarkJob() {
           <div className="rounded-lg bg-white px-4 py-4 sm:px-6 lg:px-8">
             {bookmarkJob?.data?.length > 0 ? (
               bookmarkJob.data.map((b, i) => (
-                <div className="border-t border-gray-200 py-6" key={i}>
+                <div className="border-b border-gray-200 py-4" key={i}>
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-start gap-4">
                       <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl border">
@@ -40,7 +40,7 @@ export default function BookmarkJob() {
 
                       <div>
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">{b.jobId.title}</h3>
+                          <h3 className="font-semibold text-gray-900">{b.jobId.title}</h3>
                           <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
                             {b.jobId.workType}
                           </span>

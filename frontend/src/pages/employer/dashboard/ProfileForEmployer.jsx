@@ -151,15 +151,14 @@ export const ProfileForEmployer = () => {
 
       <main className="flex-1 p-8">
         <div className="mx-auto max-w-6xl space-y-6">
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          {/* <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <h1 className="text-2xl font-semibold text-gray-900">Employer Profile</h1>
             <p className="mt-1 text-sm text-gray-500 mb-3">
               Manage your company details, branding, and contact information.
             </p>
 
-            {/* Stats Cards */}
             <StatsCards stats={stats} />
-          </div>
+          </div> */}
 
           <div>
             <form className="grid grid-cols-12 gap-6" onSubmit={handleUpdateProfile}>

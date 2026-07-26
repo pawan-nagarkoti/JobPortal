@@ -24,7 +24,7 @@ export default function JobAlert() {
     const alertJob = await fetchLoginApplicant();
     if (!alertJob) return;
 
-    let title = alertJob.jobTitle.join("");
+    let title = alertJob.jobTitle.join(",");
     let location = alertJob.alertLocation.join(",");
 
     const response = await _get(`api/jobList/fetch?title=${title}&location=${location}`);
@@ -48,8 +48,8 @@ export default function JobAlert() {
         <div className="mx-auto max-w-7xl px-6 py-8">
           {jobAlertData.data.length ? (
             jobAlertData.data.map((v, i) => (
-              <div className="rounded-lg bg-white px-4 py-4 sm:px-6 lg:px-8" key={i}>
-                <div className="border-t border-gray-200 py-6">
+              <div className="rounded-lg bg-white px-3 py-3 sm:px-6 lg:px-8" key={i}>
+                <div className="border-b border-gray-200 py-3">
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="flex items-start gap-4">
                       <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl">
@@ -58,7 +58,7 @@ export default function JobAlert() {
 
                       <div>
                         <div className="flex flex-wrap items-center gap-3">
-                          <h3 className="text-lg font-semibold text-gray-900 md:text-xl">{v.title}</h3>
+                          <h3 className="font-semibold text-gray-900">{v.title}</h3>
                           <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
                             {v.jobType}
                           </span>
@@ -87,7 +87,10 @@ export default function JobAlert() {
                     <div className="flex items-center justify-between gap-4 lg:justify-end">
                       {v.isActive ? (
                         <Link to={`/job-detail/${v._id}`}>
-                          <button className="inline-flex items-center gap-2 rounded-md bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-100 md:text-base">
+                          <button
+                            className="cursor-pointer inline-flex items-center gap-2 rounded-md bg-blue-50 px-6 py-3 text-sm font-semibold text-blue-600 hover:bg-blue-100 md:text-base"
+                            type="button"
+                          >
                             Apply Now
                             <ArrowRight className="h-4 w-4" />
                           </button>

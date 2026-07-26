@@ -19,7 +19,7 @@ export default function AppliedCandidate({ candidate }) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="truncate text-base font-semibold text-gray-900">Ayesha Khan</h3>
+            <h3 className="truncate text-base font-semibold text-gray-900">{candidate.applicantId.name}</h3>
             <ArrowUpRight
               size={18}
               className="mt-0.5 shrink-0 text-gray-300 transition-colors group-hover:text-indigo-500"

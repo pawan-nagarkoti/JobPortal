@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import useUI from "../../../context/UIcontext";
 
 export default function LeftSidebar() {
   const location = useLocation();
+  const { logout } = useUI();
+
   return (
     <aside className="w-64 bg-white border-r border-gray-200">
       <div className="p-6">
@@ -54,7 +57,7 @@ export default function LeftSidebar() {
                 d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
               />
             </svg>
-            Favorite Jobs
+            Bookmark Jobs
           </Link>
 
           <Link
@@ -77,7 +80,10 @@ export default function LeftSidebar() {
 
       {/* Logout at bottom */}
       <div className="absolute bottom-6 left-6">
-        <a href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg">
+        <div
+          className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg cursor-pointer"
+          onClick={logout}
+        >
           <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -87,7 +93,7 @@ export default function LeftSidebar() {
             />
           </svg>
           Log-out
-        </a>
+        </div>
       </div>
     </aside>
   );
