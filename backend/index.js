@@ -44,6 +44,8 @@ import jobApplicationsRoute from "./routes/applicant/jobApplication.route.js";
 import blogRoutes from "./routes/blog/blog.route.js";
 import getInTouch from "./routes/other/getInTouch.route.js";
 import globalSearchRoute from "./routes/other/globalSearch.route.js";
+import totalCountRoute from "./routes/other/totalCount.route.js";
+
 import mongoose from "mongoose";
 
 app.use("/api/auth", authRoutes);
@@ -57,6 +59,7 @@ app.use("/api/job-application", auth, jobApplicationsRoute);
 app.use("/api/blog", blogRoutes);
 app.use("/api/contact", getInTouch);
 app.use("/api/global", globalSearchRoute);
+app.use("/api/totalCount", totalCountRoute);
 
 // app.delete("/api/delete-all", async (req, res) => {
 //   try {
