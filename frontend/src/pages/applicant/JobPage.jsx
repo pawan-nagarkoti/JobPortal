@@ -27,9 +27,9 @@ export default function JobPage() {
     }
   };
 
-  useEffect(() => {
-    setSearchParams({}); // delete all query param after refresh page
-  }, []);
+  // useEffect(() => {
+  //   setSearchParams({}); // delete all query param after refresh page
+  // }, []);
 
   useEffect(() => {
     fetchJobs();

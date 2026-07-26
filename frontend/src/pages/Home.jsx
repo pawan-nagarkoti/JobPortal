@@ -6,20 +6,15 @@ import TopCompanies from "../components/applicant/TopCompanies";
 import CategoriesSection from "../components/applicant/CategoriesSection";
 import CTACards from "../components/other/CTACards";
 import { _get } from "../lib/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [jobList, setJobList] = useState("");
   const [companies, setCompanies] = useState("");
 
-  const handleSearch = (searchTerm, location) => {
-    console.log("Searching for:", searchTerm, "in", location);
-    // Implement search functionality here
-  };
-
   // fetch all jobs
-
-  const fetchJobs = async () => {
-    const fetchJobsResponse = await _get("api/jobList/fetch?isFeatured=true");
+  const fetchJobs = async (searchTerm = "", location = "") => {
+    const fetchJobsResponse = await _get(`api/jobList/fetch?isFeatured=true&title=${searchTerm}&country=${location}`);
     if (fetchJobsResponse.data.success) {
       setJobList(fetchJobsResponse.data);
     }
@@ -40,7 +35,7 @@ export default function Home() {
 
   return (
     <>
-      <HeroSection onSearch={handleSearch} />
+      <HeroSection />
       <StatsSection />
       <FeaturedJobs jobs={jobList} />
       <TopCompanies companies={companies} />

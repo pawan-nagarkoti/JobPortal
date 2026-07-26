@@ -1,12 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const HeroSection = ({ onSearch }) => {
+const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [location, setLocation] = useState("");
+  const navigate = useNavigate("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(searchTerm, location);
+
+    const params = new URLSearchParams();
+    if (searchTerm) params.set("title", searchTerm);
+    if (location) params.set("country", location);
+
+    navigate(`/find-job?${params}`);
   };
 
   return (
