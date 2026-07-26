@@ -32,12 +32,6 @@ export default function JobCard({ job }) {
         </div>
       </div>
 
-      {/* Description */}
-      <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-gray-500">
-        Own the design system and build delightful, accessible interfaces for our core product used by thousands of
-        teams every day.
-      </p>
-
       {/* Meta row */}
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
         <span className="inline-flex items-center gap-1">

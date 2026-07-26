@@ -34,22 +34,24 @@ export const ProfileForEmployer = () => {
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
 
-  const [socialLinks, setSocialLinks] = useState([{ id: uuidv4(), name: "", url: "" }]);
-
   // preview images
   const [logoPreview, setLogoPreview] = useState("");
   const [bannerPreview, setBannerPreview] = useState("");
 
+  const [shortDescription, setShortDescription] = useState("");
+
+  const [socialLinks, setSocialLinks] = useState([{ _id: uuidv4(), name: "", url: "" }] || []);
+
   const handleAddSocialLink = () => {
-    setSocialLinks((prev) => [...prev, { id: uuidv4(), name: "", url: "" }]);
+    setSocialLinks((prev) => [...prev, { _id: uuidv4(), name: "", url: "" }]);
   };
 
   const handleRemoveSocialLink = (deletedId) => {
-    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+    setSocialLinks((prev) => prev.filter((d) => d._id !== deletedId));
   };
 
-  const handleInputChange = (id, field, value) => {
-    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
+  const handleInputChange = (_id, field, value) => {
+    setSocialLinks((prev) => prev.map((link) => (link._id === _id ? { ...link, [field]: value } : link)));
   };
 
   const stats = {
@@ -80,6 +82,7 @@ export const ProfileForEmployer = () => {
       setNumber(e.contact.phone.number);
       setEmail(e.contact.email);
       setSocialLinks(e.socialLinks);
+      setShortDescription(e.shortDescription);
     }
   };
 
@@ -102,7 +105,7 @@ export const ProfileForEmployer = () => {
       updatedForm.set("description", refForDescription.current.getContent());
       updatedForm.set("companyVision", refForVision.current.getContent());
 
-      socialLinks.forEach((s, index) => {
+      socialLinks?.forEach((s, index) => {
         updatedForm.set(`socialLinks[${index}].name`, s.name || "");
         updatedForm.set(`socialLinks[${index}].url`, s.url || "");
       });
@@ -113,7 +116,6 @@ export const ProfileForEmployer = () => {
       //   phone: { countryCode, number },
       //   email,
       // };
-
       // updatedForm.set("contact", JSON.stringify(contact));
 
       updatedForm.set("country", country);
@@ -122,6 +124,8 @@ export const ProfileForEmployer = () => {
       updatedForm.set("countryCode", countryCode);
       updatedForm.set("number", number);
       updatedForm.set("email", email);
+
+      updatedForm.append("shortDescription", shortDescription);
 
       const res = await _put(`api/employer/update/${employerId}`, updatedForm);
       if (res.data.success) {
@@ -387,14 +391,14 @@ export const ProfileForEmployer = () => {
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
                   <div>
                     <h2 className="text-lg font-semibold text-gray-900 mb-3">Social Links</h2>
-                    {socialLinks.map((link, index) => (
+                    {socialLinks?.map((link, index) => (
                       <div key={index} className="mb-6 p-4 border border-gray-200 rounded-lg">
                         <label className="block text-sm font-medium text-gray-900 mb-2">Social Link {index + 1}</label>
                         <div className="flex items-center gap-3">
                           <div className="relative shrink-0" style={{ width: "220px" }}>
                             <select
                               value={link.name}
-                              onChange={(e) => handleInputChange(link.id, "name", e.target.value)}
+                              onChange={(e) => handleInputChange(link._id, "name", e.target.value)}
                               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                             >
                               <option value="">Select Platform</option>
@@ -418,12 +422,12 @@ export const ProfileForEmployer = () => {
                             type="text"
                             placeholder="Profile link/url..."
                             value={link.url}
-                            onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
+                            onChange={(e) => handleInputChange(link._id, "url", e.target.value)}
                             className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           />
-                          {socialLinks.length > 1 && (
+                          {socialLinks?.length > 1 && (
                             <button
-                              onClick={() => handleRemoveSocialLink(link.id || "")}
+                              onClick={() => handleRemoveSocialLink(link._id || "")}
                               className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
                               title="Remove"
                               type="button"
@@ -544,6 +548,23 @@ export const ProfileForEmployer = () => {
                       />
                     </div>
                   </div>
+                </div>
+
+                {/* short description */}
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    short description
+                  </label>
+                  <textarea
+                    id="message"
+                    value={shortDescription}
+                    onChange={(e) => setShortDescription(e.target.value)}
+                    rows={4}
+                    placeholder="Type your message here..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                   resize-none text-gray-900 placeholder-gray-400"
+                  />
                 </div>
 
                 <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">

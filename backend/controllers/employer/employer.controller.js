@@ -48,6 +48,7 @@ export const addEmployer = async (req, res) => {
       socialLinks: data.socialLinks,
       logo: employerLogo?.secure_url,
       banner: employerBanner?.secure_url,
+      shortDescription: data.shortDescription,
     };
 
     const addedEmployer = await Employer.create(employerObj);
@@ -176,6 +177,7 @@ export const updateEmployer = async (req, res) => {
       socialLinks: data.socialLinks,
       logo: logoImage,
       banner: bannerImage,
+      shortDescription: data.shortDescription,
     };
 
     const update = await Employer.findByIdAndUpdate(

@@ -24,6 +24,7 @@ const employerSchema = new mongoose.Schema(
     establishmentYear: Date,
     url: String,
     companyVision: String,
+    shortDescription: String,
 
     socialLinks: [
       {

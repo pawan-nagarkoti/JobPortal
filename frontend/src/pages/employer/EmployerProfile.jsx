@@ -573,6 +573,7 @@ const Contact = () => {
   const [country, setCountry] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [shortDescription, setShortDescription] = useState("");
 
   const handleContactForm = async () => {
     const formData = new FormData();
@@ -598,6 +599,8 @@ const Contact = () => {
       formData.append(`socialLinks[${index}][name]`, link.platform || "");
       formData.append(`socialLinks[${index}][url]`, link.url || "");
     });
+
+    formData.append("shortDescription", shortDescription);
 
     setIsLoading(true);
     try {
@@ -679,6 +682,21 @@ const Contact = () => {
             />
           </div>
         </div>
+
+        {/* short description */}
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+          short description
+        </label>
+        <textarea
+          id="message"
+          value={shortDescription}
+          onChange={(e) => setShortDescription(e.target.value)}
+          rows={4}
+          placeholder="Type your message here..."
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                   resize-none text-gray-900 placeholder-gray-400"
+        />
 
         <button
           onClick={handleContactForm}

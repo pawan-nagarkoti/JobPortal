@@ -41,9 +41,7 @@ export default function CompanyCard({ company }) {
 
         <p className="mt-0.5 text-sm font-medium text-indigo-500">{company.organization}</p>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">
-          We build cloud infrastructure tools that help engineering teams ship faster with confidence.
-        </p>
+        <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-gray-500 h-[50px]">{company.shortDescription}</p>
 
         {/* Meta row */}
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500">
