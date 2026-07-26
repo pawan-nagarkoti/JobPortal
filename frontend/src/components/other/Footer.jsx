@@ -1,7 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { getCookie } from "../../lib/cookies";
 
 const Footer = () => {
+  const loggedIn = getCookie("loginUserInfo");
+  const navigate = useNavigate();
+
+  const redirectToPage = (name) => {
+    if (loggedIn?.role === "employer" && name === "employer") {
+      navigate("/employer/profile");
+    } else if (loggedIn?.role === "employer" && name === "postJob") {
+      navigate("/employer-job-post");
+    } else if (loggedIn?.role === "employer" && name === "jobs") {
+      navigate("/employer/job-list");
+    } else if (loggedIn?.role === "applicant" && name === "applicant") {
+      navigate("/applicant-dashboard");
+    } else if (loggedIn?.role === "applicant" && name === "jobAlert") {
+      navigate("/applicant-dashboard/job-alert");
+    } else if (loggedIn?.role === "applicant" && name === "appliedJob") {
+      navigate("/applicant-dashboard/applied-job");
+    } else {
+      navigate("/auth/sign-in");
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-gray-300 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,43 +35,60 @@ const Footer = () => {
             </div>
             <p className="text-sm mb-4">Find your dream job and build your career with the best companies.</p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary transition">
-                <i className="fab fa-facebook text-xl"></i>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition">
-                <i className="fab fa-twitter text-xl"></i>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition">
-                <i className="fab fa-linkedin text-xl"></i>
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition">
-                <i className="fab fa-instagram text-xl"></i>
-              </a>
+              <i
+                className="fab fa-facebook text-xl text-gray-400 hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage();
+                }}
+              ></i>
+              <i
+                className="fab fa-twitter text-xl text-gray-400 hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage();
+                }}
+              ></i>
+              <i
+                className="fab fa-linkedin text-xl text-gray-400 hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage();
+                }}
+              ></i>
+              <i
+                className="fab fa-instagram text-xl text-gray-400 hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage();
+                }}
+              ></i>
             </div>
           </div>
 
           <div>
             <h4 className="font-semibold text-white mb-4">For Candidates</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Browse Jobs
-                </a>
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("applicant");
+                }}
+              >
+                Candidate Dashboard
               </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Browse Categories
-                </a>
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("appliedJob");
+                }}
+              >
+                Applied Jobs
               </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Candidate Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Job Alerts
-                </a>
+
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("jobAlert");
+                }}
+              >
+                Job Alerts
               </li>
             </ul>
           </div>
@@ -57,25 +96,29 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">For Employers</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Post a Job
-                </a>
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("employer");
+                }}
+              >
+                Employer Dashboard
               </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Browse Candidates
-                </a>
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("postJob");
+                }}
+              >
+                Post a Job
               </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Employer Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  Applications
-                </a>
+              <li
+                className="hover:text-primary transition cursor-pointer"
+                onClick={() => {
+                  redirectToPage("jobs");
+                }}
+              >
+                Jobs
               </li>
             </ul>
           </div>
@@ -83,20 +126,12 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <a href="#" className="hover:text-primary transition">
-                  FAQs
-                </a>
+              <li className="hover:text-primary transition cursor-pointer">FAQs</li>
+              <li className="hover:text-primary transition cursor-pointer" onClick={() => navigate("/privacy")}>
+                Privacy Policy
               </li>
-              <li>
-                <Link to="/privacy" className="hover:text-primary transition">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact-us" className="hover:text-primary transition">
-                  Contact Us
-                </Link>
+              <li className="hover:text-primary transition cursor-pointer" onClick={() => navigate("/contact-us")}>
+                Contact Us
               </li>
             </ul>
           </div>
