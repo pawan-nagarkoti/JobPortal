@@ -102,8 +102,6 @@ export const ProfileForEmployer = () => {
       updatedForm.set("description", refForDescription.current.getContent());
       updatedForm.set("companyVision", refForVision.current.getContent());
 
-      console.log(socialLinks);
-
       socialLinks.forEach((s, index) => {
         updatedForm.set(`socialLinks[${index}].name`, s.name || "");
         updatedForm.set(`socialLinks[${index}].url`, s.url || "");

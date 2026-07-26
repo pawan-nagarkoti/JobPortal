@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import LeftSidebar from "./LeftSidebar";
-import { _get } from "../../../lib/api";
+import { _get, _put } from "../../../lib/api";
 import { getCookie } from "../../../lib/cookies";
 import { EDUCATION, GENDER, MARITAL_STATUS } from "../../../lib/constant";
 import CustomEditor from "../../../components/form/CustomEditor";
 import InputChip from "../../../components/form/InputChip";
 import { v4 as uuidv4 } from "uuid";
 import UploadResume from "../../../components/applicant/UploadResume";
+import { showSuccess } from "../../../lib/toast";
 
 export const ApplicantProfile = () => {
   let userId = getCookie("loginUserInfo");
+  const [isToggle, setIsToggle] = useState(false);
   const [data, setData] = useState("");
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
@@ -30,36 +32,24 @@ export const ApplicantProfile = () => {
   const [countrycode, setCountryCode] = useState("");
   const [number, setNumber] = useState("");
 
-  const [titleAlert, setTitleAlert] = useState("");
-  const [locationAlert, setLocationAlert] = useState("");
-  const [alertJobRole, setAlertJobRole] = useState("");
-  const [alertJobLocation, setAlertJobLocation] = useState("");
+  const [roleAlert, setRoleAlert] = useState(""); //get preselected alert title
+  const [locationAlert, setLocationAlert] = useState(""); // get preselected alert location
 
-  // const [hasAlertRole, setHasAlertRole] = useState("");
-  // const [hasAlertLocation, setHasAlertLocation] = useState("");
+  const [alertJobRole, setAlertJobRole] = useState(""); // add new alert role
+  const [alertJobLocation, setAlertJobLocation] = useState(""); // add new alert location
 
-  // useEffect(() => {
-  // setHasAlertRole(alertJobRole);
-  // setHasAlertLocation(alertJobLocation);
-  // }, [alertJobRole, alertJobLocation]);
-
-  const [socialLinks, setSocialLinks] = useState([{ id: uuidv4(), platform: "", url: "" }]);
+  const [socialLinks, setSocialLinks] = useState([{ _id: uuidv4(), name: "", url: "" }]);
 
   const handleAddSocialLink = () => {
-    setSocialLinks((prev) => [...prev, { id: uuidv4(), platform: "", url: "" }]);
+    setSocialLinks((prev) => [...prev, { _id: uuidv4(), name: "", url: "" }]);
   };
 
   const handleRemoveSocialLink = (deletedId) => {
-    setSocialLinks((prev) => prev.filter((d) => d.id !== deletedId));
+    setSocialLinks((prev) => prev.filter((d) => d._id !== deletedId));
   };
 
-  const handleInputChange = (id, field, value) => {
-    setSocialLinks((prev) => prev.map((link) => (link.id === id ? { ...link, [field]: value } : link)));
-  };
-
-  const handleSocialMediaProfile = () => {
-    setApplicantSettingsTabData((prev) => ({ ...prev, socialLinks }));
-    setApplicantTabController("account");
+  const handleInputChange = (_id, field, value) => {
+    setSocialLinks((prev) => prev.map((link) => (link._id === _id ? { ...link, [field]: value } : link)));
   };
 
   const stats = {
@@ -91,7 +81,7 @@ export const ApplicantProfile = () => {
         setNumber(a.phone.number);
         setCountryCode(a.phone.countryCode);
 
-        setTitleAlert(a.alertJob.jobTitle);
+        setRoleAlert(a.alertJob.jobTitle);
         setLocationAlert(a.alertJob.alertLocation);
         setSocialLinks(a.socialLinks);
       }
@@ -99,6 +89,52 @@ export const ApplicantProfile = () => {
       console.log(e.message);
     }
   };
+
+  const updateApplicant = async (e) => {
+    e.preventDefault();
+    setIsToggle(true);
+    const applicantId = data._id;
+    if (!applicantId) return console.log("Applicant ID not found while we are updating applicant");
+
+    try {
+      const updatedForm = new FormData();
+      updatedForm.set("name", name);
+      updatedForm.set("title", title);
+      updatedForm.set("dob", dob);
+      updatedForm.set("nationality", nationality);
+      updatedForm.set("gender", gender);
+      updatedForm.set("maritalStatus", maritalStatus);
+
+      updatedForm.set("experience", exprience);
+      updatedForm.set("education", education);
+      updatedForm.set("websiteUrl", websiteUrl);
+      updatedForm.set("profilePicture", pic ? pic : profilePreview);
+      updatedForm.set("biography", refForBio.current.getContent());
+
+      updatedForm.set("location", location);
+      updatedForm.set("countryCode", countrycode);
+      updatedForm.set("number", number);
+
+      socialLinks.forEach((v, index) => {
+        updatedForm.set(`socialLinks[${index}].name`, v.name);
+        updatedForm.set(`socialLinks[${index}].url`, v.url);
+      });
+
+      updatedForm.set("alertJob.jobTitle", JSON.stringify(alertJobRole));
+      updatedForm.set("alertJob.alertLocation", JSON.stringify(alertJobLocation));
+
+      const res = await _put(`api/applicant/update/${applicantId}`, updatedForm);
+      if (res.data.success) {
+        fetchApplicantDetail();
+        showSuccess("applicant profile updated");
+      }
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setIsToggle(false);
+    }
+  };
+
   useEffect(() => {
     fetchApplicantDetail();
   }, []);
@@ -180,7 +216,7 @@ export const ApplicantProfile = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-12 gap-6">
+          <form className="grid grid-cols-12 gap-6" onSubmit={updateApplicant}>
             {/* Left */}
             <div className="col-span-12 lg:col-span-8 space-y-6">
               {/* Basic Info */}
@@ -306,7 +342,7 @@ export const ApplicantProfile = () => {
                   <div>
                     <label className="mb-2 block text-sm font-medium text-gray-700">Website URL</label>
                     <input
-                      type="url"
+                      type="text"
                       placeholder="https://example.com"
                       className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-blue-500"
                       value={websiteUrl}
@@ -430,8 +466,8 @@ export const ApplicantProfile = () => {
                       <div className="flex items-center gap-3">
                         <div className="relative shrink-0" style={{ width: "220px" }}>
                           <select
-                            value={link.platform}
-                            onChange={(e) => handleInputChange(link.id, "platform", e.target.value)}
+                            value={link.name}
+                            onChange={(e) => handleInputChange(link._id, "name", e.target.value)}
                             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white"
                           >
                             <option value="">Select Platform</option>
@@ -455,14 +491,15 @@ export const ApplicantProfile = () => {
                           type="text"
                           placeholder="Profile link/url..."
                           value={link.url}
-                          onChange={(e) => handleInputChange(link.id, "url", e.target.value)}
+                          onChange={(e) => handleInputChange(link._id, "url", e.target.value)}
                           className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                         {socialLinks.length > 1 && (
                           <button
-                            onClick={() => handleRemoveSocialLink(link.id || "")}
+                            onClick={() => handleRemoveSocialLink(link._id || "")}
                             className="p-2.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition"
                             title="Remove"
+                            type="button"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path
@@ -537,7 +574,7 @@ export const ApplicantProfile = () => {
                     label="Job Title"
                     placeholderName="Job title"
                     getValues={setAlertJobRole}
-                    preSelectedTags={titleAlert}
+                    preSelectedTags={roleAlert}
                   />
                 </div>
 
@@ -580,8 +617,11 @@ export const ApplicantProfile = () => {
                 <h2 className="text-lg font-semibold text-gray-900">Actions</h2>
 
                 <div className="mt-4 space-y-3">
-                  <button className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700">
-                    Save Profile
+                  <button
+                    className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white hover:bg-blue-700"
+                    type="submit"
+                  >
+                    {isToggle ? "loading..." : "Save Profile"}
                   </button>
                   <button className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50">
                     Preview Public Page
@@ -701,7 +741,7 @@ export const ApplicantProfile = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </main>
     </div>

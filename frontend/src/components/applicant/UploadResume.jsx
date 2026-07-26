@@ -48,7 +48,6 @@ export default function UploadResume() {
     try {
       if (!editId) {
         const apiResponse = await _get(`api/resume/fetch?applicantId=${applicantId}`);
-        console.log(apiResponse);
         if (apiResponse.data.success) {
           setData(apiResponse.data);
         }
